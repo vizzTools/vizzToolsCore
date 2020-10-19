@@ -22,4 +22,11 @@ Currently this is a skeleton under development.
 #### Context
 #### Lineage
 
+## Inspiration (further reading)
 
++ [pygeoapi](https://pygeoapi.io/)
++ [shcema.org](https://schema.org/)
++ [Pydantic]((https://pydantic-docs.helpmanual.io/)
++ [JSON Schema](http://json-schema.org/understanding-json-schema/)
++ [JSON-LD](https://json-ld.org/)
++ [quick-type](https://app.quicktype.io/)
