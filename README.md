@@ -14,3 +14,12 @@ Currently this is a skeleton under development.
 
 1. `vizzToolsCore` will use a "strict" Type mechanism, based on the standard Types defined in [Pydantic](https://pydantic-docs.helpmanual.io/).
 
+## Main data structures (draft)
+
+### Collection (or Dataset?)
+#### Metadata
+#### Provider
+#### Context
+#### Lineage
+
+
