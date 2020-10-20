@@ -1,0 +1,11 @@
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+        "Collection created at 2020-10-18T20:48:57Z by user 123234.",
+        "Data files retrieved from URL at 2020-10-18T20:48:57Z by user 123234.",
+        "SHP file converted to GeoJSON, geometries repaired, and exported to URL using VIZZTOOL version X.X.X at 2020-10-18T20:48:57Z by user 123234."
+    ],
+    "itemListOrder": "https://schema.org/ItemListOrderDescending",
+    "name": "Data processing history"
+  }

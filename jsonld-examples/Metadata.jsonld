@@ -1,0 +1,54 @@
+{
+    "@context": "http://www.schema.org",
+    "@type": "Dataset",
+    "@id": "<collection-id>",
+    "type": "Metadata",
+    "name": "Example collection",
+    "description": "An example collectionShort description of the item",
+    "version": "0.0.1",
+    "datePublished": "2018-05-08",
+    "creator": [
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0002-5011-6744",
+            "affiliation": "Vizzuality, Madrid, Spain",
+            "name": "Morris, Edward P."
+        },
+        {
+            "@type": "Organization",
+            "@id": "https://ror.org/02a809t02",
+            "name": "Vizzuality"
+        }
+    ],
+    "identifier": "https://doi.org/XXXXXX",
+    "keywords": [
+        "keyword1",
+        "keyword2",
+        "keyword3"
+    ],
+    "citation": "Identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.",
+    "license": "https://creativecommons.org/licenses/by/4.0",
+    "url": "https://zenodo.org/XXXXXX",
+    "inLanguage": "en",
+    "alternateName": "Example version 0.0.1",
+    "variableMeasured": "The variable that this dataset measures. For example, temperature or pressure.",
+    "measurementTechnique": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured.",
+    "unitText": "t OC / ha",
+    "spatialCoverage": "Global tropics",
+    "temporalCoverage": "1996--2016",
+    "thumbnailUrl": "https://dataset-thumbnail.jpeg",
+    "provider": "The data-set provider, service operator, or service performer, e.g., Zenodo, Google",
+    "funder": "A person or organization that supports (sponsors) something through some kind of financial contribution.",
+    "distribution": [{
+        "@type": "DataDownload",
+        "name": "Description",
+        "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx", 
+        "encodingFormat": "docx"
+      }, 
+      {
+        "@type": "DataDownload",
+        "name": "Data",
+        "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip", 
+        "encodingFormat": "zip"
+      }] 
+}
