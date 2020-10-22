@@ -7,12 +7,9 @@
         "$schema",
         "@context",
         "@type",
-        "@id",
         "name",
         "description",
-        "license",
-        "version",
-        "inLanguage"
+        "version"
     ],
     "definitions": {
         "@type": {
