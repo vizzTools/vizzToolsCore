@@ -183,7 +183,7 @@ links = {
       "contentUrl": "https://storage.googleapis.com/mangrove_atlas/mangrove-properties/mangroves_SOC30m_0_100cm.jsonld",
       "encodingFormat": "application/jsonld",
       "@type": "DataDownload"
-    }"mangrove-soc-30m-tha-0to100cm-version02.jsonld",
+    },
     data :  {
       "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/mangroves_SOC30m_0_100cm.zip",
       "encodingFormat": "application/zip",

@@ -1,0 +1,452 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/json-schema/Metadata.schema.json",
+    "type": "object",
+    "title": "Metadata",
+    "required": [
+        "$schema",
+        "@context",
+        "@type",
+        "@id",
+        "name",
+        "description",
+        "license",
+        "version",
+        "inLanguage"
+    ],
+    "definitions": {
+        "@type": {
+            "type": "string",
+            "enum": [
+                "Dataset"
+            ],
+            "title": "Object type"
+        },
+        "inLanguage": {
+            "type": "string",
+            "enum": [
+                "aa",
+                "ab",
+                "ae",
+                "af",
+                "ak",
+                "am",
+                "an",
+                "ar",
+                "as",
+                "av",
+                "ay",
+                "az",
+                "ba",
+                "be",
+                "bg",
+                "bh",
+                "bi",
+                "bm",
+                "bn",
+                "bo",
+                "br",
+                "bs",
+                "ca",
+                "ce",
+                "ch",
+                "co",
+                "cr",
+                "cs",
+                "cu",
+                "cv",
+                "cy",
+                "da",
+                "de",
+                "dv",
+                "dz",
+                "ee",
+                "en",
+                "es",
+                "et",
+                "eu",
+                "fa",
+                "ff",
+                "fi",
+                "fj",
+                "fo",
+                "fr",
+                "fy",
+                "ga",
+                "gd",
+                "gl",
+                "gn",
+                "gu",
+                "gv",
+                "ha",
+                "he",
+                "hi",
+                "ho",
+                "hr",
+                "ht",
+                "hu",
+                "hy",
+                "hz",
+                "ia",
+                "id",
+                "ie",
+                "ig",
+                "ii",
+                "ik",
+                "io",
+                "is",
+                "it",
+                "iu",
+                "ja",
+                "jv",
+                "ka",
+                "kg",
+                "ki",
+                "kj",
+                "kk",
+                "kl",
+                "km",
+                "kn",
+                "ko",
+                "kr",
+                "ks",
+                "ku",
+                "kv",
+                "kw",
+                "ky",
+                "la",
+                "lb",
+                "lg",
+                "li",
+                "ln",
+                "lo",
+                "lt",
+                "lu",
+                "lv",
+                "mg",
+                "mh",
+                "mi",
+                "mk",
+                "ml",
+                "mn",
+                "mr",
+                "ms",
+                "mt",
+                "my",
+                "na",
+                "nb",
+                "nd",
+                "ne",
+                "ng",
+                "nl",
+                "nn",
+                "no",
+                "nr",
+                "nv",
+                "ny",
+                "oc",
+                "oj",
+                "om",
+                "or",
+                "os",
+                "pa",
+                "pi",
+                "pl",
+                "ps",
+                "pt",
+                "qu",
+                "rm",
+                "rn",
+                "ro",
+                "ru",
+                "rw",
+                "sa",
+                "sc",
+                "sd",
+                "se",
+                "sg",
+                "si",
+                "sk",
+                "sl",
+                "sm",
+                "sn",
+                "so",
+                "sq",
+                "sr",
+                "ss",
+                "st",
+                "su",
+                "sv",
+                "sw",
+                "ta",
+                "te",
+                "tg",
+                "th",
+                "ti",
+                "tk",
+                "tl",
+                "tn",
+                "to",
+                "tr",
+                "ts",
+                "tt",
+                "tw",
+                "ty",
+                "ug",
+                "uk",
+                "ur",
+                "uz",
+                "ve",
+                "vi",
+                "vo",
+                "wa",
+                "wo",
+                "xh",
+                "yi",
+                "yo",
+                "za",
+                "zh",
+                "zu"
+            ],
+            "title": "Object values language"
+        },
+        "dateTime": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "date": {
+            "type": "string",
+            "format": "date"
+        },
+        "datePublished": {
+            "$ref": "#definitions/date"
+        },
+        "URL": {
+            "type": "string",
+            "format": "uri"
+        },
+        "$schema": {
+            "$ref": "#definitions/URL"
+        },
+        "@context": {
+            "$ref": "#definitions/URL"
+        },
+        "isBasedOn": {
+            "$ref": "#definitions/URL"
+        },
+        "sameAs": {
+            "$ref": "#definitions/URL"
+        },
+        "thumbnailUrl": {
+            "$ref": "#definitions/URL"
+        },
+        "url": {
+            "$ref": "#definitions/URL"
+        },
+        "urlOrString": {
+            "anyOf": [
+                {
+                    "#ref": "#definitions/URL"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "@id": {
+            "#ref": "#definitions/urlOrString"
+        },
+        "license": {
+            "#ref": "#definitions/urlOrString"
+        },
+        "arrayOrString": {
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            ]
+        },
+        "arrayOrUrl": {
+            "oneOf": [
+                {
+                    "$ref": "#definitions/URL"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#definitions/URL"
+                    }
+                }
+            ]
+        },
+        "keywords": {
+            "$ref": "#definitions/arrayOrString"
+        },
+        "identifier": {
+            "$ref": "#definitions/arrayOrString"
+        },
+        "citation": {
+            "$ref": "#definitions/arrayOrString"
+        },
+        "personOrOrganization": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "@type": {
+                    "type": "string",
+                    "enum": [
+                        "Person",
+                        "Organization"
+                    ]
+                },
+                "@id": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "affiliation": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "@type",
+                "name"
+            ],
+            "title": "Person or Organization"
+        },
+        "creator": {
+            "oneOf": [
+                {
+                    "type": "array",
+                    "title": "Dataset creator(s)",
+                    "items": {
+                        "$ref": "#/definitions/personOrOrganization"
+                    }
+                },
+                {
+                    "$ref": "#/definitions/personOrOrganization"
+                }
+            ]
+        },
+        "funder": {
+            "oneOf": [
+                {
+                    "type": "array",
+                    "title": "Dataset funder(s)",
+                    "items": {
+                        "$ref": "#/definitions/personOrOrganization"
+                    }
+                },
+                {
+                    "$ref": "#/definitions/personOrOrganization"
+                }
+            ]
+        },
+        "provider": {
+            "$ref": "#/definitions/personOrOrganization"
+        },
+        "dataDownload": {
+            "@type": {
+                "type": "string",
+                "enum": "DataDownload"
+            },
+            "name": {
+                "type": "string"
+            },
+            "contentUrl": {
+                "$ref": "#definitions/URL"
+            },
+            "encodingFormat": {
+                "type": "string"
+            }
+        },
+        "distribution": {
+            "type": "array",
+            "items": {"$ref": "#definitions/dataDownload"}
+        },
+        "Dataset": {
+            "properties": {
+                "@context": {
+                    "$ref": "#definitions/@context"
+                },
+                "@type": {
+                    "$ref": "#definitions/@type"
+                },
+                "@id": {
+                    "$ref": "#definitions/@id"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "datePublished": {
+                    "$ref": "#definitions/datePublished"
+                },
+                "creator": {
+                    "$ref": "#definitions/creator"
+                },
+                "identifier": {
+                    "$ref": "#definitions/identifier"
+                },
+                "citation": {
+                    "$ref": "#definitions/citation"
+                },
+                "license": {
+                    "$ref": "#definitions/license"
+                },
+                "url": {
+                    "$ref": "#definitions/url"
+                },
+                "isBasedOn":{"$ref": "#definitions/isBasedOn"},
+                "sameAs":{"$ref": "#definitions/sameAs"},
+                "inLanguage": {
+                    "$ref": "#definitions/inLanguage"
+                },
+                "alternateName": {
+                    "type": "string"
+                },
+                "variableMeasured": {
+                    "type": "string"
+                },
+                "measurementTechnique": {
+                    "type": "string"
+                },
+                "unitText": {
+                    "type": "string"
+                },
+                "spatialCoverage": {
+                    "type": "string"
+                },
+                "temporalCoverage": {
+                    "type": "string"
+                },
+                "thumbnailUrl": {
+                    "$ref": "#definitions/thumbnailUrl"
+                },
+                "provider": {
+                    "$ref": "#definitions/provider"
+                },
+                "funder": {
+                    "$ref": "#definitions/funder"
+                },
+                "distribution": {
+                    "$ref": "#definitions/distribution"
+                }
+            }
+        }
+    },
+    "$ref": "#definitions/Dataset"
+}

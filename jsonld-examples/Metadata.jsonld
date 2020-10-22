@@ -1,12 +1,14 @@
 {
+    "$schema": "../json-schema/Metadata.schema.json",
     "@context": "http://www.schema.org",
     "@type": "Dataset",
     "@id": "<collection-id>",
-    "type": "Metadata",
     "name": "Example collection",
     "description": "An example collectionShort description of the item",
     "version": "0.0.1",
     "datePublished": "2018-05-08",
+    "isBasedOn": "https://doi.org/XXXXXX",
+    "sameAs": "https://doi.org/XXXXXX",
     "creator": [
         {
             "@type": "Person",
@@ -37,8 +39,18 @@
     "spatialCoverage": "Global tropics",
     "temporalCoverage": "1996--2016",
     "thumbnailUrl": "https://dataset-thumbnail.jpeg",
-    "provider": "The data-set provider, service operator, or service performer, e.g., Zenodo, Google",
-    "funder": "A person or organization that supports (sponsors) something through some kind of financial contribution.",
+    "provider": {
+        "@type": "Organization",
+        "@id": "https://ror.org/02a809t02",
+        "name": "Vizzuality"
+    },
+    "funder": [
+        {
+            "@type": "Organization",
+            "@id": "https://ror.org/02a809t02",
+            "name": "Vizzuality"
+        }
+    ],
     "distribution": [{
         "@type": "DataDownload",
         "name": "Description",
