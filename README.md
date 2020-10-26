@@ -1,6 +1,6 @@
 # vizzToolsCore
 
-vizzToolsCore is an internal Python library to manage some of our the day-to-day tasks.
+`vizzToolsCore` is an internal Python library to manage some of our the day-to-day tasks.
 
 Currently this is a skeleton under development.
 
@@ -8,7 +8,7 @@ Currently this is a skeleton under development.
 
 1. The aim of `vizzToolsCore` is provide a standardized set of data structures to facilitate inter-change between various specific vizzTools data processing packages.
 
-1. `vizzToolsCore` ONLY deals with defining data structures, input and output, as well as transformations, should be dealt with in other packages.
+1. `vizzToolsCore` ONLY deals with defining data structures. Input and output (IO), as well as transformations, should be dealt with in other packages.
 
 1. Every data structure Class MUST have a JSON example and a JSON Schema. These can be generated from the Python Class or vice versa.
 
@@ -16,11 +16,19 @@ Currently this is a skeleton under development.
 
 ## Main data structures (draft)
 
-### Collection (or Dataset?)
+### Dataset
 
-The Collection object stores information about a dataset, a collection of data items.  The actual data items can be in in a variety of formats. The general aim is not too actually store any data, but provide the configurations needed for other tools to connect to these (remote) data resources. Related to this is the desire to align with 'pygeoapi` so that it is easy to export configurations to services.
+The general aim is not to actually store any data, but provide the configurations needed for other tools to connect to these (remote) data resources. Related to this is the desire to align with 'pygeoapi` so that it is easy to export configurations to services.
 
-#### Collection object
+To summarise:
+
+- `Dataset` objects are an interface for documenting and interacting with remote resources and are defined with their origin and format information rather than from the data itself. The actual data it refers to can be in a variety of formats.
+-  The primary purpose of a `Dataset` is to easily maintain metadata and traceability across services. `Dataset` methods wrap transformations of metadata along with IO operations.
+-  `Dataset` methods parse and create `JSON-LD` (we should get used to reading/writing `JSON-LD` to manage datasets or create methods for abstracting this).
+-  The `Dataset` is agnostic to the type or format of the data. So the results of `io.get(ds).unpack()` is an object referencing one or more files which may be in multiple formats.
+- `io.export()` manages the metadata, rather than the data itself. The data first has to be uploaded to GEE (in this step we create provider metadata). Then the io.export() saves this metadata along with the reference to this provider in the RW-API or as a json object in cloud storage.
+
+#### Dataset object
 
 Below is the basic top-level structure of a `Collection` object, which uses [JSON-LD](https://json-ld.org/) to provide context on the meaning of each property i.e., to find our the definition of a property just follow the link. These can be as specific or general as you like, for example `dateCreated` links to a specific definition, whereas `providers` links to more general documentation.
 
