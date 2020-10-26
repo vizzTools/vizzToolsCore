@@ -30,9 +30,9 @@ To summarise:
 
 #### Dataset object
 
-Below is the basic top-level structure of a `Collection` object, which uses [JSON-LD](https://json-ld.org/) to provide context on the meaning of each property i.e., to find our the definition of a property just follow the link. These can be as specific or general as you like, for example `dateCreated` links to a specific definition, whereas `providers` links to more general documentation.
+Below is the basic top-level structure of a `Dataset` object, which uses [JSON-LD](https://json-ld.org/) to provide context on the meaning of each property i.e., to find our the definition of a property just follow the link. These can be as specific or general as you like, for example `dateCreated` links to a specific definition, whereas `providers` links to more general documentation.
 
-`@type` MUST be "Collection" and `@id` is the unique identifer for the collection. `sdPublisher` represents the Organization (or Person) who creates this object; it could be a default or derived from a "user config". `dateCreated` and `dateModified` are automatically set by the system.
+`@type` MUST be "Dataset" and `@id` is the unique identifer for the dataset. `sdPublisher` represents the Organization (or Person) who creates this object; it could be a default or derived from a "user config". `dateCreated` and `dateModified` are automatically set by the system.
 
 The other (optional) properties are objects, which are described in detail below.
 
