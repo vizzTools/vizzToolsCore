@@ -1,0 +1,56 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/Organization.json",
+    "type": "object",
+    "title": "Organization",
+    "required": [
+        "@type",
+        "name"
+    ],
+    "properties": {
+        "@type": {
+            "$id": "#/properties/%40type",
+            "type": "string",
+            "enum": ["Organization"]
+        },
+        "url": {
+            "$id": "#/properties/url",
+            "type": "string",
+            "format": "uri"
+        },
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string"
+        },
+        "contactPoint": {
+            "$id": "#/properties/contactPoint",
+            "type": "object",
+            "title": "contactPoint",
+            "required": [
+                "@type",
+                "email"
+            ],
+            "properties": {
+                "@type": {
+                    "$id": "#/properties/contactPoint/properties/%40type",
+                    "type": "string",
+                    "enum": ["contactPoint"]
+                },
+                "contactType": {
+                    "$id": "#/properties/contactPoint/properties/contactType",
+                    "type": "string"
+                },
+                "telephone": {
+                    "$id": "#/properties/contactPoint/properties/telephone",
+                    "type": "string"
+                },
+                "email": {
+                    "$id": "#/properties/contactPoint/properties/email",
+                    "type": "string",
+                    "format": "email"
+                }
+            }
+        }
+    },
+    "additionalProperties": true
+}

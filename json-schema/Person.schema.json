@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Person",
+    "required": [
+        "@type",
+        "name"
+    ],
+    "properties": {
+        "@type": {
+            "$id": "#/properties/%40type",
+            "type": "string",
+            "enum": ["Person"]
+        },
+        "sameAs": {
+            "#ref": "#/properties/sameAs",
+            "type": "string",
+            "format": "uri"
+        },
+        "givenName": {
+            "$id": "#/properties/givenName",
+            "type": "string",
+            "title": "Given or first name"
+        },
+        "familyName": {
+            "$id": "#/properties/familyName",
+            "type": "string",
+            "title": "Family or last name"
+        },
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "Full name"
+        }
+    },
+    "additionalProperties": true
+}
