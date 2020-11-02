@@ -1,0 +1,3 @@
+- name: Dataset
+  display_name: Dataset
+  description: Dataset metadata

@@ -1,5 +1,5 @@
 ---
-title: JSON Schema for Humans
+title: viizToolsCore JSON Schema
 ---
 
 # Configuration options
