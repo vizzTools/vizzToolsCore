@@ -18,9 +18,8 @@ title: vizzToolsCore JSON Schema
 
 <details><summary style="font-size:20px; cursor:pointer; text-decoration: underline">Click here to expand the rendered result...</summary>
 <p>
-[ {{example.display_name}} ](assets/examples/{{ example.name }}.html)
+[Dataset](assets/examples/Dataset.html)
 
-<iframe style="width: 100%; height: 60vh" src="assets/examples/{{ example.name }}.html"></iframe>
 </p>
 </details>
 <br/>
