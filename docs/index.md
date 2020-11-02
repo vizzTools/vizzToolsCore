@@ -3,7 +3,7 @@ title: vizzToolsCore JSON Schema
 ---
 
 # Objects
-<iframe style="width: 100%; height: 60vh" src="assets/Dataset.html"></iframe>
+<iframe style="width: 100%; height: 60vh" src="assets/examples/Dataset.html"></iframe>
 
 # Examples
 {% for example in site.data.examples %}
