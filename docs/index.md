@@ -2,7 +2,7 @@
 title: vizzToolsCore JSON Schema
 ---
 
-# Configuration options
+# Objects
 <iframe style="width: 100%; height: 60vh" src="assets/Dataset.html"></iframe>
 
 # Examples
