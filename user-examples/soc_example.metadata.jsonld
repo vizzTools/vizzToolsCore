@@ -1,0 +1,43 @@
+{
+    "description": "<p>This is an update of maps produced by&nbsp;<a href=\"https://doi.org/10.1088/1748-9326/aabe1c\">Sanderman et al (2018)</a>. The improvements to the 3D spatial prediction include:</p>\n\n<ul>\n\t<li>\n\t<p>new updated global mangrove coverage map (contact Thomas Worthington),</p>\n\t</li>\n\t<li>\n\t<p>new ALOS-based DEM of the world AW3D30 v18.04,</p>\n\t</li>\n\t<li>\n\t<p>new radar ALOS-based PALSAR radar images of the world,</p>\n\t</li>\n\t<li>\n\t<p>additional SOC points (ca 550) <a href=\"https://static-content.springer.com/esm/art%3A10.1038%2Fs41558-018-0162-5/MediaObjects/41558_2018_162_MOESM2_ESM.xlsx\">published in Rovai et al. (2018)</a>&nbsp;used in model training (see gpkg file).</p>\n\t</li>\n</ul>\n\n<p>To open map in QGIS or similar, drag and drop the &quot;mangroves_dSOC_0_100cm_30m.vrt&quot; file. You can than add also the gpkg file contain the training points.&nbsp;A preview (WMS) of the predictions is available <a href=\"https://www.arcgis.com/apps/MapSeries/index.html?appid=fe214a492f114bde8b3aa1d54ef23224\">here</a>.</p>\n\n<p>Production steps (ensemble predictions using SuperLearner) are explained in detail at:&nbsp;</p>\n\n<ul>\n\t<li>R code:&nbsp;<a href=\"https://github.com/whrc/Mangrove-Soil-Carbon/\">https://github.com/whrc/Mangrove-Soil-Carbon/</a>&nbsp;(see &quot;R_code/GMW_mangroves_SOC_30m.R&quot;)</li>\n\t<li>Tutorial:&nbsp;<a href=\"https://envirometrix.github.io/PredictiveSoilMapping/soilmapping-using-mla.html#ensemble-predictions-using-superlearner-package\">&quot;Predictive Soil Mapping with R&quot;</a></li>\n</ul>\n\n<p>Produced&nbsp;for the purpose of Mangrove Restoration Potential Map funded by The&nbsp;Nature Conservancy and IUCN. Contact TNC: Emily Landis&nbsp;&lt;<a href=\"mailto:elandis@TNC.ORG\">elandis@TNC.ORG</a>&gt;.&nbsp;Contact IUCN / University of Cambridge: Thomas Worthington &lt;<a href=\"mailto:taw52@cam.ac.uk\">taw52@cam.ac.uk</a>&gt;.</p>",
+    "license": "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
+    "creator": [
+        {
+            "affiliation": "Envirometrix Ltd",
+            "@id": "https://orcid.org/0000-0002-9921-5129",
+            "@type": "Person",
+            "name": "Tomislav Hengl"
+        }
+    ],
+    "url": "https://zenodo.org/record/2536803",
+    "datePublished": "2018-10-23",
+    "version": "0.2",
+    "keywords": [
+        "mangroves",
+        "soil carbon",
+        "machine learning",
+        "superlearner package"
+    ],
+    "@context": "https://schema.org/",
+    "distribution": [
+        {
+            "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/mangroves_SOC30m_0_100cm.zip",
+            "encodingFormat": "zip",
+            "@type": "DataDownload"
+        },
+        {
+            "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/mangroves_SOC_points.gpkg",
+            "encodingFormat": "gpkg",
+            "@type": "DataDownload"
+        },
+        {
+            "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/preview_mangroves_soil_carbon_QGIS.png",
+            "encodingFormat": "png",
+            "@type": "DataDownload"
+        }
+    ],
+    "identifier": "https://doi.org/10.5281/zenodo.2536803",
+    "@id": "https://doi.org/10.5281/zenodo.2536803",
+    "@type": "Dataset",
+    "name": "Predicted soil organic carbon stock at 30 m in t/ha for 0-100 cm depth global / update of the map of mangrove forest soil carbon"
+}

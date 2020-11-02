@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "./description.schema.json",
+    "title": "A short summary describing an entity.",
+    "description": "The summary must be between 50 and 5000 characters long. The summary may include Markdown syntax. Embedded images need to use absolute path URLs (instead of relative paths). When using the JSON-LD format, denote new lines with two characters: backslash and lower case letter 'n'.",
+    "type": "string",
+    "minLength": 50,
+    "maxLength": 5000
+}

@@ -1,0 +1,8 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "@id": "./date.schema.json",
+    "type": "string",
+    "format": "date",
+    "title": "date",
+    "description": "ISO-8601 date timestamp string."
+}
