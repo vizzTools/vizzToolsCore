@@ -1,0 +1,38 @@
+{
+    "description": [
+        {
+            "@type": "DataDownload",
+            "name": "Description",
+            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
+            "encodingFormat": "application/docx"
+        }
+    ],
+    "metadata": [
+        {
+            "@type": "DataDownload",
+            "name": "Metadata",
+            "contentUrl": "https://zenodo.org/record/1346097/export/schemaorg_jsonld",
+            "encodingFormat": "application/html"
+        }
+    ],
+    "data": [
+        {
+            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
+            "encodingFormat": "zip",
+            "@type": "DataDownload",
+            "name": "Input maps"
+        },
+        {
+            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_tables.zip",
+            "encodingFormat": "zip",
+            "@type": "DataDownload",
+            "name": "Input tables"
+        },
+        {
+            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/output_global_damage.zip",
+            "encodingFormat": "zip",
+            "@type": "DataDownload",
+            "name": "Output global damage"
+        }
+    ]
+}
