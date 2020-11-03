@@ -2,7 +2,7 @@
 title: vizzToolsCore JSON Schema
 ---
 
-These documents describe the vizzTools core data models as [JSON Schema](https://json-schema.org/understanding-json-schema/) with [JSON-LD](https://json-ld.org/).
+These documents describe the vizzTools core data models as [JSON Schema](https://json-schema.org/understanding-json-schema/) with [JSON-LD](https://json-ld.org/) examples.
 
 The URL `https://vizztools.github.io/vizzToolsCore/json-schema` can be used as the JSON-LD `@context` property.
 
