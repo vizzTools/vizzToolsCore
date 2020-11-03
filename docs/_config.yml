@@ -4,4 +4,4 @@ defaults:
         path: "assets/json-schema"
       values:
         json: true
-theme: minimal-mistakes-jekyll
+theme: jekyll-theme-minimal
