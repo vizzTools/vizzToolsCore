@@ -4,4 +4,4 @@ defaults:
         path: "assets/json-schema"
       values:
         json: true
-theme: jekyll-theme-leap-day
+theme: jekyll-theme-dinky
