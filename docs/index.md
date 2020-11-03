@@ -17,7 +17,7 @@ title: vizzToolsCore JSON Schema
 
 <details><summary style="font-size:20px; cursor:pointer; text-decoration: underline">Click here to expand the rendered result...</summary>
 <p>
-<iframe style="width: 100%; height: 60vh" src="json-schema/{{ item.title }}.html"></iframe>
+<iframe style="width: 100%; height: 60vh" src="assets/json-schema-html/{{ item.title }}.html"></iframe>
 </p>
 </details>
 <br/>

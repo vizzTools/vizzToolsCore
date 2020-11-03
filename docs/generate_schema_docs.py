@@ -10,10 +10,13 @@ from json_schema_for_humans.generate import generate_from_filename
 
 # Create site directory structure
 schema_source_dir =  "/home/edward/Documents/vizzToolsCore/json-schema"
-schema_examples_dir = os.path.join(os.getcwd(), "docs", "json-schema")
-print("schema_examples_dir", schema_examples_dir)
-os.makedirs(schema_examples_dir, exist_ok=True)
-schema_html_dir = os.path.join(os.getcwd(), "docs", "json-schema")
+schema_dir = os.path.join(os.getcwd(), "docs", "assets", "json-schema")
+print("schema_dir", schema_dir)
+os.makedirs(os.path.join(os.getcwd(), "docs", "_includes"), exist_ok=True)
+schema_includes_dir = os.path.join(os.getcwd(), "docs", "_includes", "json-schema")
+print("schema_includes_dir", schema_includes_dir)
+os.makedirs(schema_includes_dir, exist_ok=True)
+schema_html_dir = os.path.join(os.getcwd(), "docs", "assets", "json-schema-html")
 print("schema_html_dir", schema_html_dir)
 os.makedirs(schema_html_dir, exist_ok=True)
 
@@ -26,7 +29,8 @@ for case_name in os.listdir(schema_source_dir):
     if not os.path.isfile(case_source) or ext != ".json":
         continue
 
-    shutil.copyfile(case_source, os.path.join(schema_examples_dir, case_name))
+    shutil.copyfile(case_source, os.path.join(schema_dir, case_name))
+    shutil.copyfile(case_source, os.path.join(schema_includes_dir, case_name))
 
     print(f"Generating example {name}")
 
