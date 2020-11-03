@@ -21,13 +21,6 @@ Check out this [guide to using JSON schema in VSCode](https://omkarmore.wordpres
 </p>
 </details>
 
-<a href="json-schema/{{ item.title }}.jsonld">JSON-LD example</a>
-<details><summary style="font-size:12px; cursor:pointer; text-decoration: underline">Click here to expand source JSON-LD example...</summary>
-<p>
-{% highlight json %}
-{% include json-schema/{{ item.title }}.jsonld %}
-{% endhighlight %}
-</p>
-</details>
+
 <br/>
 {% endfor %}
