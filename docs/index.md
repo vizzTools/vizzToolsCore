@@ -13,12 +13,15 @@ Check out this [guide to using JSON schema in VSCode](https://omkarmore.wordpres
 ---
 
 {% for item in site.data.index %}
-<h2><a href="json-schema/{{ item.title }}.html">{{ item.title }}</a></h2>
+<h2>{{ item.title }}</h2>
 
 {{ item.description }}
 
-<a class="btn--success" href="json-schema/{{ item.title }}.schema.json">JSON Schema</a>
-<a class="btn--info" href="json-schema/{{ item.title }}.jsonld">JSON-LD Example</a>
+<ul>
+<li><a href="json-schema/{{ item.title }}.html">View <strong>HTML</strong></a></li>
+<li><a href="json-schema/{{ item.title }}.schema.json">Download <strong>JSON Schema</strong></a></li>
+<li><a href="json-schema/{{ item.title }}.jsonld">Download <strong>JSON-LD Example</strong></a></li>
+</ul>
 
 <br/>
 {% endfor %}
