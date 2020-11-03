@@ -1,4 +1,5 @@
-
+logo: "assets/images/earth_cutaway.png"
+show_downloads: "true"
 defaults:
     - scope:
         path: "assets/json-schema"
