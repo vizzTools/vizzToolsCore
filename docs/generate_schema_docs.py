@@ -10,7 +10,7 @@ from json_schema_for_humans.generate import generate_from_filename
 
 # Create site directory structure
 schema_source_dir =  "/home/edward/Documents/vizzToolsCore/json-schema"
-schema_examples_dir = os.path.join(os.getcwd(), "docs", "_includes", "json-schema")
+schema_examples_dir = os.path.join(os.getcwd(), "docs", "json-schema")
 print("schema_examples_dir", schema_examples_dir)
 os.makedirs(schema_examples_dir, exist_ok=True)
 schema_html_dir = os.path.join(os.getcwd(), "docs", "json-schema")

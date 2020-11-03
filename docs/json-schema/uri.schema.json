@@ -1,0 +1,8 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "@id": "./uri.schema.json",
+    "type": "string",
+    "format": "uri",
+    "title": "uri",
+    "description": "Any string representing a URI"
+}
