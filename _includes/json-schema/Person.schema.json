@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Person",
+    "required": [
+        "@type",
+        "name"
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "@type": {
+            "$id": "#/properties/%40type",
+            "type": "string",
+            "enum": ["Person"]
+        },
+        "@id": {
+            "$id": "#/properties/%40id",
+            "type": "string"
+        },
+        "sameAs": {
+            "#ref": "https://raw.githubusercontent.com/vizzTools/vizzToolsCore/dev/draft-data-structures/json-schema/sameAs.schema.json"
+            },
+        "givenName": {
+            "$id": "#/properties/givenName",
+            "type": "string",
+            "title": "Given or first name"
+        },
+        "familyName": {
+            "$id": "#/properties/familyName",
+            "type": "string",
+            "title": "Family or last name"
+        },
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "Full name as Given Family name"
+        },
+        "affiliation": {
+            "$id": "#/properties/affiliation",
+            "#ref": "https://raw.githubusercontent.com/vizzTools/vizzToolsCore/master/json-schema/Organization.schema.json",
+            "title": "Organization person is affiliated with"
+        }
+    }
+}
