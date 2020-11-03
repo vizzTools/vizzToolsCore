@@ -1,6 +1,6 @@
 {
-    "$schema": "file://home/edward/Documents/vizzToolsCore/json-schema/Dataset.schema.json",
-    "@context": "http://www.schema.org",
+    "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore/json-schema/",
     "@type": "Dataset",
     "@id": "<collection-id>",
     "name": "Example collection",
