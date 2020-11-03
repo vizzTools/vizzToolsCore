@@ -1,5 +1,6 @@
 ---
 title: vizzToolsCore JSON Schema
+permalink: /json-schema/
 ---
 
 {% for item in site.data.index %}
