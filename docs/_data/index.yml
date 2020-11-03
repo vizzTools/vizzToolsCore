@@ -1,3 +1,9 @@
+- title: Metadata
+  description: An array of schema.org Dataset metadata objects
 - title: Dataset
   description: A schema.org Dataset metadata object
+- title: Person
+  description: A schema.org Person object
+- title: Organization
+  description: A schema.org Organization object
 
