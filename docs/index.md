@@ -17,10 +17,8 @@ Check out this [guide to using JSON schema in VSCode](https://omkarmore.wordpres
 
 {{ item.description }}
 
-<ul>
-<li><a class="btn--info" href="json-schema/{{ item.title }}.schema.json">JSON Schema</a></li>
-<li><a class="btn--success" href="json-schema/{{ item.title }}.jsonld">JSON-LD Example</a></li>
-</ul></header>
+<a class="btn--info" href="json-schema/{{ item.title }}.schema.json">JSON Schema</a>
+<a class="btn--success" href="json-schema/{{ item.title }}.jsonld">JSON-LD Example</a>
 
 <br/>
 {% endfor %}
