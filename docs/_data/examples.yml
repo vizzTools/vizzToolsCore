@@ -1,3 +1,5 @@
-- name: Dataset
-  display_name: Dataset
-  description: Dataset metadata
+docs_list_title: vizzToolsCore JSON schema Documentation
+docs:
+
+- title: Dataset
+  url: Dataset.html
