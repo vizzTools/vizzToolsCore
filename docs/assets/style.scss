@@ -3,4 +3,8 @@
 
 @import "{{ site.theme }}";
 
-@import "./json-schema/schema_doc.css" 
+.badge.value-type {
+    font-size: 120%;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
