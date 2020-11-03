@@ -1,6 +1,5 @@
 ---
 title: vizzToolsCore JSON Schema
-permalink: /json-schema/
 ---
 
 {% for item in site.data.index %}
@@ -22,4 +21,9 @@ permalink: /json-schema/
 </p>
 </details>
 <br/>
+{% endfor %}
+
+{% assign json_files = site.static_files | where: "json", true %}
+{% for myjson in json_files %}
+  {{ myjson.path }}
 {% endfor %}

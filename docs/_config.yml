@@ -1,0 +1,7 @@
+
+defaults:
+    - scope:
+        path: "json-schema"
+      values:
+        json: true
+theme: jekyll-theme-leap-day
