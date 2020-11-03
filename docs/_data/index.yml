@@ -1,3 +1,5 @@
+- title: Metadata
+  description: An array of schema.org Dataset objects that describe the dataset
 - title: Dataset
   description: A schema.org Dataset metadata object
-  
+
