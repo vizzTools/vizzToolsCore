@@ -8,6 +8,8 @@ The URL `https://vizztools.github.io/vizzToolsCore/json-schema` can be used as t
 
 Check out this [guide to using JSON schema in VSCode](https://omkarmore.wordpress.com/2017/04/07/json-schema/).
 
+---
+
 # Core data models
 
 {% for item in site.data.index %}
