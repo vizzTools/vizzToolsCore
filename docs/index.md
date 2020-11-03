@@ -3,7 +3,7 @@ title: vizzToolsCore JSON Schema
 ---
 
 {% for item in site.data.index %}
-<h2><a href="assets/json-schema-html/{{ item.title }}.html">{{ item.title }}</a></h2>
+<h2><a href="json-schema/{{ item.title }}.html">{{ item.title }}</a></h2>
 
 {{ item.description }}
 

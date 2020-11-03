@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/Place.json",
+    "type": "object",
+    "title": "Place",
+    "required": [
+        "@type",
+        "geo"
+    ],
+    "properties": {
+        "@type": {
+            "$ref": "./@type.schema.json",
+            "enum": [
+                "Place"
+            ]
+        },
+        "geo": {
+            "$id": "#/properties/geo",
+            "type": "object",
+            "title": "The geo schema",
+            "required": [
+                "@type",
+                "box"
+            ],
+            "properties": {
+                "@type": {
+                    "$id": "#/properties/geo/properties/%40type",
+                    "type": "string",
+                    "enum": ["geo"]
+                },
+                "box": {
+                    "$id": "#/properties/geo/properties/box",
+                    "type": "string",
+                    "title": "The box schema"
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}
