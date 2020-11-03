@@ -2,8 +2,23 @@
 title: vizzToolsCore JSON Schema
 ---
 
-<ul>
-   {% for item in site.data.examples %}
-      <li><a href="json-schema/{{ item.title }}.html">{{ item.title }}</a></li>
-   {% endfor %}
-</ul>
+{% for item in site.data.index %}
+## {{ item.title }}
+
+{{ item.description }}
+
+<details><summary style="font-size:20px; cursor:pointer; text-decoration: underline">Click here to expand source JSON Schema...</summary>
+<p>
+{% highlight json %}
+{% include json-schema/{{ item.title }}.schema.json %}
+{% endhighlight %}
+</p>
+</details>
+
+<details><summary style="font-size:20px; cursor:pointer; text-decoration: underline">Click here to expand the rendered result...</summary>
+<p>
+<iframe style="width: 100%; height: 60vh" src="json-schema/{{ item.title }}.html"></iframe>
+</p>
+</details>
+<br/>
+{% endfor %}
