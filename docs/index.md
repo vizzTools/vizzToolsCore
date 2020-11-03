@@ -18,9 +18,9 @@ Check out this [guide to using JSON schema in VSCode](https://omkarmore.wordpres
 {{ item.description }}
 
 <ul>
-<li><a href="json-schema/{{ item.title }}.html">View <strong>HTML</strong></a></li>
-<li><a href="json-schema/{{ item.title }}.schema.json">Download <strong>JSON Schema</strong></a></li>
-<li><a href="json-schema/{{ item.title }}.jsonld">Download <strong>JSON-LD Example</strong></a></li>
+<li>::marker<a href="json-schema/{{ item.title }}.html">View <strong>HTML</strong></a></li>
+<li>::marker<a href="json-schema/{{ item.title }}.schema.json">Download <strong>JSON Schema</strong></a></li>
+<li>::marker<a href="json-schema/{{ item.title }}.jsonld">Download <strong>JSON-LD Example</strong></a></li>
 </ul>
 
 <br/>
