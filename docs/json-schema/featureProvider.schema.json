@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/featureProvider.schema.json",
     "title": "featureProvider",
-    "description": "An vizzToolsCore feature provider definition object that describes the connection of the dataset data.",
+    "description": "A vizzToolsCore feature provider definition object that describes the connection of the dataset data.",
     "definitions": {
         "type": {
             "type": "string",
@@ -168,8 +168,8 @@
         },
         "PostgreSQL": {
             "type": "object",
-            "title": "SQLiteGPKG",
-            "description": "SQLiteGPKG featureProvider",
+            "title": "PostgreSQL",
+            "description": "PostgreSQL featureProvider",
             "required": [
                 "type",
                 "name",

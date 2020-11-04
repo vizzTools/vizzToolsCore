@@ -60,8 +60,8 @@
 - description: An array of schema.org DataDownload objects that describe URIs to access
     to the entity.
   title: distribution
-- description: An vizzToolsCore feature provider definition object that describes
-    the connection of the dataset data.
+- description: A vizzToolsCore feature provider definition object that describes the
+    connection of the dataset data.
   title: featureProvider
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
@@ -128,7 +128,7 @@
     For example, student projects and open data initiatives often re-publish existing
     content with more explicitly structured metadata. The sdPublisher property helps
     make such practices more explicit.
-  title: The sdPublisher schema
+  title: sdPublisher
 - description: You can provide a single point that describes the spatial aspect of
     the dataset. Only include this property if the dataset has a spatial dimension.
     For example, a single point where all the measurements were collected, or the
