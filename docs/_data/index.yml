@@ -19,6 +19,8 @@
     whitespace or commas can be used to separate latitude and longitude; whitespace
     should be used when writing a list of several such points.
   title: GeoShape
+- description: An array of schema.org Dataset objects that describe the dataset
+  title: Dataset metadata objects
 - description: An organization such as a school, NGO, corporation, club, etc.
   title: Organization
 - description: A person (alive, dead, undead, or fictional).
@@ -44,6 +46,10 @@
   title: creator
 - description: ISO-8601 date string.
   title: date
+- description: The ISO-8601 timestamp at which this entity was created.
+  title: dateCreated
+- description: The ISO-8601 timestamp at which this entity was modified.
+  title: dateModified
 - description: ISO-8601 date-time timestamp string.
   title: dateTime
 - description: 'The summary must be between 50 and 5000 characters long. The summary
@@ -54,6 +60,9 @@
 - description: An array of schema.org DataDownload objects that describe URIs to access
     to the entity.
   title: distribution
+- description: An vizzToolsCore feature provider definition object that describes
+    the connection of the dataset data.
+  title: featureProvider
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
@@ -87,6 +96,10 @@
 - description: Licensing and terms of use for the object, preferably as a URI with
     a description
   title: description
+- description: An array of schema.org DataDownload objects that describe URIs to access
+    description, metadata and data of the dataset. Use `name` to indicate the information
+    type.
+  title: links
 - description: The technique, technology, or methodology used in a dataset, which
     can correspond to the variable(s) described in variableMeasured. The measurementTechnique
     property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/measurementTechnique
@@ -100,12 +113,22 @@
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
   title: provider
+- description: An array of vizzToolsCore provider definition objects that describe
+    the connections to the data of the dataset.
+  title: providers
 - description: Use the sameAs property to indicate the most canonical URLs for the
     original in cases when the dataset or description is a simple republication of
     materials published elsewhere. The value of sameAs needs to unambiguously indicate
     the datasets identity - in other words two different datasets should not use the
     same URL as sameAs value.
   title: sameAs
+- description: Indicates the party responsible for generating and publishing the current
+    structured data markup, typically in cases where the structured data is derived
+    automatically from existing published content but published on a different site.
+    For example, student projects and open data initiatives often re-publish existing
+    content with more explicitly structured metadata. The sdPublisher property helps
+    make such practices more explicit.
+  title: The sdPublisher schema
 - description: You can provide a single point that describes the spatial aspect of
     the dataset. Only include this property if the dataset has a spatial dimension.
     For example, a single point where all the measurements were collected, or the
@@ -131,3 +154,5 @@
 - description: The version number for the entity. If no versioning is given, consider
     using semantic versioning (1.0.0) or the publication date
   title: version
+- description: A vizzToolsCore Dataset configuration object.
+  title: vtcDataset
