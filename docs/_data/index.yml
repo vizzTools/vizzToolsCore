@@ -1,4 +1,4 @@
-- title: Metadata
+- title: metadata
   description: An array of schema.org Dataset metadata objects
 - title: Dataset
   description: A schema.org Dataset metadata object
@@ -6,4 +6,6 @@
   description: A schema.org Person object
 - title: Organization
   description: A schema.org Organization object
+- title: DataDownload
+  description: A schema.org DataDownload object representing the location and file format for downloadable data.
 

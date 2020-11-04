@@ -3,6 +3,8 @@
 import os
 import shutil
 import sys
+import json
+import yaml
 
 #sys.path.insert(0, os.path.abspath(".."))
 
@@ -55,3 +57,16 @@ for case_name in os.listdir(schema_source_dir):
         deprecated_from_description=True,
         expand_buttons=True,
     )
+
+    # Add to index.yml
+    obj = json.load(case_source)
+    new_yaml_data_dict = {'title': obj.title, 'description': obj.description}
+    with open('_data/index.yml','r') as yamlfile:
+        cur_yaml = yaml.safe_load(yamlfile) # Note the safe_load
+        cur_yaml.update(new_yaml_data_dict)
+
+    if cur_yaml:
+        with open('_data/index.yml','w') as yamlfile:
+            yaml.safe_dump(cur_yaml, yamlfile) # Also note the safe_dump
+
+

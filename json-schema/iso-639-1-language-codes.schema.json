@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://example.com/json-schema/iso-639-1-language-codes.schema.json",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/iso-639-1-language-codes.schema.json",
     "title": "ISO 639-1 Language Codes",
     "description": "2-digit ISO 639-1 language codes",
     "type": "string",

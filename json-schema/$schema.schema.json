@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "@id": "./$schema.schema.json",
-    "$ref": "./uri.schema.json",
+    "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/$schema.schema.json",
+    "$ref": "uri.schema.json",
     "title": "$schema",
     "description": "URI of the JSON schema of this object."
 }

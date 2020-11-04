@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/geo.schema.json",
+    "type": "object",
+    "title": "geo",
+    "oneOf": [
+                {
+                    "$ref": "GeoCoordinates.schema.json"
+                },
+                {
+                    "$ref": "GeoShape.schema.json"
+                }
+            ]
+}
