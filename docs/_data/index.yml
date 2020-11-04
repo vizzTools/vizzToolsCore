@@ -11,7 +11,7 @@
     format for downloadable data.
   title: DataDownload
 - description: A schema.org Dataset metadata object that describes the dataset.
-  title: Dataset metadata
+  title: Dataset
 - description: The geographic coordinates of an entity.
   title: GeoCoordinates
 - description: The geographic shape of a place. A GeoShape can be described using
@@ -41,7 +41,7 @@
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
-  title: Creator or author of this entity
+  title: creator
 - description: ISO-8601 date string.
   title: date
 - description: ISO-8601 date-time timestamp string.
@@ -67,6 +67,9 @@
 - description: An identifier, such as a DOI or a Compact Identifier. If the dataset
     has more than one identifier, repeat the identifier property as an array.
   title: identifier
+- description: The language of the content or performance or used in an action. Please
+    use one of the language codes from the IETF BCP 47 standard.
+  title: inLanguage
 - description: 'Use the isBasedOn property in cases where the republished dataset
     (including its metadata) has been changed significantly. When a dataset derives
     from or aggregates several originals, use the isBasedOn property. TODO: Align
@@ -92,7 +95,7 @@
   title: metadata
 - description: A descriptive name. For example, 'Snow depth in the Northern Hemisphere'.
     Use unique names for distinct entities whenever possible.
-  title: Name of the entity
+  title: name
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.

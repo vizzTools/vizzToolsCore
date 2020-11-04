@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.json",
     "type": "object",
-    "title": "Dataset metadata",
+    "title": "Dataset",
     "description": "A schema.org Dataset metadata object that describes the dataset.",
     "required": [
         "$schema",
@@ -136,7 +136,7 @@
         },
         "inLanguage": {
             "title": "Language of this object",
-            "$ref": "iso-639-1-language-codes.schema.json"
+            "$ref": "inLanguage.schema.json"
         },
         "alternateName": {
             "title": "Alternate name(s) of the dataset",

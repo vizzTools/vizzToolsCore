@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/name.schema.json",
-    "title": "Name of the entity",
+    "title": "name",
     "description": "A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique names for distinct entities whenever possible.",
     "type": "string"
 }
