@@ -4,6 +4,15 @@
 
 Currently this is a skeleton under development.
 
+See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
+
+## Roadmap
+
++ add JSON schema of vtcDataset
++ add JSON-LD examples
++ add Visualization object
++ add Lineage object
+
 ## Design principles (draft)
 
 1. The aim of `vizzToolsCore` is provide a standardized set of data structures to facilitate inter-change between various specific vizzTools data processing packages.

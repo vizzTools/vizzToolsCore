@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/providers.schema.json",
+    "title": "providers",
+    "description": "An array of vizzToolsCore provider definition objects that describe the connections to the data of the dataset.",
+    "type": "array",
+    "items": {
+        "oneOf":[
+            {"$ref": "featureProvider.schema.json"}
+        ]
+    }
+}
