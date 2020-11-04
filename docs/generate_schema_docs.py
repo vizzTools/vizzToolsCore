@@ -8,7 +8,7 @@ import yaml
 
 #sys.path.insert(0, os.path.abspath(".."))
 
-from json_schema_for_humans.generate import generate_from_filename
+from json_schema_for_humans.generate import generate_from_filename, GenerationConfiguration
 
 # Create site directory structure
 schema_source_dir =  "/home/edward/Documents/vizzToolsCore/json-schema"
@@ -27,6 +27,7 @@ os.makedirs(schema_dir, exist_ok=True)
 #os.makedirs(schema_html_dir, exist_ok=True)
 
 # Add JSON-LD
+print("\nProcessing JSON-LD")
 for case_name in os.listdir(jsonld_source_dir):
     print(f"Processing {case_name}")
     name, ext = os.path.splitext(case_name)
@@ -37,7 +38,10 @@ for case_name in os.listdir(jsonld_source_dir):
     #shutil.copyfile(case_source, os.path.join(jsonld_includes_dir, case_name))
 
 # Convert Schema to HTML
-for case_name in os.listdir(schema_source_dir):
+print("\nProcessing JSON Schema")
+out = []
+fl = os.listdir(schema_source_dir)
+for case_name in sorted(fl):
     print(f"Processing {case_name}")
     name, ext = os.path.splitext(case_name)
     name, _ = os.path.splitext(name)
@@ -51,22 +55,25 @@ for case_name in os.listdir(schema_source_dir):
 
     print(f"Generating example {name}")
 
+    config = GenerationConfiguration(recursive_detection_depth=10000)
     generate_from_filename(
         case_source,
         os.path.join(schema_dir, f"{name}.html"),
         deprecated_from_description=True,
         expand_buttons=True,
+        config=config
     )
 
-    # Add to index.yml
-    obj = json.load(case_source)
-    new_yaml_data_dict = {'title': obj.title, 'description': obj.description}
-    with open('_data/index.yml','r') as yamlfile:
-        cur_yaml = yaml.safe_load(yamlfile) # Note the safe_load
-        cur_yaml.update(new_yaml_data_dict)
+    # Add to index list
+    print("Writing to index")
+    with open(case_source, "r") as f:
+        obj = json.load(f)
+        #print(obj)
+        yaml_data_dict = {'title': obj["title"], 'description': obj["description"]}
+        out.append(yaml_data_dict)
 
-    if cur_yaml:
-        with open('_data/index.yml','w') as yamlfile:
-            yaml.safe_dump(cur_yaml, yamlfile) # Also note the safe_dump
+# Write site index YAML        
+with open(os.path.join(os.getcwd(), "docs", "_data", "index.yml"),'w') as yamlfile:
+    yaml.safe_dump(out, yamlfile) # Also note the safe_dump
 
 

@@ -1,11 +1,130 @@
-- title: metadata
-  description: An array of schema.org Dataset metadata objects
-- title: Dataset
-  description: A schema.org Dataset metadata object
-- title: Person
-  description: A schema.org Person object
-- title: Organization
-  description: A schema.org Organization object
-- title: DataDownload
-  description: A schema.org DataDownload object representing the location and file format for downloadable data.
-
+- description: URI of the JSON schema of this object.
+  title: $schema
+- description: 'A URL that provides descriptions of this objects properties. TODO:
+    Align with full JSON-LD context definition!'
+  title: '@context'
+- description: Identifier string of this object.
+  title: '@id'
+- description: Type of this object.
+  title: '@type'
+- description: A schema.org DataDownload object representing the location and file
+    format for downloadable data.
+  title: DataDownload
+- description: A schema.org Dataset metadata object that describes the dataset.
+  title: Dataset metadata
+- description: The geographic coordinates of an entity.
+  title: GeoCoordinates
+- description: The geographic shape of a place. A GeoShape can be described using
+    several properties whose values are based on latitude/longitude pairs. Either
+    whitespace or commas can be used to separate latitude and longitude; whitespace
+    should be used when writing a list of several such points.
+  title: GeoShape
+- description: An organization such as a school, NGO, corporation, club, etc.
+  title: Organization
+- description: A person (alive, dead, undead, or fictional).
+  title: Person
+- description: Entities that have a somewhat fixed, physical extension.
+  title: Place
+- description: A property-value pair, e.g. representing a feature of a product or
+    place. Use the 'name' property for the name of the property. If there is an additional
+    human-readable version of the value, put that into the 'description' property.
+    Always use specific schema.org properties when a) they exist and b) you can populate
+    them. Using PropertyValue as a substitute will typically not trigger the same
+    effect as using the original, specific property.
+  title: PropertyValue
+- description: String or array of strings of alternative names that have been used
+    to refer to this dataset, such as aliases or abbreviations.
+  title: alternateName
+- description: String or array of strings that identify academic articles that are
+    recommended by the data provider be cited in addition to the dataset itself.
+  title: citation
+- description: An array of schema.org Person or Organization objects. To uniquely
+    identify individuals, use ORCID ID as the value of the sameAs property of the
+    Person type. To uniquely identify institutions and organizations, use ROR ID.
+  title: Creator or author of this entity
+- description: ISO-8601 date string.
+  title: date
+- description: ISO-8601 date-time timestamp string.
+  title: dateTime
+- description: 'The summary must be between 50 and 5000 characters long. The summary
+    may include Markdown syntax. Embedded images need to use absolute path URLs (instead
+    of relative paths). When using the JSON-LD format, denote new lines with two characters:
+    backslash and lower case letter ''n''.'
+  title: description
+- description: An array of schema.org DataDownload objects that describe URIs to access
+    to the entity.
+  title: distribution
+- description: An array of schema.org Person or Organization objects. To uniquely
+    identify individuals, use ORCID ID as the value of the sameAs property of the
+    Person type. To uniquely identify institutions and organizations, use ROR ID.
+  title: funder
+- description: The geo coordinates of the place.
+  title: geo
+- description: If the dataset is a collection of smaller datasets, use the hasPart
+    property to denote such relationship. Can take the form of an array of URL(s)
+    or a Dataset objects.
+  title: hasPart
+- description: An identifier, such as a DOI or a Compact Identifier. If the dataset
+    has more than one identifier, repeat the identifier property as an array.
+  title: identifier
+- description: 'Use the isBasedOn property in cases where the republished dataset
+    (including its metadata) has been changed significantly. When a dataset derives
+    from or aggregates several originals, use the isBasedOn property. TODO: Align
+    with Google Dataset guidelines'
+  title: isBasedOn
+- description: If the dataset is part of a larger dataset, use the isPartOf property
+    to denote such relationship. Can take the form of an array of URL(s) or a Dataset
+    objects.
+  title: isPartOf
+- description: 2-digit ISO 639-1 language codes
+  title: ISO 639-1 Language Codes
+- description: Keywords summarizing the dataset as a comma separated string or array
+    of strings
+  title: keywords
+- description: Licensing and terms of use for the object, preferably as a URI with
+    a description
+  title: description
+- description: The technique, technology, or methodology used in a dataset, which
+    can correspond to the variable(s) described in variableMeasured. The measurementTechnique
+    property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/measurementTechnique
+  title: measurementTechnique
+- description: An array of schema.org Dataset objects that describe the dataset
+  title: metadata
+- description: A descriptive name. For example, 'Snow depth in the Northern Hemisphere'.
+    Use unique names for distinct entities whenever possible.
+  title: Name of the entity
+- description: An array of schema.org Person or Organization objects. To uniquely
+    identify individuals, use ORCID ID as the value of the sameAs property of the
+    Person type. To uniquely identify institutions and organizations, use ROR ID.
+  title: provider
+- description: Use the sameAs property to indicate the most canonical URLs for the
+    original in cases when the dataset or description is a simple republication of
+    materials published elsewhere. The value of sameAs needs to unambiguously indicate
+    the datasets identity - in other words two different datasets should not use the
+    same URL as sameAs value.
+  title: sameAs
+- description: You can provide a single point that describes the spatial aspect of
+    the dataset. Only include this property if the dataset has a spatial dimension.
+    For example, a single point where all the measurements were collected, or the
+    coordinates of a bounding box for an area.
+  title: spatialCoverage
+- description: The data in the dataset covers a specific time interval. Only include
+    this property if the dataset has a temporal dimension. Schema.org uses the ISO
+    8601 standard to describe time intervals and time points. You can describe dates
+    differently depending upon the dataset interval. Indicate open-ended intervals
+    with two decimal points (..).
+  title: temporalCoverage
+- description: ISO-8601 time timestamp string.
+  title: time
+- description: A string or text indicating the unit of measurement. Useful if you
+    cannot provide a standard unit code for unitCode.
+  title: unitText
+- description: String representing a URI.
+  title: uri
+- description: The variable that this dataset measures. For example, temperature or
+    pressure. The variableMeasured property is proposed and pending standardization
+    at schema.org, see https://pending.webschemas.org/variableMeasured.
+  title: variableMeasured
+- description: The version number for the entity. If no versioning is given, consider
+    using semantic versioning (1.0.0) or the publication date
+  title: version

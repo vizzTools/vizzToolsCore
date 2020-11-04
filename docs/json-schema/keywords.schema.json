@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "@id": "./keywords.schema.json",
+    "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/keywords.schema.json",
     "title": "keywords",
     "description": "Keywords summarizing the dataset as a comma separated string or array of strings",
     "oneOf": [

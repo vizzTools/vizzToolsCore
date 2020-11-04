@@ -3,6 +3,7 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Person.schema.json",
     "type": "object",
     "title": "Person",
+    "description": "A person (alive, dead, undead, or fictional).",
     "required": [
         "@type",
         "name"

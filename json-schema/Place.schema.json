@@ -3,6 +3,7 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Place.schema.json",
     "type": "object",
     "title": "Place",
+    "description": "Entities that have a somewhat fixed, physical extension.",
     "required": [
         "@type",
         "geo"

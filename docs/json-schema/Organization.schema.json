@@ -1,32 +1,28 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/vizzTools/vizzToolsCore/master/json-schema/Organization.schema.json",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Organization.schema.json",
     "type": "object",
     "title": "Organization",
+    "description": "An organization such as a school, NGO, corporation, club, etc.",
     "required": [
         "@type",
         "name"
     ],
     "properties": {
         "@type": {
-            "$id": "#/properties/%40type",
-            "type": "string",
+            "$ref": "@type.schema.json",
             "enum": ["Organization"]
         },
         "@id": {
-            "type": "string"
+            "$ref": "@id.schema.json"
         },
         "url": {
-            "$id": "#/properties/url",
-            "type": "string",
-            "format": "uri"
+            "$ref": "uri.schema.json"
         },
         "name": {
-            "$id": "#/properties/name",
             "type": "string"
         },
         "contactPoint": {
-            "$id": "#/properties/contactPoint",
             "type": "object",
             "title": "contactPoint",
             "required": [
@@ -35,25 +31,20 @@
             ],
             "properties": {
                 "@type": {
-                    "$id": "#/properties/contactPoint/properties/%40type",
-                    "type": "string",
+                    "$ref": "@type.schema.json",
                     "enum": ["contactPoint"]
                 },
                 "contactType": {
-                    "$id": "#/properties/contactPoint/properties/contactType",
                     "type": "string"
                 },
                 "telephone": {
-                    "$id": "#/properties/contactPoint/properties/telephone",
                     "type": "string"
                 },
                 "email": {
-                    "$id": "#/properties/contactPoint/properties/email",
                     "type": "string",
                     "format": "email"
                 }
             }
         }
-    },
-    "additionalProperties": true
+    }
 }

@@ -1,16 +1,16 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "./creator.schema.json",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/creator.schema.json",
     "title": "Creator or author of this entity",
     "description": "An array of schema.org Person or Organization objects. To uniquely identify individuals, use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify institutions and organizations, use ROR ID.",
     "type": "array",
     "items": {
         "anyOf": [
             {
-                "$ref": "./Person.schema.json"
+                "$ref": "Person.schema.json"
             },
             {
-                "$ref": "./Organization.schema.json"
+                "$ref": "Organization.schema.json"
             }
         ]
         }

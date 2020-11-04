@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "@id": "./sameAs.schema.json",
-    "$ref": "./uri.schema.json",
+    "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/sameAs.schema.json",
+    "$ref": "uri.schema.json",
     "title": "sameAs",
     "description": "Use the sameAs property to indicate the most canonical URLs for the original in cases when the dataset or description is a simple republication of materials published elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in other words two different datasets should not use the same URL as sameAs value."
 }
