@@ -42,7 +42,7 @@
   title: citation
 - description: A vizzToolsCore coverage provider definition object that describes
     the connection of the dataset data.
-  title: featureProvider
+  title: coverageProvider
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
@@ -143,9 +143,9 @@
     differently depending upon the dataset interval. Indicate open-ended intervals
     with two decimal points (..).
   title: temporalCoverage
-- description: A vizzToolsCore coverage provider definition object that describes
-    the connection of the dataset data.
-  title: featureProvider
+- description: A vizzToolsCore tile provider definition object that describes the
+    connection of the dataset data.
+  title: tileProvider
 - description: ISO-8601 time timestamp string.
   title: time
 - description: A string or text indicating the unit of measurement. Useful if you
