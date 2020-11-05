@@ -1,0 +1,72 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/vtcDataset.schema.json",
+    "type": "object",
+    "title": "VtcDataset",
+    "description": "A vizzToolsCore Dataset configuration object.",
+    "examples": [
+        {
+            "@context": {
+                "dateCreated": "http://schema.org/dateCreated",
+                "dateModified": "http://schema.org/dateModified",
+                "sdPublisher": "http://schema.org/sdPublisher",
+                "providers": "https://docs.pygeoapi.io/en/latest/configuration.html#resources",
+                "context": "https://docs.pygeoapi.io/en/latest/configuration.html#linked-data",
+                "metadata": "http://schema.org/dateSet"
+            },
+            "@type": "VtcDataset",
+            "@id": "my-dataset",
+            "sdPublisher": {
+                "@type": "Organization",
+                "@id": "https://ror.org/02a809t02",
+                "sameAs": "https://ror.org/02a809t02",
+                "name": "Vizzuality"
+            },
+            "dateCreated": "2020-10-18T20:48:57Z",
+            "dateModified": "2020-10-18T20:48:57Z",
+            "links": {},
+            "metadata": {},
+            "providers": {},
+            "context": {},
+            "lineage": {}
+        }
+    ],
+    "required": [
+        "@context",
+        "@type",
+        "@id"
+    ],
+    "properties": {
+        "@context": {
+            "$ref": "@context.schema.json"
+        },
+        "@type": {
+            "$ref": "@type.schema.json",
+            "enum": [
+                "vcsDataset"
+            ]
+        },
+        "@id": {
+            "$id": "@id.schema.json"
+        },
+        "sdPublisher": {
+            "title": "Structured data publisher",
+            "$ref": "sdPublisher.schema.json"
+        },
+        "dateCreated": {
+            "$ref": "dateCreated.schema.json"
+        },
+        "dateModified": {
+            "$ref": "dateModified.schema.json"
+        },
+        "links": {
+            "$ref": "links.schema.json"
+        },
+        "metadata": {
+            "$ref": "metadata.schema.json"
+        },
+        "providers": {
+            "$ref": "providers.schema.json"
+        }
+    }
+}

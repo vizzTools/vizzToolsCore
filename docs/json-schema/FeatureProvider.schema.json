@@ -1,0 +1,239 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/featureProvider.schema.json",
+    "title": "FeatureProvider",
+    "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "type": {
+            "type": "string",
+            "description": "Provider definition type.",
+            "enum": [
+                "feature"
+            ]
+        },
+        "name": {
+            "type": "string",
+            "description": "Provider definition name."
+        },
+        "data": {
+            "$ref": "uri.schema.json",
+            "description": "URI pointing to the data."
+        },
+        "id_field": {
+            "type": "string",
+            "description": "Identifier field of the data."
+        },
+        "table": {
+            "type": "string",
+            "description": "Table name of the data."
+        },
+        "geom_field": {
+            "type": "string",
+            "description": "Geometry field of the data."
+        },
+        "time_field": {
+            "type": "string",
+            "description": "Time field of the data."
+        },
+        "geometry": {
+            "type": "object",
+            "title": "geometry",
+            "description": "Geometry X and Y field names of the data.",
+            "required": [
+                "x_field",
+                "y_field"
+            ],
+            "properties": {
+                "x_field": {
+                    "type": "string",
+                    "description": "X field name of the data."
+                },
+                "y_field": {
+                    "type": "string",
+                    "description": "Y field name of the data."
+                }
+            }
+        },
+        "CSV": {
+            "type": "object",
+            "title": "CSV",
+            "description": "CSV featureProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "geometry"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "$ref": "#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "#/definitions/id_field"
+                },
+                "geometry": {
+                    "$ref": "#/definitions/geometry"
+                }
+            }
+        },
+        "GeoJSON": {
+            "type": "object",
+            "title": "GeoJSON",
+            "description": "GeoJSON featureProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "$ref": "#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "#/definitions/id_field"
+                }
+            }
+        },
+        "Elasticsearch": {
+            "type": "object",
+            "title": "Elasticsearch",
+            "description": "Elasticsearch featureProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "time_field"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "$ref": "#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "#/definitions/id_field"
+                },
+                "time_field": {
+                    "$ref": "#/definitions/time_field"
+                }
+            }
+        },
+        "SQLiteGPKG": {
+            "type": "object",
+            "title": "SQLiteGPKG",
+            "description": "SQLiteGPKG featureProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "table"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "$ref": "#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "#/definitions/id_field"
+                },
+                "table": {
+                    "$ref": "#/definitions/table"
+                }
+            }
+        },
+        "PostgreSQL": {
+            "type": "object",
+            "title": "PostgreSQL",
+            "description": "PostgreSQL featureProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "table",
+                "geom_field"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "host": {
+                            "type": "string"
+                        },
+                        "dbname": {
+                            "type": "string"
+                        },
+                        "user": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "search_path": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "id_field": {
+                    "$ref": "#/definitions/id_field"
+                },
+                "table": {
+                    "$ref": "#/definitions/table"
+                }
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "$ref": "#/definitions/CSV"
+        },
+        {
+            "$ref": "#/definitions/GeoJSON"
+        },
+        {
+            "$ref": "#/definitions/Elasticsearch"
+        },
+        {
+            "$ref": "#/definitions/SQLiteGPKG"
+        },
+        {
+            "$ref": "#/definitions/PostgreSQL"
+        }
+    ]
+}

@@ -7,11 +7,17 @@
   title: '@id'
 - description: Type of this object.
   title: '@type'
+- description: A vizzToolsCore CoverageProvider definition object that describes the
+    connection of the dataset data.
+  title: CoverageProvider
 - description: A schema.org DataDownload object representing the location and file
     format for downloadable data.
   title: DataDownload
 - description: A schema.org Dataset metadata object that describes the dataset.
   title: Dataset
+- description: A vizzToolsCore FeatureProvider definition object that describes the
+    connection of the dataset data.
+  title: FeatureProvider
 - description: The geographic coordinates of an entity.
   title: GeoCoordinates
 - description: The geographic shape of a place. A GeoShape can be described using
@@ -32,15 +38,17 @@
     them. Using PropertyValue as a substitute will typically not trigger the same
     effect as using the original, specific property.
   title: PropertyValue
+- description: A vizzToolsCore tile provider definition object that describes the
+    connection of the dataset data.
+  title: TileProvider
+- description: A vizzToolsCore Dataset configuration object.
+  title: VtcDataset
 - description: String or array of strings of alternative names that have been used
     to refer to this dataset, such as aliases or abbreviations.
   title: alternateName
 - description: String or array of strings that identify academic articles that are
     recommended by the data provider be cited in addition to the dataset itself.
   title: citation
-- description: A vizzToolsCore coverage provider definition object that describes
-    the connection of the dataset data.
-  title: coverageProvider
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
@@ -61,9 +69,6 @@
 - description: An array of schema.org DataDownload objects that describe URIs to access
     to the entity.
   title: distribution
-- description: A vizzToolsCore feature provider definition object that describes the
-    connection of the dataset data.
-  title: featureProvider
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
@@ -90,7 +95,7 @@
     objects.
   title: isPartOf
 - description: 2-digit ISO 639-1 language codes
-  title: iso-639-1-language-codes
+  title: iso6391LanguageCodes
 - description: Keywords summarizing the dataset as a comma separated string or array
     of strings
   title: keywords
@@ -141,9 +146,6 @@
     differently depending upon the dataset interval. Indicate open-ended intervals
     with two decimal points (..).
   title: temporalCoverage
-- description: A vizzToolsCore tile provider definition object that describes the
-    connection of the dataset data.
-  title: tileProvider
 - description: ISO-8601 time timestamp string.
   title: time
 - description: A string or text indicating the unit of measurement. Useful if you
@@ -158,5 +160,3 @@
 - description: The version number for the entity. If no versioning is given, consider
     using semantic versioning (1.0.0) or the publication date
   title: version
-- description: A vizzToolsCore Dataset configuration object.
-  title: vtcDataset
