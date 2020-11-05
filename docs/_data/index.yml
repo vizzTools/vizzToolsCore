@@ -90,7 +90,7 @@
     objects.
   title: isPartOf
 - description: 2-digit ISO 639-1 language codes
-  title: ISO 639-1 Language Codes
+  title: iso-639-1-language-codes
 - description: Keywords summarizing the dataset as a comma separated string or array
     of strings
   title: keywords
