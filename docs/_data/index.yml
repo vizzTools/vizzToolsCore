@@ -106,7 +106,7 @@
 - description: Licensing and terms of use for the object, preferably as a URI with
     a description
   title: description
-- description: List of text descriptions givin information about the major data processing
+- description: List of text descriptions with information about the major data processing
     actions applied to the dataset.
   title: lineage
 - description: An array of schema.org DataDownload objects that describe URIs to access
