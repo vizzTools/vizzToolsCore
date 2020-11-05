@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/featureProvider.schema.json",
-    "title": "featureProvider",
-    "description": "A vizzToolsCore feature provider definition object that describes the connection of the dataset data.",
+    "title": "FeatureProvider",
+    "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
     "definitions": {
         "type": {
             "type": "string",

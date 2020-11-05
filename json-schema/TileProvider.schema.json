@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/coverageProvider.schema.json",
-    "title": "tileProvider",
+    "title": "TileProvider",
     "description": "A vizzToolsCore tile provider definition object that describes the connection of the dataset data.",
     "definitions": {
         "type": {
