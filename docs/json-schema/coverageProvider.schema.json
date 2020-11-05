@@ -1,0 +1,172 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/coverageProvider.schema.json",
+    "title": "featureProvider",
+    "description": "A vizzToolsCore coverage provider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "type": {
+            "type": "string",
+            "description": "Provider definition type.",
+            "enum": [
+                "coverage"
+            ]
+        },
+        "name": {
+            "type": "string",
+            "description": "Provider definition name."
+        },
+        "data": {
+            "$ref": "uri.schema.json",
+            "description": "URI pointing to the data."
+        },
+        "id_field": {
+            "type": "string",
+            "description": "Identifier field of the data."
+        },
+        "time_field": {
+            "type": "string",
+            "description": "Time field of the data."
+        },
+        "x_field": {
+            "type": "string",
+            "description": "X field name of the data."
+        },
+        "y_field": {
+            "type": "string",
+            "description": "Y field name of the data."
+        },
+        "options": {
+            "type": "object",
+            "description": "Coverage provider data specific options.",
+            "properties": {
+                "DATA_ENCODING": {
+                    "type": "string"
+                }
+            }
+        },
+        "format": {
+            "type": "object",
+            "description": "Coverage provider data format.",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "mimetype": {
+                    "type": "string"
+                }
+            }
+        },
+        "rasterio": {
+            "type": "object",
+            "title": "rasterio",
+            "description": "rasterio coverageProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "$ref": "#/definitions/data"
+                },
+                "options": {
+                    "$ref": "#/definitions/options"
+                },
+                "format": {
+                    "$ref": "#/definitions/format"
+                }
+            }
+        },
+        "xarray": {
+            "type": "object",
+            "title": "xarray",
+            "description": "xarray coverageProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format",
+                "x_field",
+                "y_field",
+                "time_field"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/type"
+                },
+                "name": {
+                    "$ref": "#/definitions/name"
+                },
+                "data": {
+                    "$ref": "#/definitions/data"
+                },
+                "options": {
+                    "$ref": "#/definitions/options"
+                },
+                "format": {
+                    "$ref": "#/definitions/format"
+                },
+                "x_field": {
+                    "$ref": "#/definitions/x_field"
+                },
+                "y_field": {
+                    "$ref": "#/definitions/y_field"
+                },
+                "time_field": {
+                    "$ref": "#/definitions/time_field"
+                }
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "$ref": "#/definitions/rasterio"
+        },
+        {
+            "$ref": "#/definitions/xarray"
+        }
+    ],
+    "examples": [
+        {
+            "type": "coverage",
+            "name": "rasterio",
+            "data": "tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            },
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "tests/data/coads_sst.nc",
+            "x_field": "lon",
+            "time_field": "time",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        }
+    ]
+}

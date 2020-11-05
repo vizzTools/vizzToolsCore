@@ -6,7 +6,9 @@
     "type": "array",
     "items": {
         "oneOf":[
-            {"$ref": "featureProvider.schema.json"}
+            {"$ref": "featureProvider.schema.json"},
+            {"$ref": "coverageProvider.schema.json"},
+            {"$ref": "tileProvider.schema.json"}
         ]
     }
 }
