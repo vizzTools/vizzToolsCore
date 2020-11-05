@@ -4,6 +4,14 @@
     "type": "object",
     "title": "Organization",
     "description": "An organization such as a school, NGO, corporation, club, etc.",
+    "examples": [
+        {
+            "@type": "Organization",
+            "@id": "https://ror.org/02a809t02",
+            "sameAs": "https://ror.org/02a809t02",
+            "name": "Vizzuality"
+        }
+    ],
     "required": [
         "@type",
         "name"
@@ -11,7 +19,9 @@
     "properties": {
         "@type": {
             "$ref": "@type.schema.json",
-            "enum": ["Organization"]
+            "enum": [
+                "Organization"
+            ]
         },
         "@id": {
             "$ref": "@id.schema.json"
@@ -32,7 +42,9 @@
             "properties": {
                 "@type": {
                     "$ref": "@type.schema.json",
-                    "enum": ["contactPoint"]
+                    "enum": [
+                        "contactPoint"
+                    ]
                 },
                 "contactType": {
                     "type": "string"

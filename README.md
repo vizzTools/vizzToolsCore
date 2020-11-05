@@ -22,6 +22,8 @@ See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
 1. Every data structure Class MUST have a JSON example and a JSON Schema. These can be generated from the Python Class or vice versa.
 
 1. `vizzToolsCore` will use a "strict" Type mechanism, based on the standard Types defined in [Pydantic](https://pydantic-docs.helpmanual.io/).
+   
+1. The naming of JSON schema Types and properties should attempt to follow the [schema.org style guide](https://schema.org/docs/styleguide.html)
 
 ## Main data structures (draft)
 
