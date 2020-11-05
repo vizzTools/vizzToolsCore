@@ -3,5 +3,5 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/inLanguage.schema.json",
     "title": "inLanguage",
     "description": "The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.",
-    "oneOf": [{"$ref": "iso-639-1-language-codes.schema.json"}]
+    "oneOf": [{"$ref": "iso6391LanguageCodes.schema.json"}]
 }
