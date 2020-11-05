@@ -19,8 +19,6 @@
     whitespace or commas can be used to separate latitude and longitude; whitespace
     should be used when writing a list of several such points.
   title: GeoShape
-- description: An array of schema.org Dataset objects that describe the dataset
-  title: Dataset metadata objects
 - description: An organization such as a school, NGO, corporation, club, etc.
   title: Organization
 - description: A person (alive, dead, undead, or fictional).
