@@ -67,5 +67,14 @@
                 }
             ]
         }
-    }
-}
+    },
+    "examples":[   {
+        "@type": "PropertyValue",
+        "name": "pressure_pa", 
+        "canonical_units": "Pa",
+        "unitText": "µ Pa",
+        "standard_name": "air_pressure",
+        "long_name": "Air pressure",
+        "description": "Air pressure is the force per unit area which would be exerted when the moving gas molecules of which the air is composed strike a theoretical surface of any orientation.",
+        "sameAs": "http://cfconventions.org/Data/cf-standard-names/76/src/cf-standard-name-table.xml#air_pressure"
+}]
