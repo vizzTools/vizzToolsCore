@@ -41,11 +41,12 @@
             "description": "The description is meant to clarify the qualifiers of the fundamental quantities such as which surface a quantity is defined on or what the flux sign conventions are. We don’t attempt to provide precise definitions of fundumental physical quantities (e.g., temperature) which may be found in the literature. The description may define rules on the variable type, attributes and coordinates which must be complied with by any variable carrying that standard name."
         },
         "sameAs": {
+            "description": "Use the sameAs property to indicate the most canonical URL for the original description of the property.",
             "$ref": "sameAs.schema.json"
         },
         "value": {
             "title": "value of the property",
-            "description": "value of the property.",
+            "description": "Value of the property.",
             "oneOf": [
                 {
                     "type": "string"
