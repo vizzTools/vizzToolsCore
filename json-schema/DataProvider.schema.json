@@ -183,12 +183,6 @@
         },
         "format": {
             "$ref": "#/definitions/format"
-        },
-        "zoom": {
-            "$ref": "#/definitions/zoom"
-        },
-        "schemes": {
-            "$ref": "#/definitions/schemes"
         }
     },
     "examples": [
