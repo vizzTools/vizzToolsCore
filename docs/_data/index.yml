@@ -37,12 +37,9 @@
   title: Person
 - description: Entities that have a somewhat fixed, physical extension.
   title: Place
-- description: A property-value pair, e.g. representing a feature of a product or
-    place. Use the 'name' property for the name of the property. If there is an additional
-    human-readable version of the value, put that into the 'description' property.
-    Always use specific schema.org properties when a) they exist and b) you can populate
-    them. Using PropertyValue as a substitute will typically not trigger the same
-    effect as using the original, specific property.
+- description: Adaptation of schema.org PropertyValue for the description of the physical
+    quantities of data variables (fields or parameters). Note this is non standard
+    and includes extra properties from the CF standard name definition (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).
   title: PropertyValue
 - description: A vizzToolsCore tile provider definition object that describes the
     connection of the dataset data.
@@ -155,8 +152,10 @@
   title: temporalCoverage
 - description: ISO-8601 time timestamp string.
   title: time
-- description: A string or text indicating the unit of measurement. Useful if you
-    cannot provide a standard unit code for unitCode.
+- description: A string or text indicating the actual unit of measurement (which maybe
+    different to the canonical_units). In general this should be of the form 'm /
+    s', leave a space between each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    Dimensionless units are indicated by '1'.
   title: unitText
 - description: String representing a URI.
   title: uri

@@ -3,7 +3,7 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/PropertyValue.schema.json",
     "type": "object",
     "title": "PropertyValue",
-    "description": "A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property. Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.",
+    "description": "Adaptation of schema.org PropertyValue for the description of the physical quantities of data variables (fields or parameters). Note this is non standard and includes extra properties from the CF standard name definition (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).",
     "required": [
         "@type",
         "name"
@@ -18,11 +18,31 @@
         "name": {
             "type": "string",
             "title": "name",
-            "description": "Name of the property."
+            "description": "Name of the property as used in the dataset."
         },
-        "unitText":{"$ref": "unitText.schema.json"},
-        "description":{"type":"string"},
-        "sameAs":{"$ref": "sameAs.schema.json"},
+        "long_name": {
+            "type": "string",
+            "title": "long_name",
+            "description": "The long name of the property. Use this to provide a human readable name fro the property."
+        },
+        "standard_name": {
+            "type": "string",
+            "description": "The name used to identify the physical quantity. A standard name contains no whitespace and is case sensitive. see http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name ."
+        },
+        "canonical_units": {
+            "type": "string",
+            "description": "Representative units of the physical quantity. Unless it is dimensionless, a variable with a standard_name attribute must have units which are physically equivalent (not necessarily identical) to the canonical units and are usually the SI units for the quantity. see http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name"
+        },
+        "unitText": {
+            "$ref": "unitText.schema.json"
+        },
+        "description": {
+            "$ref": "description.schema.json",
+            "description": "The description is meant to clarify the qualifiers of the fundamental quantities such as which surface a quantity is defined on or what the flux sign conventions are. We don’t attempt to provide precise definitions of fundamental physical quantities (e.g., temperature) which may be found in the literature. The description may define rules on the variable type, attributes and coordinates which must be complied with by any variable carrying that standard name."
+        },
+        "sameAs": {
+            "$ref": "sameAs.schema.json"
+        },
         "value": {
             "title": "value of the property",
             "description": "value of the property.",
@@ -47,5 +67,17 @@
                 }
             ]
         }
-    }
+    },
+    "examples": [
+        {
+            "@type": "PropertyValue",
+            "name": "pressure_pa",
+            "canonical_units": "Pa",
+            "unitText": "µ Pa",
+            "standard_name": "air_pressure",
+            "long_name": "Air pressure",
+            "description": "Air pressure is the force per unit area which would be exerted when the moving gas molecules of which the air is composed strike a theoretical surface of any orientation.",
+            "sameAs": "http://cfconventions.org/Data/cf-standard-names/76/src/cf-standard-name-table.xml#air_pressure"
+        }
+    ]
 }
