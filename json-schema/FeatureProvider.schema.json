@@ -5,7 +5,7 @@
     "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
     "definitions": {
         "CSV": {
-            "$ref": "DataProvider.schema.json",
+            "type": "object",
             "title": "CSV",
             "description": "CSV featureProvider",
             "required": [
@@ -16,32 +16,25 @@
             ],
             "properties": {
                 "type": {
+                    "$ref": "DataProvider.schema.json#definitions/type",
                     "const": "feature"
                 },
                 "name": {
+                    "$ref": "DataProvider.schema.json#definitions/name",
                     "const": "CSV"
                 },
-                "table": {
-                    "const": "null"
+                "data": {
+                    "$ref": "DataProvider.schema.json#definitions/data"
                 },
-                "options": {
-                    "const": "null"
-                },
-                "format": {
-                    "const": "null"
-                },
-                "zoom": {
-                    "const": "null"
-                },
-                "schemes": {
-                    "const": "null"
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#definitions/id_field"
                 }
             }
         },
         "GeoJSON": {
-            "$ref": "DataProvider.schema.json",
+            "type": "object",
             "title": "GeoJSON",
-            "description": "GeoJSON featureProvider",
+            "description": "GeoJSON FeatureProvider",
             "required": [
                 "type",
                 "name",
@@ -50,32 +43,25 @@
             ],
             "properties": {
                 "type": {
+                    "$ref": "DataProvider.schema.json#definitions/type",
                     "const": "feature"
                 },
                 "name": {
+                    "$ref": "DataProvider.schema.json#definitions/name",
                     "const": "CSV"
                 },
-                "table": {
-                    "const": "null"
+                "data": {
+                    "$ref": "DataProvider.schema.json#definitions/data"
                 },
-                "options": {
-                    "const": "null"
-                },
-                "format": {
-                    "const": "null"
-                },
-                "zoom": {
-                    "const": "null"
-                },
-                "schemes": {
-                    "const": "null"
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#definitions/id_field"
                 }
             }
         },
         "Elasticsearch": {
-            "$ref": "DataProvider.schema.json",
+            "type": "object",
             "title": "Elasticsearch",
-            "description": "Elasticsearch featureProvider",
+            "description": "Elasticsearch FeatureProvider",
             "required": [
                 "type",
                 "name",
@@ -85,30 +71,26 @@
             ],
             "properties": {
                 "type": {
+                    "$ref": "DataProvider.schema.json#definitions/type",
                     "const": "feature"
                 },
                 "name": {
+                    "$ref": "DataProvider.schema.json#definitions/name",
                     "const": "Elasticsearch"
                 },
-                "table": {
-                    "const": "null"
+                "data": {
+                    "$ref": "DataProvider.schema.json#definitions/data"
                 },
-                "options": {
-                    "const": "null"
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#definitions/id_field"
                 },
-                "format": {
-                    "const": "null"
-                },
-                "zoom": {
-                    "const": "null"
-                },
-                "schemes": {
-                    "const": "null"
+                "time_field": {
+                    "$ref": "DataProvider.schema.json#definitions/time_field"
                 }
             }
         },
         "SQLiteGPKG": {
-            "$ref": "DataProvider.schema.json",
+            "type": "object",
             "title": "SQLiteGPKG",
             "description": "SQLiteGPKG featureProvider",
             "required": [
@@ -120,27 +102,26 @@
             ],
             "properties": {
                 "type": {
+                    "$ref": "DataProvider.schema.json#definitions/type",
                     "const": "feature"
                 },
                 "name": {
+                    "$ref": "DataProvider.schema.json#definitions/name",
                     "const": "SQLiteGPKG"
                 },
-                "options": {
-                    "const": "null"
+                "data": {
+                    "$ref": "DataProvider.schema.json#definitions/data"
                 },
-                "format": {
-                    "const": "null"
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#definitions/id_field"
                 },
-                "zoom": {
-                    "const": "null"
-                },
-                "schemes": {
-                    "const": "null"
+                "table": {
+                    "$ref": "DataProvider.schema.json#definitions/table"
                 }
             }
         },
         "PostgreSQL": {
-            "$ref": "DataProvider.schema.json",
+            "type": "object",
             "title": "PostgreSQL",
             "description": "PostgreSQL featureProvider",
             "required": [
@@ -153,25 +134,24 @@
             ],
             "properties": {
                 "type": {
+                    "$ref": "DataProvider.schema.json#definitions/type",
                     "const": "feature"
                 },
                 "name": {
+                    "$ref": "DataProvider.schema.json#definitions/name",
                     "const": "PostgreSQL"
                 },
                 "data": {
-                    "$ref": "DataProvider.schema.json#definitions/database_data"
+                    "$ref": "DataProvider.schema.json#definitions/DatabaseData"
                 },
-                "options": {
-                    "const": "null"
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#definitions/id_field"
                 },
-                "format": {
-                    "const": "null"
+                "table": {
+                    "$ref": "DataProvider.schema.json#definitions/table"
                 },
-                "zoom": {
-                    "const": "null"
-                },
-                "schemes": {
-                    "const": "null"
+                "geom_field": {
+                    "$ref": "DataProvider.schema.json#definitions/geom_field"
                 }
             }
         }
@@ -193,44 +173,46 @@
             "$ref": "#/definitions/PostgreSQL"
         }
     ],
-    "examples": [{
-        "type": "feature",
-        "name": "CSV",
-        "data": "tests/data/obs.csv",
-        "id_field": "id",
-        "geometry": {
-            "x_field": "long",
-            "y_field": "lat"
-        }
-    },
-    {
-        "type": "feature",
-        "name": "GeoJSON",
-        "data": "tests/data/obs.json",
-        "id_field": "id"
-    },
-    {
-        "type": "feature",
-        "name": "Elasticsearch",
-        "data": "http://localhost:9200/ne_110m_populated_places_simple",
-        "id_field": "id",
-        "time_field": "datetimefield"
-    },
-    {
-        "type": "feature",
-        "name": "PostgreSQL",
-        "data": {
-            "host": "127.0.0.1",
-            "dbname": "test",
-            "user": "postgres",
-            "password": "postgres",
-            "search_path": [
-                "osm",
-                "public"
-            ]
+    "examples": [
+        {
+            "type": "feature",
+            "name": "CSV",
+            "data": "tests/data/obs.csv",
+            "id_field": "id",
+            "geometry": {
+                "x_field": "long",
+                "y_field": "lat"
+            }
         },
-        "id_field": "osm_id",
-        "table": "hotosm_bdi_waterways",
-        "geom_field": "foo_geom"
-    }]
+        {
+            "type": "feature",
+            "name": "GeoJSON",
+            "data": "tests/data/obs.json",
+            "id_field": "id"
+        },
+        {
+            "type": "feature",
+            "name": "Elasticsearch",
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "time_field": "datetimefield"
+        },
+        {
+            "type": "feature",
+            "name": "PostgreSQL",
+            "data": {
+                "host": "127.0.0.1",
+                "dbname": "test",
+                "user": "postgres",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ]
+            },
+            "id_field": "osm_id",
+            "table": "hotosm_bdi_waterways",
+            "geom_field": "foo_geom"
+        }
+    ]
 }

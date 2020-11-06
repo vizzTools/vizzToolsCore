@@ -4,62 +4,10 @@
     "title": "CoverageProvider",
     "description": "A vizzToolsCore CoverageProvider definition object that describes the connection of the dataset data.",
     "definitions": {
-        "type": {
-            "type": "string",
-            "description": "Provider definition type.",
-            "enum": [
-                "coverage"
-            ]
-        },
-        "name": {
-            "type": "string",
-            "description": "Provider definition name."
-        },
-        "data": {
-            "$ref": "uri.schema.json",
-            "description": "URI pointing to the data."
-        },
-        "id_field": {
-            "type": "string",
-            "description": "Identifier field of the data."
-        },
-        "time_field": {
-            "type": "string",
-            "description": "Time field of the data."
-        },
-        "x_field": {
-            "type": "string",
-            "description": "X field name of the data."
-        },
-        "y_field": {
-            "type": "string",
-            "description": "Y field name of the data."
-        },
-        "options": {
-            "type": "object",
-            "description": "Coverage provider data specific options.",
-            "properties": {
-                "DATA_ENCODING": {
-                    "type": "string"
-                }
-            }
-        },
-        "format": {
-            "type": "object",
-            "description": "Coverage provider data format.",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "mimetype": {
-                    "type": "string"
-                }
-            }
-        },
         "rasterio": {
             "type": "object",
             "title": "rasterio",
-            "description": "rasterio coverageProvider",
+            "description": "rasterio CoverageProvider",
             "required": [
                 "type",
                 "name",
@@ -69,26 +17,28 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "#/definitions/type"
+                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "const": "coverage"
                 },
                 "name": {
-                    "$ref": "#/definitions/name"
+                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "const": "rasterio"
                 },
                 "data": {
-                    "$ref": "#/definitions/data"
+                    "$ref": "DataProvider.schema.json#definitions/data"
                 },
                 "options": {
-                    "$ref": "#/definitions/options"
+                    "$ref": "#definitions/CoverageOptions"
                 },
                 "format": {
-                    "$ref": "#/definitions/format"
+                    "$ref": "DataProvider.schema.json#definitions/format"
                 }
             }
         },
         "xarray": {
             "type": "object",
             "title": "xarray",
-            "description": "xarray coverageProvider",
+            "description": "xarray CoverageProvider",
             "required": [
                 "type",
                 "name",
@@ -101,38 +51,40 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "#/definitions/type"
+                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "const": "coverage"
                 },
                 "name": {
-                    "$ref": "#/definitions/name"
+                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "const": "xarray"
                 },
                 "data": {
-                    "$ref": "#/definitions/data"
+                    "$ref": "DataProvider.schema.json#definitions/data"
                 },
                 "options": {
-                    "$ref": "#/definitions/options"
+                    "$ref": "DataProvider.schema.json#definitions/CoverageOptions"
                 },
                 "format": {
-                    "$ref": "#/definitions/format"
+                    "$ref": "DataProvider.schema.json#definitions/format"
                 },
                 "x_field": {
-                    "$ref": "#/definitions/x_field"
+                    "$ref": "DataProvider.schema.json#definitions/x_field"
                 },
                 "y_field": {
-                    "$ref": "#/definitions/y_field"
+                    "$ref": "DataProvider.schema.json#definitions/y_field"
                 },
                 "time_field": {
-                    "$ref": "#/definitions/time_field"
+                    "$ref": "DataProvider.schema.json#definitions/time_field"
                 }
             }
         }
     },
     "anyOf": [
         {
-            "$ref": "#/definitions/rasterio"
+            "$ref": "#definitions/rasterio"
         },
         {
-            "$ref": "#/definitions/xarray"
+            "$ref": "#definitions/xarray"
         }
     ],
     "examples": [
