@@ -1,17 +1,24 @@
 # vizzToolsCore
 
-`vizzToolsCore` is an internal Python library to manage some of our the day-to-day tasks.
+`vizzToolsCore` is set of standardized Data Structure definitions with a Python library interface.
 
-Currently this is a skeleton under development.
+Currently this is a under early development.
 
 See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
 
 ## Roadmap
 
-+ add JSON schema of vtcDataset
+~~+ add JSON schema of vtcDataset~~
 + add JSON-LD examples
-+ add Visualization object
-+ add Lineage object
++ convert to Pydantic
++ add methods
+  + export
+  + convert
+  + add_links
+  + add_metadata
+  + get_user_config
++ add Visualization object?
++ add Lineage object?
 
 ## Design principles (draft)
 
@@ -19,106 +26,98 @@ See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
 
 1. `vizzToolsCore` ONLY deals with defining data structures. Input and output (IO), as well as transformations, should be dealt with in other packages.
 
-1. Every data structure Class MUST have a JSON example and a JSON Schema. These can be generated from the Python Class or vice versa.
+1. Every data structure Class MUST have a JSON-LD example and a JSON Schema. These can be generated from the Python Class or vice versa.
 
 1. `vizzToolsCore` will use a "strict" Type mechanism, based on the standard Types defined in [Pydantic](https://pydantic-docs.helpmanual.io/).
-   
-1. The naming of JSON schema Types and properties should attempt to follow the [schema.org style guide](https://schema.org/docs/styleguide.html)
 
-## Main data structures (draft)
+1. The naming of JSON schema Types and properties should attempt to follow the [schema.org style guide](https://schema.org/docs/styleguide.html);
 
-### Dataset
+    + Types (or Classes) should be CamelCase.
+    + Properties of Types should be snakeCase.
 
-The general aim is not to actually store any data, but provide the configurations needed for other tools to connect to these (remote) data resources. Related to this is the desire to align with 'pygeoapi` so that it is easy to export configurations to services.
+1. When possible always try to reuse Types and properties when creating new Data structures. It is ok to use Types and properites with slightly different meanings within the context of the new Type; just be sure to add a more specific `description` in the JSON Schema.
 
-To summarise:
+## Main Data Structure definitions
 
-- `Dataset` objects are an interface for documenting and interacting with remote resources and are defined with their origin and format information rather than from the data itself. The actual data it refers to can be in a variety of formats.
--  The primary purpose of a `Dataset` is to easily maintain metadata and traceability across services. `Dataset` methods wrap transformations of metadata along with IO operations.
--  `Dataset` methods parse and create `JSON-LD` (we should get used to reading/writing `JSON-LD` to manage datasets or create methods for abstracting this).
--  The `Dataset` is agnostic to the type or format of the data. So the results of `io.get(ds).unpack()` is an object referencing one or more files which may be in multiple formats.
-- `io.export()` manages the metadata, rather than the data itself. The data first has to be uploaded to GEE (in this step we create provider metadata). Then the io.export() saves this metadata along with the reference to this provider in the RW-API or as a json object in cloud storage.
+### VtcDataset
+
+[`VtcDataset`](https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset.html) objects define configuration information related to a specific [dataset](https://en.wikipedia.org/wiki/Data_set).
+
+Key features:
+
++ `VtcDataset` objects are an interface for documenting and interacting with remote and local resources. They define the origin and format information about the dataset, rather than actual the data itself. The actual data may be in variety of formats (see [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders)).
++ The primary purpose of a `VtcDataset` is to easily maintain metadata and traceability during data processing Actions, and enable standardized transfer of information between libraries and services. 
++ `VtcDataset` methods ONLY deal with transformations of Data structures; it is intended to be used by other libraries and services to keep track of changes in dataset metadata and configurations.
++  `VtcDataset` is represented as `JSON-LD`, allowing the context of each Type and property to be linked to URIs.
++ `VtcDataset` is agnostic to the type or format of the data, it only stores the necessary configuration information required for other libraries to access the data.
++ `io.export()` manages the metadata, rather than the data itself. The data first has to be uploaded to GEE (in this step we create provider metadata). Then the io.export() saves this metadata along with the reference to this provider in the RW-API or as a json object in cloud storage.
 
 #### Dataset object
 
-Below is the basic top-level structure of a `Dataset` object, which uses [JSON-LD](https://json-ld.org/) to provide context on the meaning of each property i.e., to find our the definition of a property just follow the link. These can be as specific or general as you like, for example `dateCreated` links to a specific definition, whereas `providers` links to more general documentation.
+Below is the basic top-level structure of a `VtcDataset` object, which uses [JSON-LD](https://json-ld.org/) to provide context to the meaning of each property i.e., to find the definition of a property just follow the link.
 
-`@type` MUST be "Dataset" and `@id` is the unique identifer for the dataset. `sdPublisher` represents the Organization (or Person) who creates this object; it could be a default or derived from a "user config". `dateCreated` and `dateModified` are automatically set by the system.
+`@type` MUST be "VtcDataset" and `@id` is the unique identifer for the dataset. This can be any string value; we recommend using unique, lower-case, 'slugs' based on the dataset provider, name, and version e.g., "gmw-mangrove-total-carbon-version-1-0-0".
+
+`sdPublisher` represents the Organization (or Person) who creates this structured data object; default values for this can set in the `vtc_config` [TODO:implement this]. `dateCreated` and `dateModified` are automatically set by the system.
 
 The other (optional) properties are objects, which are described in detail below.
 
-> DISCUSS: Collection or Dataset?  In OGC circles collection seems to be the standard. "A collection of things". Dataset = "A collection of data items".
-> DISCUSS: I favor human readable identifier, but how to ensure these are unique? We could use UUIDs and/or include another `identifier`?.
+> Example JSON-LD
 
 ```json
 {
-    "@context": {
-        "dateCreated": "http://schema.org/dateCreated",
-        "dateModified": "http://schema.org/dateModified",
-        "sdPublisher": "http://schema.org/sdPublisher",
-        "providers": "https://docs.pygeoapi.io/en/latest/configuration.html#resources",
-        "context": "https://docs.pygeoapi.io/en/latest/configuration.html#linked-data",
-        "metadata": "http://schema.org/dateSet"
-    },
-    "@type": "Collection",
-    "@id": "my-dataset",
-    "sdPublisher": "vizzuality.",
-    "dateCreated": "2020-10-18T20:48:57Z",
-    "dateModified": "2020-10-18T20:48:57Z",
-    "links": {},
-    "metadata": {},
-    "providers": {},
-    "context": {},
-    "lineage": {}
+            "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset",
+            "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
+            "@type": "VtcDataset",
+            "@id": "gmw-mangrove-total-carbon-version-1-0-0",
+            "sdPublisher": {
+                "@type": "Organization",
+                "@id": "https://ror.org/02a809t02",
+                "sameAs": "https://ror.org/02a809t02",
+                "name": "Vizzuality"
+            },
+            "dateCreated": "2020-10-18T20:48:57Z",
+            "dateModified": "2020-10-18T20:48:57Z",
+            "links": {},
+            "metadata": {},
+            "dataProviders": {}
 }
 ```
 
 #### Links
 
-A object for providing the URLs of the collection `metadata`, `description`, and `data`. The idea would be that using these links you can either import (or at least view and copy) each of the categories. So we could support (via a vizzTool) mapping of some common metadata schemas, which get the metadata from the URL, transform it an add a JSON-ĹD representation to `metadata`. These links would be used to get the data files and (using vizzTools) transform it to a standard format for inclusion into `providers`. If already in a "standard format", this link can be directly transferred to a Provider object. The description is a long detailed description, that is usually a bit annoying to manage in JSON and best edited in text editor.
+The [`links`](https://vizztools.github.io/vizzToolsCore/json-schema/links) property is an Array of [`DataDownload`](https://vizztools.github.io/vizzToolsCore/json-schema/DataDownload) objects providing the URLs of the dataset resources, such as a machine-readable version of it's `metadata`, a long text `description`, and individual `data` packages or files.
+
+The aim of this property is to provide URIs to access the original data; usually stored remotely (although it can also be used for local resources). Using these links maybe the first step in a data processing pipeline, were the original data is downloaded and transformed to a standardized format. If the data is already in a suitable format and publicly available it may make more sense to directly define the `dataProviders` property.
 
 ```json
-{
-    "description": [
-        {
-            "@type": "DataDownload",
-            "name": "Description",
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
-            "encodingFormat": "application/docx"
-        }
-    ],
-    "metadata": [
-        {
-            "@type": "DataDownload",
-            "name": "Metadata",
-            "contentUrl": "https://zenodo.org/record/1346097/export/schemaorg_jsonld",
-            "encodingFormat": "application/html"
-        }
-    ],
-    "data": [
-        {
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload",
-            "name": "Input maps"
-        },
-        {
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_tables.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload",
-            "name": "Input tables"
-        },
-        {
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/output_global_damage.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload",
-            "name": "Output global damage"
-        }
-    ]
-}
+ [
+            {
+                "@type": "DataDownload",
+                "name": "Description",
+                "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
+                "encodingFormat": "application/docx"
+            },
+            {
+                "@type": "DataDownload",
+                "name": "Metadata",
+                "contentUrl": "https://zenodo.org/record/1346097/export/schemaorg_jsonld",
+                "encodingFormat": "application/html"
+            },
+            {
+                "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
+                "encodingFormat": "zip",
+                "@type": "DataDownload",
+                "name": "Data"
+            },
+            {
+                "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_tables.zip",
+                "encodingFormat": "zip",
+                "@type": "DataDownload",
+                "name": "Data"
+            }
+        ]
 ```
-
-> DISCUSS: It seems like the first step, get the links to the data. Often this data needs to be manually examined, and then a transformation script made (using vizzTools!). Does the dict structure make sense or does it miss use cases? This is essentially similar to the metadata.distribution field, which does not try and define the link content themes.
 
 #### Metadata
 
