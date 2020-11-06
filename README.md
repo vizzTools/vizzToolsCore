@@ -125,9 +125,9 @@ A JSON-LD description of the ORIGINAL dataset, using schema.org Dataset, and fol
 
 >DISCUSS: Here there is an issue with potentially having the original metadata and metadata after some transformation. Which should be stored here? Maybe just having a link to original could be enough. So far have been thinking that this is a store for the original metadata, often imported from a source and maybe enriched (a bit). Could get messy?
 
-#### Providers
+#### dataProviders
 
-A list of Provider configuration objects, which follow the structure of `pygeoapi` [resources.providers configuration](https://docs.pygeoapi.io/en/latest/configuration.html#resources). The aim of providers is to store configurations for accessing a (limited) number of optimized data storage formats. The general workflow could be to examine the original datasets, do any pre-processing needed (such as fixing geometries or transformations), add the transformed data to a (remote) storage location, and log the configurations for accessing this optimized data.
+A list of DataProvider configuration objects, which follow the structure of `pygeoapi` [resources.providers configuration](https://docs.pygeoapi.io/en/latest/configuration.html#resources). The aim of providers is to store configurations for accessing a (limited) number of optimized data storage formats. The general workflow could be to examine the original datasets, do any pre-processing needed (such as fixing geometries or transformations), add the transformed data to a (remote) storage location, and log the configurations for accessing this optimized data.
 
 ```json
 [

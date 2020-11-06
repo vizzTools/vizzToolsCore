@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/coverageProvider.schema.json",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/CoverageProvider.schema.json",
     "title": "CoverageProvider",
     "description": "A vizzToolsCore CoverageProvider definition object that describes the connection of the dataset data.",
     "definitions": {
