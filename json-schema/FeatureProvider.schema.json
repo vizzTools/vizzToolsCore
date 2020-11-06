@@ -16,18 +16,18 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "$ref": "DataProvider.schema.json#/definitions/type",
                     "const": "feature"
                 },
                 "name": {
-                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "$ref": "DataProvider.schema.json#/definitions/name",
                     "const": "CSV"
                 },
                 "data": {
-                    "$ref": "DataProvider.schema.json#definitions/data"
+                    "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "id_field": {
-                    "$ref": "DataProvider.schema.json#definitions/id_field"
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
                 }
             }
         },
@@ -43,18 +43,18 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "$ref": "DataProvider.schema.json#/definitions/type",
                     "const": "feature"
                 },
                 "name": {
-                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "$ref": "DataProvider.schema.json#/definitions/name",
                     "const": "CSV"
                 },
                 "data": {
-                    "$ref": "DataProvider.schema.json#definitions/data"
+                    "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "id_field": {
-                    "$ref": "DataProvider.schema.json#definitions/id_field"
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
                 }
             }
         },
@@ -71,21 +71,21 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "$ref": "DataProvider.schema.json#/definitions/type",
                     "const": "feature"
                 },
                 "name": {
-                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "$ref": "DataProvider.schema.json#/definitions/name",
                     "const": "Elasticsearch"
                 },
                 "data": {
-                    "$ref": "DataProvider.schema.json#definitions/data"
+                    "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "id_field": {
-                    "$ref": "DataProvider.schema.json#definitions/id_field"
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
                 },
                 "time_field": {
-                    "$ref": "DataProvider.schema.json#definitions/time_field"
+                    "$ref": "DataProvider.schema.json#/definitions/time_field"
                 }
             }
         },
@@ -102,21 +102,21 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "$ref": "DataProvider.schema.json#/definitions/type",
                     "const": "feature"
                 },
                 "name": {
-                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "$ref": "DataProvider.schema.json#/definitions/name",
                     "const": "SQLiteGPKG"
                 },
                 "data": {
-                    "$ref": "DataProvider.schema.json#definitions/data"
+                    "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "id_field": {
-                    "$ref": "DataProvider.schema.json#definitions/id_field"
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
                 },
                 "table": {
-                    "$ref": "DataProvider.schema.json#definitions/table"
+                    "$ref": "DataProvider.schema.json#/definitions/table"
                 }
             }
         },
@@ -134,24 +134,24 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "DataProvider.schema.json#definitions/type",
+                    "$ref": "DataProvider.schema.json#/definitions/type",
                     "const": "feature"
                 },
                 "name": {
-                    "$ref": "DataProvider.schema.json#definitions/name",
+                    "$ref": "DataProvider.schema.json#/definitions/name",
                     "const": "PostgreSQL"
                 },
                 "data": {
-                    "$ref": "DataProvider.schema.json#definitions/DatabaseData"
+                    "$ref": "DataProvider.schema.json#/definitions/DatabaseData"
                 },
                 "id_field": {
-                    "$ref": "DataProvider.schema.json#definitions/id_field"
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
                 },
                 "table": {
-                    "$ref": "DataProvider.schema.json#definitions/table"
+                    "$ref": "DataProvider.schema.json#/definitions/table"
                 },
                 "geom_field": {
-                    "$ref": "DataProvider.schema.json#definitions/geom_field"
+                    "$ref": "DataProvider.schema.json#/definitions/geom_field"
                 }
             }
         }

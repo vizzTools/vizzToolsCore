@@ -1,73 +1,13 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/coverageProvider.schema.json",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/TileProvider.schema.json",
     "title": "TileProvider",
-    "description": "A vizzToolsCore tile provider definition object that describes the connection of the dataset data.",
+    "description": "A vizzToolsCore TileProvider definition object that describes the connection of the dataset data.",
     "definitions": {
-        "type": {
-            "type": "string",
-            "description": "Provider definition type.",
-            "enum": [
-                "coverage"
-            ]
-        },
-        "name": {
-            "type": "string",
-            "description": "Provider definition name."
-        },
-        "data": {
-            "$ref": "uri.schema.json",
-            "description": "URI pointing to the data."
-        },
-        "zoom": {
-            "type": "object",
-            "description": "Minimum and maximum zoom levels.",
-            "properties": {
-                "min": {
-                    "type": "integer"
-                },
-                "max": {
-                    "type": "integer"
-                }
-            }
-        },
-        "schemes": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
-        "options": {
-            "type": "object",
-            "description": "Tile provider data specific options.",
-            "properties": {
-                "metadata_format": {
-                    "type": "string"
-                },
-                "zoom": {
-                    "$ref": "#/definitions/zoom"
-                },
-                "schemes": {
-                    "$ref": "#/definitions/schemes"
-                }
-            }
-        },
-        "format": {
-            "type": "object",
-            "description": "Tile provider data format.",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "mimetype": {
-                    "type": "string"
-                }
-            }
-        },
         "MVT": {
             "type": "object",
             "title": "MVT",
-            "description": "MVT tileProvider",
+            "description": "MVT TileProvider",
             "required": [
                 "type",
                 "name",
@@ -77,19 +17,21 @@
             ],
             "properties": {
                 "type": {
-                    "$ref": "#/definitions/type"
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "const": "tile"
                 },
                 "name": {
-                    "$ref": "#/definitions/name"
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "const": "MVT"
                 },
                 "data": {
-                    "$ref": "#/definitions/data"
+                    "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "options": {
-                    "$ref": "#/definitions/options"
+                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
                 },
                 "format": {
-                    "$ref": "#/definitions/format"
+                    "$ref": "DataProvider.schema.json#/definitions/format"
                 }
             }
         }

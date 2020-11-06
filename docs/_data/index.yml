@@ -13,8 +13,9 @@
 - description: A schema.org DataDownload object representing the location and file
     format for downloadable data.
   title: DataDownload
-- description: A vizzToolsCore DataProvider definition object that describes the information
-    needed for accessing the dataset data items.
+- description: A vizzToolsCore generic DataProvider definition object that describes
+    the information needed for accessing the dataset data items. This Type is meant
+    as a template for specific data provider definitions.
   title: DataProvider
 - description: A schema.org Dataset metadata object that describes the dataset.
   title: Dataset
@@ -44,8 +45,8 @@
     quantities of data variables (fields or parameters). Note this is non standard
     and includes extra properties from the CF standard name definition (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).
   title: PropertyValue
-- description: A vizzToolsCore tile provider definition object that describes the
-    connection of the dataset data.
+- description: A vizzToolsCore TileProvider definition object that describes the connection
+    of the dataset data.
   title: TileProvider
 - description: A vizzToolsCore Dataset configuration object.
   title: VtcDataset

@@ -146,7 +146,7 @@
                     "$ref": "#/definitions/data"
                 },
                 {
-                    "$ref": "#/definitions/database_data"
+                    "$ref": "#/definitions/DatabaseData"
                 }
             ]
         },
@@ -169,7 +169,17 @@
             "$ref": "#/definitions/table"
         },
         "options": {
-            "$ref": "#/definitions/options"
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/options"
+                },
+                {
+                    "$ref": "#/definitions/CoverageOptions"
+                },
+                {
+                    "$ref": "#/definitions/TileOptions"
+                }
+            ]
         },
         "format": {
             "$ref": "#/definitions/format"
