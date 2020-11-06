@@ -183,12 +183,6 @@
         },
         "format": {
             "$ref": "#/definitions/format"
-        },
-        "zoom": {
-            "$ref": "#/definitions/zoom"
-        },
-        "schemes": {
-            "$ref": "#/definitions/schemes"
         }
     },
     "examples": [
@@ -197,10 +191,8 @@
             "name": "CSV",
             "data": "tests/data/obs.csv",
             "id_field": "id",
-            "geometry": {
-                "x_field": "long",
-                "y_field": "lat"
-            }
+            "x_field": "long",
+            "y_field": "lat"
         },
         {
             "type": "feature",
