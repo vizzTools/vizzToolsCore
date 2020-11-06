@@ -13,6 +13,9 @@
 - description: A schema.org DataDownload object representing the location and file
     format for downloadable data.
   title: DataDownload
+- description: A vizzToolsCore DataProvider definition object that describes the information
+    needed for accessing the dataset data items.
+  title: DataProvider
 - description: A schema.org Dataset metadata object that describes the dataset.
   title: Dataset
 - description: A vizzToolsCore FeatureProvider definition object that describes the
@@ -56,6 +59,9 @@
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
   title: creator
+- description: An array of vizzToolsCore provider definition objects that describe
+    the connections to the data of the dataset.
+  title: dataProviders
 - description: ISO-8601 date string.
   title: date
 - description: The ISO-8601 timestamp at which this entity was created.
@@ -123,9 +129,6 @@
     identify individuals, use ORCID ID as the value of the sameAs property of the
     Person type. To uniquely identify institutions and organizations, use ROR ID.
   title: provider
-- description: An array of vizzToolsCore provider definition objects that describe
-    the connections to the data of the dataset.
-  title: providers
 - description: Use the sameAs property to indicate the most canonical URLs for the
     original in cases of the entity. For example this may be a link to the original
     metadata of a dataset, definition of a property, Person, Organization or Place.

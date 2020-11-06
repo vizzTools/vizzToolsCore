@@ -5,7 +5,7 @@
     "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
     "definitions": {
         "CSV": {
-            "type": "object",
+            "$ref": "DataProvider.schema.json",
             "title": "CSV",
             "description": "CSV featureProvider",
             "required": [
@@ -39,7 +39,7 @@
             }
         },
         "GeoJSON": {
-            "$ref": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
+            "$ref": "DataProvider.schema.json",
             "title": "GeoJSON",
             "description": "GeoJSON featureProvider",
             "required": [
@@ -73,7 +73,7 @@
             }
         },
         "Elasticsearch": {
-            "$ref": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
+            "$ref": "DataProvider.schema.json",
             "title": "Elasticsearch",
             "description": "Elasticsearch featureProvider",
             "required": [
@@ -108,7 +108,7 @@
             }
         },
         "SQLiteGPKG": {
-            "$ref": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
+            "$ref": "DataProvider.schema.json",
             "title": "SQLiteGPKG",
             "description": "SQLiteGPKG featureProvider",
             "required": [
@@ -140,7 +140,7 @@
             }
         },
         "PostgreSQL": {
-            "$ref": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
+            "$ref": "DataProvider.schema.json",
             "title": "PostgreSQL",
             "description": "PostgreSQL featureProvider",
             "required": [
@@ -159,7 +159,7 @@
                     "const": "PostgreSQL"
                 },
                 "data": {
-                    "$ref": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json#definitions/database_data"
+                    "$ref": "DataProvider.schema.json#definitions/database_data"
                 },
                 "options": {
                     "const": "null"

@@ -6,16 +6,10 @@
     "description": "A vizzToolsCore Dataset configuration object.",
     "examples": [
         {
-            "@context": {
-                "dateCreated": "http://schema.org/dateCreated",
-                "dateModified": "http://schema.org/dateModified",
-                "sdPublisher": "http://schema.org/sdPublisher",
-                "providers": "https://docs.pygeoapi.io/en/latest/configuration.html#resources",
-                "context": "https://docs.pygeoapi.io/en/latest/configuration.html#linked-data",
-                "metadata": "http://schema.org/dateSet"
-            },
+            "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset",
+            "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
             "@type": "VtcDataset",
-            "@id": "my-dataset",
+            "@id": "gmw-mangrove-total-carbon-version-1-0-0",
             "sdPublisher": {
                 "@type": "Organization",
                 "@id": "https://ror.org/02a809t02",
@@ -26,24 +20,26 @@
             "dateModified": "2020-10-18T20:48:57Z",
             "links": {},
             "metadata": {},
-            "providers": {},
-            "context": {},
-            "lineage": {}
+            "dataProviders": {}
         }
     ],
     "required": [
+        "$schema",
         "@context",
         "@type",
         "@id"
     ],
     "properties": {
+        "$schema": {
+            "$ref": "$schema.schema.json"
+        },
         "@context": {
             "$ref": "@context.schema.json"
         },
         "@type": {
             "$ref": "@type.schema.json",
             "enum": [
-                "vcsDataset"
+                "VcsDataset"
             ]
         },
         "@id": {
@@ -65,8 +61,8 @@
         "metadata": {
             "$ref": "metadata.schema.json"
         },
-        "providers": {
-            "$ref": "providers.schema.json"
+        "dataProviders": {
+            "$ref": "dataProviders.schema.json"
         }
     }
 }
