@@ -175,5 +175,6 @@
             "title": "Data download URIs of the dataset",
             "$ref": "distribution.schema.json"
         }
-    }
+    },
+    "examples": [{"$ref":"https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.jsonld"}]
 }
