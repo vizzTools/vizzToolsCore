@@ -127,10 +127,8 @@
     the connections to the data of the dataset.
   title: providers
 - description: Use the sameAs property to indicate the most canonical URLs for the
-    original in cases when the dataset or description is a simple republication of
-    materials published elsewhere. The value of sameAs needs to unambiguously indicate
-    the datasets identity - in other words two different datasets should not use the
-    same URL as sameAs value.
+    original in cases of the entity. For example this may be a link to the original
+    metadata of a dataset, definition of a property, Person, Organization or Place.
   title: sameAs
 - description: Indicates the party responsible for generating and publishing the current
     structured data markup, typically in cases where the structured data is derived
