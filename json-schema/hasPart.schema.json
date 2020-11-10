@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/hasPart.schema.json",
     "title": "hasPart",
-    "description": "If the dataset is a collection of smaller datasets, use the hasPart property to denote such relationship. Can take the form of an array of URL(s) or a Dataset objects.",
+    "description": "If the dataset is a collection of smaller datasets, use the hasPart property to denote such relationship. Can take the form of an array of URL(s) or Dataset objects.",
     "examples": [
         [
             {
