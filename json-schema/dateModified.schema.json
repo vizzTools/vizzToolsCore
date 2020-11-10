@@ -1,8 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/dateModified.schema.json",
-    "type": "string",
-    "format": "date-time",
+    "$ref": "dateTime.schema.json",
     "title": "dateModified",
     "description": "The ISO-8601 timestamp at which this entity was modified.",
     "examples": [

@@ -31,7 +31,7 @@
             "title": "Full name as Given Family name"
         },
         "affiliation": {
-            "#ref": "Organization.schema.json",
+            "$ref": "Organization.schema.json",
             "title": "Organization person is affiliated with"
         }
     }
