@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "geo",
+    "description": "The geo coordinates of the place.",
+    "oneOf": [
+                {
+                    "$ref": "GeoCoordinates.schema.json/#GeoCoordinates"
+                },
+                {
+                    "$ref": "GeoShape.schema.json/#GeoShape"
+                }
+            ]
+}

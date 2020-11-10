@@ -12,7 +12,7 @@
     "items": {
         "oneOf": [
             {
-                "$ref": "uri.schema.json"
+                "$ref": "URI.schema.json"
             },
             {
                 "type": "object"

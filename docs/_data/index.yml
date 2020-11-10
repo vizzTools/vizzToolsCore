@@ -7,11 +7,14 @@
   title: '@id'
 - description: Type of this object.
   title: '@type'
+- description: "A contact point\u2014for example, a Customer Complaints department."
+  title: ContactPoint
 - description: A vizzToolsCore CoverageProvider definition object that describes the
     connection of the dataset data.
   title: CoverageProvider
 - description: A schema.org DataDownload object representing the location and file
-    format for downloadable data.
+    format for downloadable data of any type. It is best practice to give the entity
+    a name and the encoding.
   title: DataDownload
 - description: A vizzToolsCore generic DataProvider definition object that describes
     the information needed for accessing the dataset data items. This Type is meant
@@ -19,6 +22,10 @@
   title: DataProvider
 - description: A schema.org Dataset metadata object that describes the dataset.
   title: Dataset
+- description: ISO-8601 date string.
+  title: date
+- description: ISO-8601 date-time timestamp string.
+  title: dateTime
 - description: A vizzToolsCore FeatureProvider definition object that describes the
     connection of the dataset data.
   title: FeatureProvider
@@ -48,13 +55,17 @@
 - description: A vizzToolsCore TileProvider definition object that describes the connection
     of the dataset data.
   title: TileProvider
+- description: ISO-8601 time timestamp string.
+  title: time
+- description: String representing a URI.
+  title: uri
 - description: A vizzToolsCore Dataset configuration object.
   title: VtcDataset
 - description: String or array of strings of alternative names that have been used
-    to refer to this dataset, such as aliases or abbreviations.
+    to refer to this entity, such as aliases or abbreviations.
   title: alternateName
 - description: String or array of strings that identify academic articles that are
-    recommended by the data provider be cited in addition to the dataset itself.
+    recommended by the data provider be cited in addition to the entity itself.
   title: citation
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
@@ -63,12 +74,11 @@
 - description: An array of vizzToolsCore provider definition objects that describe
     the connections to the data of the dataset.
   title: dataProviders
-- description: ISO-8601 date string.
-  title: date
 - description: The ISO-8601 timestamp at which this entity was created.
   title: dateCreated
 - description: The ISO-8601 timestamp at which this entity was modified.
   title: dateModified
+<<<<<<< HEAD
 - description: ISO-8601 date-time timestamp string.
   title: dateTime
 - description: 'Short summary describing the entity. The summary must be between 50
@@ -76,6 +86,12 @@
     need to use absolute path URLs (instead of relative paths). When using the JSON-LD
     format, denote new lines with two characters: backslash and lower case letter
     ''n''.'
+=======
+- description: 'The summary must be between 50 and 5000 characters long. The summary
+    may include Markdown syntax. Embedded images need to use absolute path URLs (instead
+    of relative paths). When using the JSON-LD format, denote new lines with two characters:
+    backslash and lower case letter ''n''.'
+>>>>>>> dev/build-python
   title: description
 - description: An array of schema.org DataDownload objects that describe URIs to access
     to the entity.
@@ -86,6 +102,10 @@
   title: funder
 - description: The geo coordinates of the place.
   title: geo
+- description: The Global Location Number (GLN, sometimes also referred to as International
+    Location Number or ILN) of the respective organization, person, or place. The
+    GLN is a 13-digit number used to identify parties and physical locations.
+  title: globalLocationNumber
 - description: If the dataset is a collection of smaller datasets, use the hasPart
     property to denote such relationship. Can take the form of an array of URL(s)
     or Dataset objects.
@@ -124,8 +144,10 @@
   title: measurementTechnique
 - description: An array of schema.org Dataset objects that describe the dataset
   title: metadata
-- description: A descriptive name. For example, 'Snow depth in the Northern Hemisphere'.
-    Use unique names for distinct entities whenever possible.
+- description: A descriptive (full) name of the entity. For example, a dataset called
+    'Snow depth in the Northern Hemisphere' or a person called 'Sarah L. Jones' or
+    a place called 'The Empire States Building'. Use unique names for distinct entities
+    whenever possible.
   title: name
 - description: An array of schema.org Person or Organization objects. To uniquely
     identify individuals, use ORCID ID as the value of the sameAs property of the
@@ -153,15 +175,11 @@
     differently depending upon the dataset interval. Indicate open-ended intervals
     with two decimal points (..). TODO: adjust validation for these specific cases!'
   title: temporalCoverage
-- description: ISO-8601 time timestamp string.
-  title: time
 - description: A string or text indicating the actual unit of measurement (which maybe
     different to the canonical_units). In general this should be of the form 'm /
     s', leave a space between each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
   title: unitText
-- description: String representing a URI.
-  title: uri
 - description: The variable that this dataset measures. For example, temperature or
     pressure. The variableMeasured property is proposed and pending standardization
     at schema.org, see https://pending.webschemas.org/variableMeasured.
