@@ -5,6 +5,6 @@
     "description": "Licensing and terms of use for the object, preferably as a URI with a description",
     "oneOf": [
         {"type": "string"},
-        {"$ref": "uri.schema.json"}
+        {"$ref": "URI.schema.json"}
     ]
 }

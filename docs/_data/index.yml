@@ -78,20 +78,11 @@
   title: dateCreated
 - description: The ISO-8601 timestamp at which this entity was modified.
   title: dateModified
-<<<<<<< HEAD
-- description: ISO-8601 date-time timestamp string.
-  title: dateTime
 - description: 'Short summary describing the entity. The summary must be between 50
     and 5000 characters long. The summary may include Markdown syntax. Embedded images
     need to use absolute path URLs (instead of relative paths). When using the JSON-LD
     format, denote new lines with two characters: backslash and lower case letter
     ''n''.'
-=======
-- description: 'The summary must be between 50 and 5000 characters long. The summary
-    may include Markdown syntax. Embedded images need to use absolute path URLs (instead
-    of relative paths). When using the JSON-LD format, denote new lines with two characters:
-    backslash and lower case letter ''n''.'
->>>>>>> dev/build-python
   title: description
 - description: An array of schema.org DataDownload objects that describe URIs to access
     to the entity.

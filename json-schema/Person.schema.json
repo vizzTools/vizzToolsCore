@@ -34,10 +34,6 @@
             "title": "Full name as Given Family name"
         },
         "affiliation": {
-<<<<<<< HEAD
-            "$ref": "Organization.schema.json",
-            "title": "Organization person is affiliated with"
-=======
             "title": "Organization person is affiliated with",
             "oneOf": [
                 {
@@ -47,7 +43,6 @@
                     "type": "string"
                 }
             ]
->>>>>>> dev/build-python
         }
     }
 }
