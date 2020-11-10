@@ -48,12 +48,16 @@ class ContactPointType(Enum):
     
     Type of this object.
     
+    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
+    names for distinct entities whenever possible.
+    
     String representing a URI.
     """
-    CONTACT_POINT = "contactPoint"
+    CONTACT_POINT = "ContactPoint"
 
 
 class ContactPoint:
+    """A contact point—for example, a Customer Complaints department."""
     type: ContactPointType
     contact_type: Optional[str]
     email: str
@@ -87,6 +91,9 @@ class OrganizationType(Enum):
     """Identifier string of this object.
     
     Type of this object.
+    
+    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
+    names for distinct entities whenever possible.
     
     String representing a URI.
     """

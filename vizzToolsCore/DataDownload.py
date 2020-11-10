@@ -19,7 +19,8 @@ def to_class(c: Type[T], x: Any) -> dict:
 
 class DataDownload:
     """A schema.org DataDownload object representing the location and file format for
-    downloadable data.
+    downloadable data of any type. It is best practice to give the entity a name and the
+    encoding.
     """
     type: Any
     content_url: Any

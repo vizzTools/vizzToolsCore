@@ -54,7 +54,15 @@ def to_class(c: Type[T], x: Any) -> dict:
 
 
 class GeoType(Enum):
-    """Type of this object."""
+    """Type of this object.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
+    names for distinct entities whenever possible.
+    """
     GEO_COORDINATES = "GeoCoordinates"
     GEO_SHAPE = "GeoShape"
 
@@ -105,7 +113,15 @@ class Geo:
 
 
 class PlaceType(Enum):
-    """Type of this object."""
+    """Type of this object.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
+    names for distinct entities whenever possible.
+    """
     PLACE = "Place"
 
 
@@ -113,22 +129,30 @@ class Place:
     """Entities that have a somewhat fixed, physical extension."""
     type: PlaceType
     geo: Geo
+    global_location_number: Optional[str]
+    name: Optional[str]
 
-    def __init__(self, type: PlaceType, geo: Geo) -> None:
+    def __init__(self, type: PlaceType, geo: Geo, global_location_number: Optional[str], name: Optional[str]) -> None:
         self.type = type
         self.geo = geo
+        self.global_location_number = global_location_number
+        self.name = name
 
     @staticmethod
     def from_dict(obj: Any) -> 'Place':
         assert isinstance(obj, dict)
         type = PlaceType(obj.get("@type"))
         geo = Geo.from_dict(obj.get("geo"))
-        return Place(type, geo)
+        global_location_number = from_union([from_str, from_none], obj.get("globalLocationNumber"))
+        name = from_union([from_str, from_none], obj.get("name"))
+        return Place(type, geo, global_location_number, name)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PlaceType, self.type)
         result["geo"] = to_class(Geo, self.geo)
+        result["globalLocationNumber"] = from_union([from_str, from_none], self.global_location_number)
+        result["name"] = from_union([from_str, from_none], self.name)
         return result
 
 
