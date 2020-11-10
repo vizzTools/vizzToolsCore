@@ -146,11 +146,11 @@
     For example, a single point where all the measurements were collected, or the
     coordinates of a bounding box for an area.
   title: spatialCoverage
-- description: The data in the dataset covers a specific time interval. Only include
+- description: 'The data in the dataset covers a specific time interval. Only include
     this property if the dataset has a temporal dimension. Schema.org uses the ISO
     8601 standard to describe time intervals and time points. You can describe dates
     differently depending upon the dataset interval. Indicate open-ended intervals
-    with two decimal points (..).
+    with two decimal points (..). TODO: adjust validation for these specific cases!'
   title: temporalCoverage
 - description: ISO-8601 time timestamp string.
   title: time
