@@ -1,7 +1,10 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/license.schema.json",
-    "title": "description",
+    "title": "license",
     "description": "Licensing and terms of use for the object, preferably as a URI with a description",
-    "type": "string"
+    "oneOf": [
+        {"type": "string"},
+        {"$ref": "uri.schema.json"}
+    ]
 }

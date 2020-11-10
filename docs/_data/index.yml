@@ -71,10 +71,11 @@
   title: dateModified
 - description: ISO-8601 date-time timestamp string.
   title: dateTime
-- description: 'The summary must be between 50 and 5000 characters long. The summary
-    may include Markdown syntax. Embedded images need to use absolute path URLs (instead
-    of relative paths). When using the JSON-LD format, denote new lines with two characters:
-    backslash and lower case letter ''n''.'
+- description: 'Short summary describing the entity. The summary must be between 50
+    and 5000 characters long. The summary may include Markdown syntax. Embedded images
+    need to use absolute path URLs (instead of relative paths). When using the JSON-LD
+    format, denote new lines with two characters: backslash and lower case letter
+    ''n''.'
   title: description
 - description: An array of schema.org DataDownload objects that describe URIs to access
     to the entity.
@@ -87,7 +88,7 @@
   title: geo
 - description: If the dataset is a collection of smaller datasets, use the hasPart
     property to denote such relationship. Can take the form of an array of URL(s)
-    or a Dataset objects.
+    or Dataset objects.
   title: hasPart
 - description: An identifier, such as a DOI or a Compact Identifier. If the dataset
     has more than one identifier, repeat the identifier property as an array.
@@ -109,7 +110,7 @@
   title: keywords
 - description: Licensing and terms of use for the object, preferably as a URI with
     a description
-  title: description
+  title: license
 - description: List of text descriptions with information about the major data processing
     actions applied to the dataset.
   title: lineage

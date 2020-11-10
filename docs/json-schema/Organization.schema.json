@@ -32,6 +32,7 @@
         "name": {
             "type": "string"
         },
+        "sameAs": {"$ref": "sameAs.schema.json"},
         "contactPoint": {
             "type": "object",
             "title": "contactPoint",
