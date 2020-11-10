@@ -112,8 +112,6 @@ class ContactPointType(Enum):
     
     Type of this object.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
@@ -127,6 +125,8 @@ class ContactPointType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
     
     The technique, technology, or methodology used in a dataset, which can correspond to the
     variable(s) described in variableMeasured. The measurementTechnique property is proposed
@@ -166,6 +166,98 @@ class ContactPoint:
         return result
 
 
+class AffiliationType(Enum):
+    """URI of the JSON schema of this object.
+    
+    String representing a URI.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases
+    when the dataset or description is a simple republication of materials published
+    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
+    other words two different datasets should not use the same URL as sameAs value.
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
+    names for distinct entities whenever possible.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    ORGANIZATION = "Organization"
+
+
+class Organization:
+    """An organization such as a school, NGO, corporation, club, etc."""
+    id: Optional[str]
+    type: AffiliationType
+    contact_point: Optional[ContactPoint]
+    name: str
+    same_as: Optional[str]
+    url: Optional[str]
+
+    def __init__(self, id: Optional[str], type: AffiliationType, contact_point: Optional[ContactPoint], name: str, same_as: Optional[str], url: Optional[str]) -> None:
+        self.id = id
+        self.type = type
+        self.contact_point = contact_point
+        self.name = name
+        self.same_as = same_as
+        self.url = url
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Organization':
+        assert isinstance(obj, dict)
+        id = from_union([from_str, from_none], obj.get("@id"))
+        type = AffiliationType(obj.get("@type"))
+        contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
+        name = from_str(obj.get("name"))
+        same_as = from_union([from_str, from_none], obj.get("sameAs"))
+        url = from_union([from_str, from_none], obj.get("url"))
+        return Organization(id, type, contact_point, name, same_as, url)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["@id"] = from_union([from_str, from_none], self.id)
+        result["@type"] = to_enum(AffiliationType, self.type)
+        result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
+        result["name"] = from_str(self.name)
+        result["sameAs"] = from_union([from_str, from_none], self.same_as)
+        result["url"] = from_union([from_str, from_none], self.url)
+        return result
+
+
 class CreatorType(Enum):
     """URI of the JSON schema of this object.
     
@@ -195,8 +287,6 @@ class CreatorType(Enum):
     
     Type of this object.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
@@ -210,6 +300,8 @@ class CreatorType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
     
     The technique, technology, or methodology used in a dataset, which can correspond to the
     variable(s) described in variableMeasured. The measurementTechnique property is proposed
@@ -231,7 +323,7 @@ class Creator:
     """
     id: Optional[str]
     type: CreatorType
-    affiliation: Any
+    affiliation: Optional[Organization]
     family_name: Optional[str]
     given_name: Optional[str]
     name: str
@@ -239,7 +331,7 @@ class Creator:
     contact_point: Optional[ContactPoint]
     url: Optional[str]
 
-    def __init__(self, id: Optional[str], type: CreatorType, affiliation: Any, family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
+    def __init__(self, id: Optional[str], type: CreatorType, affiliation: Optional[Organization], family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
         self.id = id
         self.type = type
         self.affiliation = affiliation
@@ -255,7 +347,7 @@ class Creator:
         assert isinstance(obj, dict)
         id = from_union([from_str, from_none], obj.get("@id"))
         type = CreatorType(obj.get("@type"))
-        affiliation = obj.get("affiliation")
+        affiliation = from_union([Organization.from_dict, from_none], obj.get("affiliation"))
         family_name = from_union([from_str, from_none], obj.get("familyName"))
         given_name = from_union([from_str, from_none], obj.get("givenName"))
         name = from_str(obj.get("name"))
@@ -268,7 +360,7 @@ class Creator:
         result: dict = {}
         result["@id"] = from_union([from_str, from_none], self.id)
         result["@type"] = to_enum(CreatorType, self.type)
-        result["affiliation"] = self.affiliation
+        result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_none], self.affiliation)
         result["familyName"] = from_union([from_str, from_none], self.family_name)
         result["givenName"] = from_union([from_str, from_none], self.given_name)
         result["name"] = from_str(self.name)
@@ -524,8 +616,6 @@ class GeoType(Enum):
     
     Type of this object.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
@@ -539,6 +629,8 @@ class GeoType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
     
     The technique, technology, or methodology used in a dataset, which can correspond to the
     variable(s) described in variableMeasured. The measurementTechnique property is proposed
@@ -623,8 +715,6 @@ class PlaceType(Enum):
     
     Type of this object.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
@@ -638,6 +728,8 @@ class PlaceType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
     
     The technique, technology, or methodology used in a dataset, which can correspond to the
     variable(s) described in variableMeasured. The measurementTechnique property is proposed
@@ -699,8 +791,6 @@ class DatasetType(Enum):
     
     Type of this object.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
@@ -714,6 +804,8 @@ class DatasetType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
     
     The technique, technology, or methodology used in a dataset, which can correspond to the
     variable(s) described in variableMeasured. The measurementTechnique property is proposed
@@ -752,8 +844,6 @@ class PropertyValueType(Enum):
     
     Type of this object.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
@@ -767,6 +857,8 @@ class PropertyValueType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
     
     The technique, technology, or methodology used in a dataset, which can correspond to the
     variable(s) described in variableMeasured. The measurementTechnique property is proposed

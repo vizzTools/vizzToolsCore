@@ -28,12 +28,12 @@
         "arrayOrUrl": {
             "oneOf": [
                 {
-                    "$ref": "uri.schema.json"
+                    "$ref": "URI.schema.json"
                 },
                 {
                     "type": "array",
                     "items": {
-                        "$ref": "uri.schema.json"
+                        "$ref": "URI.schema.json"
                     }
                 }
             ]
@@ -96,7 +96,7 @@
         },
         "datePublished": {
             "title": "Publishing date of the dataset",
-            "$ref": "date.schema.json"
+            "$ref": "Date.schema.json"
         },
         "creator": {
             "title": "The creator or author of the dataset",
@@ -116,7 +116,7 @@
         },
         "url": {
             "title": "URL of the dataset",
-            "$ref": "uri.schema.json"
+            "$ref": "URI.schema.json"
         },
         "isBasedOn": {
             "title": "Resources this dataset is based on",
@@ -161,7 +161,7 @@
         },
         "thumbnailUrl": {
             "title": "Thumbnail URL of the dataset",
-            "$ref": "uri.schema.json"
+            "$ref": "URI.schema.json"
         },
         "funder": {
             "title": "Funder who facilitated the creation of the dataset",
