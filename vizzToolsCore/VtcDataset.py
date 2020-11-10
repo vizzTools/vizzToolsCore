@@ -10,7 +10,6 @@
 #
 #     result = vtc_dataset_from_dict(json.loads(json_string))
 
-from dataclasses import dataclass
 from typing import Optional, List, Any, Union, Dict, TypeVar, Callable, Type, cast
 from enum import Enum
 from datetime import datetime
@@ -84,14 +83,20 @@ def from_datetime(x: Any) -> datetime:
     return dateutil.parser.parse(x)
 
 
-@dataclass
 class DatabaseData:
     """Object defining database connection."""
-    dbname: Optional[str] = None
-    host: Optional[str] = None
-    password: Optional[str] = None
-    search_path: Optional[List[str]] = None
-    user: Optional[str] = None
+    dbname: Optional[str]
+    host: Optional[str]
+    password: Optional[str]
+    search_path: Optional[List[str]]
+    user: Optional[str]
+
+    def __init__(self, dbname: Optional[str], host: Optional[str], password: Optional[str], search_path: Optional[List[str]], user: Optional[str]) -> None:
+        self.dbname = dbname
+        self.host = host
+        self.password = password
+        self.search_path = search_path
+        self.user = user
 
     @staticmethod
     def from_dict(obj: Any) -> 'DatabaseData':
@@ -113,11 +118,14 @@ class DatabaseData:
         return result
 
 
-@dataclass
 class Format:
     """Provider data format."""
-    mimetype: Optional[str] = None
-    name: Optional[str] = None
+    mimetype: Optional[str]
+    name: Optional[str]
+
+    def __init__(self, mimetype: Optional[str], name: Optional[str]) -> None:
+        self.mimetype = mimetype
+        self.name = name
 
     @staticmethod
     def from_dict(obj: Any) -> 'Format':
@@ -133,11 +141,14 @@ class Format:
         return result
 
 
-@dataclass
 class Zoom:
     """Minimum and maximum zoom levels."""
-    max: Optional[int] = None
-    min: Optional[int] = None
+    max: Optional[int]
+    min: Optional[int]
+
+    def __init__(self, max: Optional[int], min: Optional[int]) -> None:
+        self.max = max
+        self.min = min
 
     @staticmethod
     def from_dict(obj: Any) -> 'Zoom':
@@ -153,16 +164,21 @@ class Zoom:
         return result
 
 
-@dataclass
 class EOptions:
     """Coverage provider data specific options.
     
     Tile provider data specific options.
     """
-    data_encoding: Optional[str] = None
-    metadata_format: Optional[str] = None
-    schemes: Optional[List[str]] = None
-    zoom: Optional[Zoom] = None
+    data_encoding: Optional[str]
+    metadata_format: Optional[str]
+    schemes: Optional[List[str]]
+    zoom: Optional[Zoom]
+
+    def __init__(self, data_encoding: Optional[str], metadata_format: Optional[str], schemes: Optional[List[str]], zoom: Optional[Zoom]) -> None:
+        self.data_encoding = data_encoding
+        self.metadata_format = metadata_format
+        self.schemes = schemes
+        self.zoom = zoom
 
     @staticmethod
     def from_dict(obj: Any) -> 'EOptions':
@@ -187,7 +203,6 @@ class TypeEnum(Enum):
     COVERAGE = "coverage"
 
 
-@dataclass
 class DataProvider:
     """An array of vizzToolsCore provider definition objects that describe the connections to
     the data of the dataset.
@@ -212,24 +227,37 @@ class DataProvider:
     MVT TileProvider
     """
     data: Union[DatabaseData, str]
+    id_field: Optional[str]
     name: str
     type: TypeEnum
-    id_field: Optional[str] = None
-    time_field: Optional[str] = None
-    table: Optional[str] = None
-    geom_field: Optional[str] = None
-    format: Optional[Format] = None
-    options: Optional[EOptions] = None
-    x_field: Optional[str] = None
-    y_field: Optional[str] = None
+    time_field: Optional[str]
+    table: Optional[str]
+    geom_field: Optional[str]
+    format: Optional[Format]
+    options: Optional[EOptions]
+    x_field: Optional[str]
+    y_field: Optional[str]
+
+    def __init__(self, data: Union[DatabaseData, str], id_field: Optional[str], name: str, type: TypeEnum, time_field: Optional[str], table: Optional[str], geom_field: Optional[str], format: Optional[Format], options: Optional[EOptions], x_field: Optional[str], y_field: Optional[str]) -> None:
+        self.data = data
+        self.id_field = id_field
+        self.name = name
+        self.type = type
+        self.time_field = time_field
+        self.table = table
+        self.geom_field = geom_field
+        self.format = format
+        self.options = options
+        self.x_field = x_field
+        self.y_field = y_field
 
     @staticmethod
     def from_dict(obj: Any) -> 'DataProvider':
         assert isinstance(obj, dict)
         data = from_union([from_str, DatabaseData.from_dict], obj.get("data"))
+        id_field = from_union([from_str, from_none], obj.get("id_field"))
         name = from_str(obj.get("name"))
         type = TypeEnum(obj.get("type"))
-        id_field = from_union([from_str, from_none], obj.get("id_field"))
         time_field = from_union([from_str, from_none], obj.get("time_field"))
         table = from_union([from_str, from_none], obj.get("table"))
         geom_field = from_union([from_str, from_none], obj.get("geom_field"))
@@ -237,14 +265,14 @@ class DataProvider:
         options = from_union([EOptions.from_dict, from_none], obj.get("options"))
         x_field = from_union([from_str, from_none], obj.get("x_field"))
         y_field = from_union([from_str, from_none], obj.get("y_field"))
-        return DataProvider(data, name, type, id_field, time_field, table, geom_field, format, options, x_field, y_field)
+        return DataProvider(data, id_field, name, type, time_field, table, geom_field, format, options, x_field, y_field)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["data"] = from_union([from_str, lambda x: to_class(DatabaseData, x)], self.data)
+        result["id_field"] = from_union([from_str, from_none], self.id_field)
         result["name"] = from_str(self.name)
         result["type"] = to_enum(TypeEnum, self.type)
-        result["id_field"] = from_union([from_str, from_none], self.id_field)
         result["time_field"] = from_union([from_str, from_none], self.time_field)
         result["table"] = from_union([from_str, from_none], self.table)
         result["geom_field"] = from_union([from_str, from_none], self.geom_field)
@@ -255,7 +283,6 @@ class DataProvider:
         return result
 
 
-@dataclass
 class Link:
     """An array of schema.org DataDownload objects that describe URIs to access description,
     metadata and data of the dataset. Use `name` to indicate the information type.
@@ -268,6 +295,11 @@ class Link:
     type: Any
     content_url: Any
     name: Any
+
+    def __init__(self, type: Any, content_url: Any, name: Any) -> None:
+        self.type = type
+        self.content_url = content_url
+        self.name = name
 
     @staticmethod
     def from_dict(obj: Any) -> 'Link':
@@ -333,6 +365,12 @@ class ContactPointType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -346,27 +384,32 @@ class ContactPointType(Enum):
     CONTACT_POINT = "contactPoint"
 
 
-@dataclass
 class ContactPoint:
     type: ContactPointType
+    contact_type: Optional[str]
     email: str
-    contact_type: Optional[str] = None
-    telephone: Optional[str] = None
+    telephone: Optional[str]
+
+    def __init__(self, type: ContactPointType, contact_type: Optional[str], email: str, telephone: Optional[str]) -> None:
+        self.type = type
+        self.contact_type = contact_type
+        self.email = email
+        self.telephone = telephone
 
     @staticmethod
     def from_dict(obj: Any) -> 'ContactPoint':
         assert isinstance(obj, dict)
         type = ContactPointType(obj.get("@type"))
-        email = from_str(obj.get("email"))
         contact_type = from_union([from_str, from_none], obj.get("contactType"))
+        email = from_str(obj.get("email"))
         telephone = from_union([from_str, from_none], obj.get("telephone"))
-        return ContactPoint(type, email, contact_type, telephone)
+        return ContactPoint(type, contact_type, email, telephone)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(ContactPointType, self.type)
-        result["email"] = from_str(self.email)
         result["contactType"] = from_union([from_str, from_none], self.contact_type)
+        result["email"] = from_str(self.email)
         result["telephone"] = from_union([from_str, from_none], self.telephone)
         return result
 
@@ -419,6 +462,12 @@ class SDPublisherType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -433,7 +482,6 @@ class SDPublisherType(Enum):
     PERSON = "Person"
 
 
-@dataclass
 class SDPublisher:
     """An array of schema.org Person or Organization objects. To uniquely identify individuals,
     use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify
@@ -452,12 +500,23 @@ class SDPublisher:
     id: Any
     type: SDPublisherType
     affiliation: Any
+    family_name: Optional[str]
+    given_name: Optional[str]
     name: str
-    family_name: Optional[str] = None
-    given_name: Optional[str] = None
-    same_as: Optional[str] = None
-    contact_point: Optional[ContactPoint] = None
-    url: Optional[str] = None
+    same_as: Optional[str]
+    contact_point: Optional[ContactPoint]
+    url: Optional[str]
+
+    def __init__(self, id: Any, type: SDPublisherType, affiliation: Any, family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
+        self.id = id
+        self.type = type
+        self.affiliation = affiliation
+        self.family_name = family_name
+        self.given_name = given_name
+        self.name = name
+        self.same_as = same_as
+        self.contact_point = contact_point
+        self.url = url
 
     @staticmethod
     def from_dict(obj: Any) -> 'SDPublisher':
@@ -465,29 +524,28 @@ class SDPublisher:
         id = obj.get("@id")
         type = SDPublisherType(obj.get("@type"))
         affiliation = obj.get("affiliation")
-        name = from_str(obj.get("name"))
         family_name = from_union([from_str, from_none], obj.get("familyName"))
         given_name = from_union([from_str, from_none], obj.get("givenName"))
+        name = from_str(obj.get("name"))
         same_as = from_union([from_str, from_none], obj.get("sameAs"))
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
         url = from_union([from_str, from_none], obj.get("url"))
-        return SDPublisher(id, type, affiliation, name, family_name, given_name, same_as, contact_point, url)
+        return SDPublisher(id, type, affiliation, family_name, given_name, name, same_as, contact_point, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@id"] = self.id
         result["@type"] = to_enum(SDPublisherType, self.type)
         result["affiliation"] = self.affiliation
-        result["name"] = from_str(self.name)
         result["familyName"] = from_union([from_str, from_none], self.family_name)
         result["givenName"] = from_union([from_str, from_none], self.given_name)
+        result["name"] = from_str(self.name)
         result["sameAs"] = from_union([from_str, from_none], self.same_as)
         result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
         result["url"] = from_union([from_str, from_none], self.url)
         return result
 
 
-@dataclass
 class DataDownload:
     """An array of schema.org DataDownload objects that describe URIs to access description,
     metadata and data of the dataset. Use `name` to indicate the information type.
@@ -499,6 +557,10 @@ class DataDownload:
     """
     type: Any
     content_url: Any
+
+    def __init__(self, type: Any, content_url: Any) -> None:
+        self.type = type
+        self.content_url = content_url
 
     @staticmethod
     def from_dict(obj: Any) -> 'DataDownload':
@@ -752,6 +814,12 @@ class GeoType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -766,7 +834,6 @@ class GeoType(Enum):
     GEO_SHAPE = "GeoShape"
 
 
-@dataclass
 class Geo:
     """The geo coordinates of the place.
     
@@ -779,14 +846,20 @@ class Geo:
     """
     type: GeoType
     """The latitude of a location. For example 37.42242 (WGS 84)."""
-    latitude: Optional[float] = None
+    latitude: Optional[float]
     """The longitude of a location. For example -122.08585 (WGS 84)."""
-    longitude: Optional[float] = None
+    longitude: Optional[float]
     """A box is the area enclosed by the rectangle formed by two points. The first point is the
     lower corner, the second point is the upper corner. A box is expressed as two points
     separated by a space character.
     """
-    box: Optional[str] = None
+    box: Optional[str]
+
+    def __init__(self, type: GeoType, latitude: Optional[float], longitude: Optional[float], box: Optional[str]) -> None:
+        self.type = type
+        self.latitude = latitude
+        self.longitude = longitude
+        self.box = box
 
     @staticmethod
     def from_dict(obj: Any) -> 'Geo':
@@ -854,6 +927,12 @@ class PlaceType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -867,11 +946,14 @@ class PlaceType(Enum):
     PLACE = "Place"
 
 
-@dataclass
 class Place:
     """Entities that have a somewhat fixed, physical extension."""
     type: PlaceType
     geo: Geo
+
+    def __init__(self, type: PlaceType, geo: Geo) -> None:
+        self.type = type
+        self.geo = geo
 
     @staticmethod
     def from_dict(obj: Any) -> 'Place':
@@ -935,6 +1017,12 @@ class MetadatumType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -996,6 +1084,12 @@ class PropertyValueType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -1009,7 +1103,6 @@ class PropertyValueType(Enum):
     PROPERTY_VALUE = "PropertyValue"
 
 
-@dataclass
 class PropertyValue:
     """Adaptation of schema.org PropertyValue for the description of the physical quantities of
     data variables (fields or parameters). Note this is non standard and includes extra
@@ -1017,16 +1110,12 @@ class PropertyValue:
     (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).
     """
     type: PropertyValueType
-    """Name of the property as used in the dataset."""
-    name: str
-    """Value of the property."""
-    value: Union[List[Any], bool, float, int, Dict[str, Any], None, str]
     """Representative units of the physical quantity. Unless it is dimensionless, a variable
     with a standard_name attribute must have units which are physically equivalent (not
     necessarily identical) to the canonical units and are usually the SI units for the
     quantity. see http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name
     """
-    canonical_units: Optional[str] = None
+    canonical_units: Optional[str]
     """The description is meant to clarify the qualifiers of the fundamental quantities such as
     which surface a quantity is defined on or what the flux sign conventions are. We don’t
     attempt to provide precise definitions of fundamental physical quantities (e.g.,
@@ -1034,49 +1123,63 @@ class PropertyValue:
     the variable type, attributes and coordinates which must be complied with by any variable
     carrying that standard name.
     """
-    description: Optional[str] = None
+    description: Optional[str]
     """The long name of the property. Use this to provide a human readable name fro the property."""
-    long_name: Optional[str] = None
+    long_name: Optional[str]
+    """Name of the property as used in the dataset."""
+    name: str
     """Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     """
-    same_as: Optional[str] = None
+    same_as: Optional[str]
     """The name used to identify the physical quantity. A standard name contains no whitespace
     and is case sensitive. see
     http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name .
     """
-    standard_name: Optional[str] = None
-    unit_text: Optional[str] = None
+    standard_name: Optional[str]
+    unit_text: Optional[str]
+    """Value of the property."""
+    value: Union[List[Any], bool, float, int, Dict[str, Any], None, str]
+
+    def __init__(self, type: PropertyValueType, canonical_units: Optional[str], description: Optional[str], long_name: Optional[str], name: str, same_as: Optional[str], standard_name: Optional[str], unit_text: Optional[str], value: Union[List[Any], bool, float, int, Dict[str, Any], None, str]) -> None:
+        self.type = type
+        self.canonical_units = canonical_units
+        self.description = description
+        self.long_name = long_name
+        self.name = name
+        self.same_as = same_as
+        self.standard_name = standard_name
+        self.unit_text = unit_text
+        self.value = value
 
     @staticmethod
     def from_dict(obj: Any) -> 'PropertyValue':
         assert isinstance(obj, dict)
         type = PropertyValueType(obj.get("@type"))
-        name = from_str(obj.get("name"))
-        value = from_union([from_float, from_int, from_bool, lambda x: from_dict(lambda x: x, x), lambda x: from_list(lambda x: x, x), from_str, from_none], obj.get("value"))
         canonical_units = from_union([from_str, from_none], obj.get("canonical_units"))
         description = from_union([from_str, from_none], obj.get("description"))
         long_name = from_union([from_str, from_none], obj.get("long_name"))
+        name = from_str(obj.get("name"))
         same_as = from_union([from_str, from_none], obj.get("sameAs"))
         standard_name = from_union([from_str, from_none], obj.get("standard_name"))
         unit_text = from_union([from_str, from_none], obj.get("unitText"))
-        return PropertyValue(type, name, value, canonical_units, description, long_name, same_as, standard_name, unit_text)
+        value = from_union([from_float, from_int, from_bool, lambda x: from_dict(lambda x: x, x), lambda x: from_list(lambda x: x, x), from_str, from_none], obj.get("value"))
+        return PropertyValue(type, canonical_units, description, long_name, name, same_as, standard_name, unit_text, value)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PropertyValueType, self.type)
-        result["name"] = from_str(self.name)
-        result["value"] = from_union([to_float, from_int, from_bool, lambda x: from_dict(lambda x: x, x), lambda x: from_list(lambda x: x, x), from_str, from_none], self.value)
         result["canonical_units"] = from_union([from_str, from_none], self.canonical_units)
         result["description"] = from_union([from_str, from_none], self.description)
         result["long_name"] = from_union([from_str, from_none], self.long_name)
+        result["name"] = from_str(self.name)
         result["sameAs"] = from_union([from_str, from_none], self.same_as)
         result["standard_name"] = from_union([from_str, from_none], self.standard_name)
         result["unitText"] = from_union([from_str, from_none], self.unit_text)
+        result["value"] = from_union([to_float, from_int, from_bool, lambda x: from_dict(lambda x: x, x), lambda x: from_list(lambda x: x, x), from_str, from_none], self.value)
         return result
 
 
-@dataclass
 class Dataset:
     """An array of schema.org Dataset objects that describe the dataset
     
@@ -1088,32 +1191,61 @@ class Dataset:
     type: MetadatumType
     alternate_name: Union[List[str], None, str]
     citation: Union[List[str], None, str]
+    creator: Optional[List[SDPublisher]]
+    date_published: Optional[datetime]
     description: str
+    distribution: Optional[List[DataDownload]]
+    funder: Optional[List[SDPublisher]]
+    has_part: Optional[List[Union[Dict[str, Any], str]]]
     identifier: Union[List[str], None, str]
+    in_language: Optional[InLanguage]
+    is_based_on: Optional[str]
+    is_part_of: Optional[List[Union[Dict[str, Any], str]]]
+    license: Optional[str]
+    measurement_technique: Optional[str]
     name: str
-    spatial_coverage: Union[Place, None, str]
-    variable_measured: Union[PropertyValue, None, str]
-    version: Union[int, None, str]
-    creator: Optional[List[SDPublisher]] = None
-    date_published: Optional[datetime] = None
-    distribution: Optional[List[DataDownload]] = None
-    funder: Optional[List[SDPublisher]] = None
-    has_part: Optional[List[Union[Dict[str, Any], str]]] = None
-    in_language: Optional[InLanguage] = None
-    is_based_on: Optional[str] = None
-    is_part_of: Optional[List[Union[Dict[str, Any], str]]] = None
-    license: Optional[str] = None
-    measurement_technique: Optional[str] = None
-    provider: Optional[List[SDPublisher]] = None
+    provider: Optional[List[SDPublisher]]
     """Use the sameAs property to indicate the most canonical URLs for the original in cases
     when the dataset or description is a simple republication of materials published
     elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
     other words two different datasets should not use the same URL as sameAs value.
     """
-    same_as: Optional[str] = None
-    temporal_coverage: Optional[datetime] = None
-    thumbnail_url: Optional[str] = None
-    url: Optional[str] = None
+    same_as: Optional[str]
+    spatial_coverage: Union[Place, None, str]
+    temporal_coverage: Optional[str]
+    thumbnail_url: Optional[str]
+    url: Optional[str]
+    variable_measured: Union[PropertyValue, None, str]
+    version: Union[int, None, str]
+
+    def __init__(self, schema: str, context: str, id: Any, type: MetadatumType, alternate_name: Union[List[str], None, str], citation: Union[List[str], None, str], creator: Optional[List[SDPublisher]], date_published: Optional[datetime], description: str, distribution: Optional[List[DataDownload]], funder: Optional[List[SDPublisher]], has_part: Optional[List[Union[Dict[str, Any], str]]], identifier: Union[List[str], None, str], in_language: Optional[InLanguage], is_based_on: Optional[str], is_part_of: Optional[List[Union[Dict[str, Any], str]]], license: Optional[str], measurement_technique: Optional[str], name: str, provider: Optional[List[SDPublisher]], same_as: Optional[str], spatial_coverage: Union[Place, None, str], temporal_coverage: Optional[str], thumbnail_url: Optional[str], url: Optional[str], variable_measured: Union[PropertyValue, None, str], version: Union[int, None, str]) -> None:
+        self.schema = schema
+        self.context = context
+        self.id = id
+        self.type = type
+        self.alternate_name = alternate_name
+        self.citation = citation
+        self.creator = creator
+        self.date_published = date_published
+        self.description = description
+        self.distribution = distribution
+        self.funder = funder
+        self.has_part = has_part
+        self.identifier = identifier
+        self.in_language = in_language
+        self.is_based_on = is_based_on
+        self.is_part_of = is_part_of
+        self.license = license
+        self.measurement_technique = measurement_technique
+        self.name = name
+        self.provider = provider
+        self.same_as = same_as
+        self.spatial_coverage = spatial_coverage
+        self.temporal_coverage = temporal_coverage
+        self.thumbnail_url = thumbnail_url
+        self.url = url
+        self.variable_measured = variable_measured
+        self.version = version
 
     @staticmethod
     def from_dict(obj: Any) -> 'Dataset':
@@ -1124,28 +1256,28 @@ class Dataset:
         type = MetadatumType(obj.get("@type"))
         alternate_name = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("alternateName"))
         citation = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("citation"))
-        description = from_str(obj.get("description"))
-        identifier = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("identifier"))
-        name = from_str(obj.get("name"))
-        spatial_coverage = from_union([Place.from_dict, from_str, from_none], obj.get("spatialCoverage"))
-        variable_measured = from_union([PropertyValue.from_dict, from_str, from_none], obj.get("variableMeasured"))
-        version = from_union([from_int, from_str, from_none], obj.get("version"))
         creator = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("creator"))
         date_published = from_union([from_datetime, from_none], obj.get("datePublished"))
+        description = from_str(obj.get("description"))
         distribution = from_union([lambda x: from_list(DataDownload.from_dict, x), from_none], obj.get("distribution"))
         funder = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("funder"))
         has_part = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("hasPart"))
+        identifier = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("identifier"))
         in_language = from_union([InLanguage, from_none], obj.get("inLanguage"))
         is_based_on = from_union([from_str, from_none], obj.get("isBasedOn"))
         is_part_of = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("isPartOf"))
         license = from_union([from_str, from_none], obj.get("license"))
         measurement_technique = from_union([from_str, from_none], obj.get("measurementTechnique"))
+        name = from_str(obj.get("name"))
         provider = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("provider"))
         same_as = from_union([from_str, from_none], obj.get("sameAs"))
-        temporal_coverage = from_union([from_datetime, from_none], obj.get("temporalCoverage"))
+        spatial_coverage = from_union([Place.from_dict, from_str, from_none], obj.get("spatialCoverage"))
+        temporal_coverage = from_union([from_str, from_none], obj.get("temporalCoverage"))
         thumbnail_url = from_union([from_str, from_none], obj.get("thumbnailUrl"))
         url = from_union([from_str, from_none], obj.get("url"))
-        return Dataset(schema, context, id, type, alternate_name, citation, description, identifier, name, spatial_coverage, variable_measured, version, creator, date_published, distribution, funder, has_part, in_language, is_based_on, is_part_of, license, measurement_technique, provider, same_as, temporal_coverage, thumbnail_url, url)
+        variable_measured = from_union([PropertyValue.from_dict, from_str, from_none], obj.get("variableMeasured"))
+        version = from_union([from_int, from_str, from_none], obj.get("version"))
+        return Dataset(schema, context, id, type, alternate_name, citation, creator, date_published, description, distribution, funder, has_part, identifier, in_language, is_based_on, is_part_of, license, measurement_technique, name, provider, same_as, spatial_coverage, temporal_coverage, thumbnail_url, url, variable_measured, version)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -1155,27 +1287,27 @@ class Dataset:
         result["@type"] = to_enum(MetadatumType, self.type)
         result["alternateName"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.alternate_name)
         result["citation"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.citation)
-        result["description"] = from_str(self.description)
-        result["identifier"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.identifier)
-        result["name"] = from_str(self.name)
-        result["spatialCoverage"] = from_union([lambda x: to_class(Place, x), from_str, from_none], self.spatial_coverage)
-        result["variableMeasured"] = from_union([lambda x: to_class(PropertyValue, x), from_str, from_none], self.variable_measured)
-        result["version"] = from_union([from_int, from_str, from_none], self.version)
         result["creator"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.creator)
         result["datePublished"] = from_union([lambda x: x.isoformat(), from_none], self.date_published)
+        result["description"] = from_str(self.description)
         result["distribution"] = from_union([lambda x: from_list(lambda x: to_class(DataDownload, x), x), from_none], self.distribution)
         result["funder"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.funder)
         result["hasPart"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.has_part)
+        result["identifier"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.identifier)
         result["inLanguage"] = from_union([lambda x: to_enum(InLanguage, x), from_none], self.in_language)
         result["isBasedOn"] = from_union([from_str, from_none], self.is_based_on)
         result["isPartOf"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.is_part_of)
         result["license"] = from_union([from_str, from_none], self.license)
         result["measurementTechnique"] = from_union([from_str, from_none], self.measurement_technique)
+        result["name"] = from_str(self.name)
         result["provider"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.provider)
         result["sameAs"] = from_union([from_str, from_none], self.same_as)
-        result["temporalCoverage"] = from_union([lambda x: x.isoformat(), from_none], self.temporal_coverage)
+        result["spatialCoverage"] = from_union([lambda x: to_class(Place, x), from_str, from_none], self.spatial_coverage)
+        result["temporalCoverage"] = from_union([from_str, from_none], self.temporal_coverage)
         result["thumbnailUrl"] = from_union([from_str, from_none], self.thumbnail_url)
         result["url"] = from_union([from_str, from_none], self.url)
+        result["variableMeasured"] = from_union([lambda x: to_class(PropertyValue, x), from_str, from_none], self.variable_measured)
+        result["version"] = from_union([from_int, from_str, from_none], self.version)
         return result
 
 
@@ -1227,6 +1359,12 @@ class VtcDatasetType(Enum):
     A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
     names for distinct entities whenever possible.
     
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
@@ -1237,22 +1375,33 @@ class VtcDatasetType(Enum):
     and pending standardization at schema.org, see
     https://pending.webschemas.org/measurementTechnique
     """
-    VCS_DATASET = "VcsDataset"
+    VTC_DATASET = "VtcDataset"
 
 
-@dataclass
 class VtcDataset:
     """A vizzToolsCore Dataset configuration object."""
     schema: str
     context: str
     id: Any
     type: VtcDatasetType
-    data_providers: Optional[List[DataProvider]] = None
-    date_created: Optional[datetime] = None
-    date_modified: Optional[datetime] = None
-    links: Optional[List[Link]] = None
-    metadata: Optional[List[Dataset]] = None
-    sd_publisher: Optional[SDPublisher] = None
+    data_providers: Optional[List[DataProvider]]
+    date_created: Optional[datetime]
+    date_modified: Optional[datetime]
+    links: Optional[List[Link]]
+    metadata: Optional[List[Dataset]]
+    sd_publisher: Optional[SDPublisher]
+
+    def __init__(self, schema: str, context: str, id: Any, type: VtcDatasetType, data_providers: Optional[List[DataProvider]], date_created: Optional[datetime], date_modified: Optional[datetime], links: Optional[List[Link]], metadata: Optional[List[Dataset]], sd_publisher: Optional[SDPublisher]) -> None:
+        self.schema = schema
+        self.context = context
+        self.id = id
+        self.type = type
+        self.data_providers = data_providers
+        self.date_created = date_created
+        self.date_modified = date_modified
+        self.links = links
+        self.metadata = metadata
+        self.sd_publisher = sd_publisher
 
     @staticmethod
     def from_dict(obj: Any) -> 'VtcDataset':
