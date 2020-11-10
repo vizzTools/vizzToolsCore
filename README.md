@@ -66,21 +66,21 @@ The other (optional) properties are objects, which are described in detail below
 
 ```json
 {
-            "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset",
-            "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
-            "@type": "VtcDataset",
-            "@id": "gmw-mangrove-total-carbon-version-1-0-0",
-            "sdPublisher": {
-                "@type": "Organization",
-                "@id": "https://ror.org/02a809t02",
-                "sameAs": "https://ror.org/02a809t02",
-                "name": "Vizzuality"
-            },
-            "dateCreated": "2020-10-18T20:48:57Z",
-            "dateModified": "2020-10-18T20:48:57Z",
-            "links": {},
-            "metadata": {},
-            "dataProviders": {}
+    "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
+    "@type": "VtcDataset",
+    "@id": "gmw-mangrove-total-carbon-version-1-0-0",
+    "sdPublisher": {
+        "@type": "Organization",
+        "@id": "https://ror.org/02a809t02",
+        "sameAs": "https://ror.org/02a809t02",
+        "name": "Vizzuality"
+    },
+    "dateCreated": "2020-10-18T20:48:57Z",
+    "dateModified": "2020-10-18T20:48:57Z",
+    "links": [],
+    "metadata": [],
+    "dataProviders": []
 }
 ```
 
