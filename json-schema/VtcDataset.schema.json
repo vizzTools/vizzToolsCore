@@ -39,7 +39,7 @@
         "@type": {
             "$ref": "@type.schema.json",
             "enum": [
-                "VcsDataset"
+                "VtcDataset"
             ]
         },
         "@id": {

@@ -1,20 +1,17 @@
 {
-    "@context": {
-        "dateCreated": "http://schema.org/dateCreated",
-        "dateModified": "http://schema.org/dateModified",
-        "sdPublisher": "http://schema.org/sdPublisher",
-        "providers": "https://docs.pygeoapi.io/en/latest/configuration.html#resources",
-        "context": "https://docs.pygeoapi.io/en/latest/configuration.html#linked-data",
-        "metadata": "http://schema.org/dateSet"
+    "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
+    "@type": "VtcDataset",
+    "@id": "gmw-mangrove-total-carbon-version-1-0-0",
+    "sdPublisher": {
+        "@type": "Organization",
+        "@id": "https://ror.org/02a809t02",
+        "sameAs": "https://ror.org/02a809t02",
+        "name": "Vizzuality"
     },
-    "@type": "vcsDataset",
-    "@id": "my-dataset",
-    "sdPublisher": "vizzuality.",
     "dateCreated": "2020-10-18T20:48:57Z",
     "dateModified": "2020-10-18T20:48:57Z",
     "links": {},
     "metadata": {},
-    "providers": {},
-    "context": {},
-    "lineage": {}
+    "dataProviders": {}
 }
