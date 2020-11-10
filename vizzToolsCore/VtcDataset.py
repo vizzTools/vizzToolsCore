@@ -288,7 +288,8 @@ class Link:
     metadata and data of the dataset. Use `name` to indicate the information type.
     
     A schema.org DataDownload object representing the location and file format for
-    downloadable data.
+    downloadable data of any type. It is best practice to give the entity a name and the
+    encoding.
     
     An array of schema.org DataDownload objects that describe URIs to access to the entity.
     """
@@ -336,11 +337,6 @@ class ContactPointType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -360,8 +356,13 @@ class ContactPointType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -381,10 +382,11 @@ class ContactPointType(Enum):
     and pending standardization at schema.org, see
     https://pending.webschemas.org/measurementTechnique
     """
-    CONTACT_POINT = "contactPoint"
+    CONTACT_POINT = "ContactPoint"
 
 
 class ContactPoint:
+    """A contact point—for example, a Customer Complaints department."""
     type: ContactPointType
     contact_type: Optional[str]
     email: str
@@ -414,7 +416,7 @@ class ContactPoint:
         return result
 
 
-class AffiliationType(Enum):
+class OrganizationType(Enum):
     """URI of the JSON schema of this object.
     
     String representing a URI.
@@ -432,11 +434,6 @@ class AffiliationType(Enum):
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
     
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
@@ -457,8 +454,13 @@ class AffiliationType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -484,13 +486,13 @@ class AffiliationType(Enum):
 class Organization:
     """An organization such as a school, NGO, corporation, club, etc."""
     id: Any
-    type: AffiliationType
+    type: OrganizationType
     contact_point: Optional[ContactPoint]
     name: str
     same_as: Optional[str]
     url: Optional[str]
 
-    def __init__(self, id: Any, type: AffiliationType, contact_point: Optional[ContactPoint], name: str, same_as: Optional[str], url: Optional[str]) -> None:
+    def __init__(self, id: Any, type: OrganizationType, contact_point: Optional[ContactPoint], name: str, same_as: Optional[str], url: Optional[str]) -> None:
         self.id = id
         self.type = type
         self.contact_point = contact_point
@@ -502,7 +504,7 @@ class Organization:
     def from_dict(obj: Any) -> 'Organization':
         assert isinstance(obj, dict)
         id = obj.get("@id")
-        type = AffiliationType(obj.get("@type"))
+        type = OrganizationType(obj.get("@type"))
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
         name = from_str(obj.get("name"))
         same_as = from_union([from_str, from_none], obj.get("sameAs"))
@@ -512,7 +514,7 @@ class Organization:
     def to_dict(self) -> dict:
         result: dict = {}
         result["@id"] = self.id
-        result["@type"] = to_enum(AffiliationType, self.type)
+        result["@type"] = to_enum(OrganizationType, self.type)
         result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
         result["name"] = from_str(self.name)
         result["sameAs"] = from_union([from_str, from_none], self.same_as)
@@ -539,11 +541,6 @@ class SDPublisherType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -563,8 +560,13 @@ class SDPublisherType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -605,7 +607,7 @@ class SDPublisher:
     """
     id: Any
     type: SDPublisherType
-    affiliation: Optional[Organization]
+    affiliation: Union[Organization, None, str]
     family_name: Optional[str]
     given_name: Optional[str]
     name: str
@@ -613,7 +615,7 @@ class SDPublisher:
     contact_point: Optional[ContactPoint]
     url: Optional[str]
 
-    def __init__(self, id: Any, type: SDPublisherType, affiliation: Optional[Organization], family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
+    def __init__(self, id: Any, type: SDPublisherType, affiliation: Union[Organization, None, str], family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
         self.id = id
         self.type = type
         self.affiliation = affiliation
@@ -629,7 +631,7 @@ class SDPublisher:
         assert isinstance(obj, dict)
         id = obj.get("@id")
         type = SDPublisherType(obj.get("@type"))
-        affiliation = from_union([Organization.from_dict, from_none], obj.get("affiliation"))
+        affiliation = from_union([Organization.from_dict, from_str, from_none], obj.get("affiliation"))
         family_name = from_union([from_str, from_none], obj.get("familyName"))
         given_name = from_union([from_str, from_none], obj.get("givenName"))
         name = from_str(obj.get("name"))
@@ -642,7 +644,7 @@ class SDPublisher:
         result: dict = {}
         result["@id"] = self.id
         result["@type"] = to_enum(SDPublisherType, self.type)
-        result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_none], self.affiliation)
+        result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_str, from_none], self.affiliation)
         result["familyName"] = from_union([from_str, from_none], self.family_name)
         result["givenName"] = from_union([from_str, from_none], self.given_name)
         result["name"] = from_str(self.name)
@@ -657,7 +659,8 @@ class DataDownload:
     metadata and data of the dataset. Use `name` to indicate the information type.
     
     A schema.org DataDownload object representing the location and file format for
-    downloadable data.
+    downloadable data of any type. It is best practice to give the entity a name and the
+    encoding.
     
     An array of schema.org DataDownload objects that describe URIs to access to the entity.
     """
@@ -891,11 +894,6 @@ class GeoType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -915,8 +913,13 @@ class GeoType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -1004,11 +1007,6 @@ class PlaceType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -1028,8 +1026,13 @@ class PlaceType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -1056,22 +1059,30 @@ class Place:
     """Entities that have a somewhat fixed, physical extension."""
     type: PlaceType
     geo: Geo
+    global_location_number: Optional[str]
+    name: Optional[str]
 
-    def __init__(self, type: PlaceType, geo: Geo) -> None:
+    def __init__(self, type: PlaceType, geo: Geo, global_location_number: Optional[str], name: Optional[str]) -> None:
         self.type = type
         self.geo = geo
+        self.global_location_number = global_location_number
+        self.name = name
 
     @staticmethod
     def from_dict(obj: Any) -> 'Place':
         assert isinstance(obj, dict)
         type = PlaceType(obj.get("@type"))
         geo = Geo.from_dict(obj.get("geo"))
-        return Place(type, geo)
+        global_location_number = from_union([from_str, from_none], obj.get("globalLocationNumber"))
+        name = from_union([from_str, from_none], obj.get("name"))
+        return Place(type, geo, global_location_number, name)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PlaceType, self.type)
         result["geo"] = to_class(Geo, self.geo)
+        result["globalLocationNumber"] = from_union([from_str, from_none], self.global_location_number)
+        result["name"] = from_union([from_str, from_none], self.name)
         return result
 
 
@@ -1094,11 +1105,6 @@ class MetadatumType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -1118,8 +1124,13 @@ class MetadatumType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -1161,11 +1172,6 @@ class PropertyValueType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -1185,8 +1191,13 @@ class PropertyValueType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
@@ -1311,11 +1322,6 @@ class Dataset:
     measurement_technique: Optional[str]
     name: str
     provider: Optional[List[SDPublisher]]
-    """Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    """
     same_as: Optional[str]
     spatial_coverage: Union[Place, None, str]
     temporal_coverage: Optional[str]
@@ -1436,11 +1442,6 @@ class VtcDatasetType(Enum):
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
     guidelines
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases
-    when the dataset or description is a simple republication of materials published
-    elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in
-    other words two different datasets should not use the same URL as sameAs value.
-    
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
@@ -1460,8 +1461,13 @@ class VtcDatasetType(Enum):
     
     Y field name of the data.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
     
     The data in the dataset covers a specific time interval. Only include this property if
     the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe

@@ -60,8 +60,9 @@ class GeoType(Enum):
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     """
     GEO_COORDINATES = "GeoCoordinates"
     GEO_SHAPE = "GeoShape"
@@ -119,8 +120,9 @@ class PlaceType(Enum):
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     """
     PLACE = "Place"
 

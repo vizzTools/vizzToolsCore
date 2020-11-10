@@ -48,8 +48,13 @@ class ContactPointType(Enum):
     
     Type of this object.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
     
     String representing a URI.
     """
@@ -92,8 +97,13 @@ class OrganizationType(Enum):
     
     Type of this object.
     
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
     
     String representing a URI.
     """
@@ -106,13 +116,15 @@ class Organization:
     type: OrganizationType
     contact_point: Optional[ContactPoint]
     name: str
+    same_as: Optional[str]
     url: Optional[str]
 
-    def __init__(self, id: Optional[str], type: OrganizationType, contact_point: Optional[ContactPoint], name: str, url: Optional[str]) -> None:
+    def __init__(self, id: Optional[str], type: OrganizationType, contact_point: Optional[ContactPoint], name: str, same_as: Optional[str], url: Optional[str]) -> None:
         self.id = id
         self.type = type
         self.contact_point = contact_point
         self.name = name
+        self.same_as = same_as
         self.url = url
 
     @staticmethod
@@ -122,8 +134,9 @@ class Organization:
         type = OrganizationType(obj.get("@type"))
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
         name = from_str(obj.get("name"))
+        same_as = from_union([from_str, from_none], obj.get("sameAs"))
         url = from_union([from_str, from_none], obj.get("url"))
-        return Organization(id, type, contact_point, name, url)
+        return Organization(id, type, contact_point, name, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -131,6 +144,7 @@ class Organization:
         result["@type"] = to_enum(OrganizationType, self.type)
         result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
         result["name"] = from_str(self.name)
+        result["sameAs"] = from_union([from_str, from_none], self.same_as)
         result["url"] = from_union([from_str, from_none], self.url)
         return result
 

@@ -48,19 +48,21 @@ class ContactPointType(Enum):
     
     Type of this object.
     
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
     String representing a URI.
-    
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
     """
-    CONTACT_POINT = "contactPoint"
+    CONTACT_POINT = "ContactPoint"
 
 
 class ContactPoint:
+    """A contact point—for example, a Customer Complaints department."""
     type: ContactPointType
     contact_type: Optional[str]
     email: str
@@ -95,14 +97,15 @@ class OrganizationType(Enum):
     
     Type of this object.
     
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
     String representing a URI.
-    
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
     """
     ORGANIZATION = "Organization"
 
@@ -151,14 +154,15 @@ class PersonType(Enum):
     
     Type of this object.
     
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
     String representing a URI.
-    
-    A descriptive name. For example, 'Snow depth in the Northern Hemisphere'. Use unique
-    names for distinct entities whenever possible.
     """
     PERSON = "Person"
 
