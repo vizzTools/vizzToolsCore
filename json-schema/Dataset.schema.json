@@ -124,6 +124,7 @@
         },
         "sameAs": {
             "title": "Resources this dataset is the same as",
+            "description": "Use the sameAs property to indicate the most canonical URLs for the original in cases when the dataset or description is a simple republication of materials published elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in other words two different datasets should not use the same URL as sameAs value.",
             "$ref": "sameAs.schema.json"
         },
         "hasPart": {
@@ -174,5 +175,6 @@
             "title": "Data download URIs of the dataset",
             "$ref": "distribution.schema.json"
         }
-    }
+    },
+    "examples": [{"$ref":"https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.jsonld"}]
 }

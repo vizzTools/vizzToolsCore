@@ -1,17 +1,24 @@
 # vizzToolsCore
 
-`vizzToolsCore` is an internal Python library to manage some of our the day-to-day tasks.
+`vizzToolsCore` is set of standardized Data Structure definitions with a Python library interface.
 
-Currently this is a skeleton under development.
+Currently this is a under early development.
 
 See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
 
 ## Roadmap
 
-+ add JSON schema of vtcDataset
+~~+ add JSON schema of vtcDataset~~
 + add JSON-LD examples
-+ add Visualization object
-+ add Lineage object
++ convert to Pydantic
++ add methods
+  + export
+  + convert
+  + add_links
+  + add_metadata
+  + get_user_config
++ add Visualization object?
++ add Lineage object?
 
 ## Design principles (draft)
 
@@ -19,286 +26,297 @@ See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
 
 1. `vizzToolsCore` ONLY deals with defining data structures. Input and output (IO), as well as transformations, should be dealt with in other packages.
 
-1. Every data structure Class MUST have a JSON example and a JSON Schema. These can be generated from the Python Class or vice versa.
+1. Every data structure Class MUST have a JSON-LD example and a JSON Schema. These can be generated from the Python Class or vice versa.
 
 1. `vizzToolsCore` will use a "strict" Type mechanism, based on the standard Types defined in [Pydantic](https://pydantic-docs.helpmanual.io/).
 
-## Main data structures (draft)
+1. The naming of JSON schema Types and properties should attempt to follow the [schema.org style guide](https://schema.org/docs/styleguide.html);
 
-### Dataset
+    + Types (or Classes) should be CamelCase.
+    + Properties of Types should be snakeCase.
 
-The general aim is not to actually store any data, but provide the configurations needed for other tools to connect to these (remote) data resources. Related to this is the desire to align with 'pygeoapi` so that it is easy to export configurations to services.
+1. When possible always try to reuse Types and properties when creating new Data structures. It is ok to use Types and properites with slightly different meanings within the context of the new Type; just be sure to add a more specific `description` in the JSON Schema.
 
-To summarise:
+## Main Data Structure definitions
 
-- `Dataset` objects are an interface for documenting and interacting with remote resources and are defined with their origin and format information rather than from the data itself. The actual data it refers to can be in a variety of formats.
--  The primary purpose of a `Dataset` is to easily maintain metadata and traceability across services. `Dataset` methods wrap transformations of metadata along with IO operations.
--  `Dataset` methods parse and create `JSON-LD` (we should get used to reading/writing `JSON-LD` to manage datasets or create methods for abstracting this).
--  The `Dataset` is agnostic to the type or format of the data. So the results of `io.get(ds).unpack()` is an object referencing one or more files which may be in multiple formats.
-- `io.export()` manages the metadata, rather than the data itself. The data first has to be uploaded to GEE (in this step we create provider metadata). Then the io.export() saves this metadata along with the reference to this provider in the RW-API or as a json object in cloud storage.
+### VtcDataset
 
-#### Dataset object
+[`VtcDataset`](https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset.html) objects define configuration information related to a specific [dataset](https://en.wikipedia.org/wiki/Data_set).
 
-Below is the basic top-level structure of a `Dataset` object, which uses [JSON-LD](https://json-ld.org/) to provide context on the meaning of each property i.e., to find our the definition of a property just follow the link. These can be as specific or general as you like, for example `dateCreated` links to a specific definition, whereas `providers` links to more general documentation.
+Key features:
 
-`@type` MUST be "Dataset" and `@id` is the unique identifer for the dataset. `sdPublisher` represents the Organization (or Person) who creates this object; it could be a default or derived from a "user config". `dateCreated` and `dateModified` are automatically set by the system.
++ `VtcDataset` objects are an interface for documenting and interacting with remote and local resources. They define the origin and format information about the dataset, rather than actual the data itself. The actual data may be in variety of formats (see [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders)).
++ The primary purpose of a `VtcDataset` is to easily maintain metadata and traceability during data processing Actions, and enable standardized transfer of information between libraries and services. 
++ `VtcDataset` methods ONLY deal with transformations of Data structures; it is intended to be used by other libraries and services to keep track of changes in dataset metadata and configurations.
++  `VtcDataset` is represented as `JSON-LD`, allowing the context of each Type and property to be linked to URIs.
++ `VtcDataset` is agnostic to the type or format of the data, it only stores the necessary configuration information required for other libraries to access the data.
++ `io.export()` manages the metadata, rather than the data itself. The data first has to be uploaded to GEE (in this step we create provider metadata). Then the io.export() saves this metadata along with the reference to this provider in the RW-API or as a json object in cloud storage.
+
+#### VtcDataset object
+
+Below is the basic top-level structure of a `VtcDataset` object, which uses [JSON-LD](https://json-ld.org/) to provide context to the meaning of each property i.e., to find the definition of a property just follow the link.
+
+`@type` MUST be "VtcDataset" and `@id` is the unique identifer for the dataset. This can be any string value; we recommend using unique, lower-case, 'slugs' based on the dataset provider, name, and version e.g., "gmw-mangrove-total-carbon-version-1-0-0".
+
+`sdPublisher` represents the Organization (or Person) who creates this structured data object; default values for this can set in the `vtc_config` [TODO:implement this]. `dateCreated` and `dateModified` are automatically set by the system.
 
 The other (optional) properties are objects, which are described in detail below.
 
-> DISCUSS: Collection or Dataset?  In OGC circles collection seems to be the standard. "A collection of things". Dataset = "A collection of data items".
-> DISCUSS: I favor human readable identifier, but how to ensure these are unique? We could use UUIDs and/or include another `identifier`?.
+> Example JSON-LD
 
 ```json
 {
-    "@context": {
-        "dateCreated": "http://schema.org/dateCreated",
-        "dateModified": "http://schema.org/dateModified",
-        "sdPublisher": "http://schema.org/sdPublisher",
-        "providers": "https://docs.pygeoapi.io/en/latest/configuration.html#resources",
-        "context": "https://docs.pygeoapi.io/en/latest/configuration.html#linked-data",
-        "metadata": "http://schema.org/dateSet"
+            "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset",
+            "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
+            "@type": "VtcDataset",
+            "@id": "gmw-mangrove-total-carbon-version-1-0-0",
+            "sdPublisher": {
+                "@type": "Organization",
+                "@id": "https://ror.org/02a809t02",
+                "sameAs": "https://ror.org/02a809t02",
+                "name": "Vizzuality"
+            },
+            "dateCreated": "2020-10-18T20:48:57Z",
+            "dateModified": "2020-10-18T20:48:57Z",
+            "links": {},
+            "metadata": {},
+            "dataProviders": {}
+}
+```
+
+#### links
+
+The [`links`](https://vizztools.github.io/vizzToolsCore/json-schema/links) property is an Array of [`DataDownload`](https://vizztools.github.io/vizzToolsCore/json-schema/DataDownload) objects providing the URLs of the dataset resources, such as a machine-readable version of it's `metadata`, a long text `description`, and individual `data` packages or files.
+
+The aim of this property is to provide URIs to access the original data; usually stored remotely (although it can also be used for local resources).
+
+An example workflow could be to use these links to download the original data, and then transform the data to a standardized format. They may also enable access to metadata and extended written documentation, which can be incorporated into the objects `metadata`.
+
+Note, if the data is already in a suitable format, ready to use, and publicly available it may make more sense to directly define any number of [`DataProvider`](https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.html) objects in the `dataProviders` property.
+
+> Example JSON-LD
+
+```json
+ [
+            {
+                "@type": "DataDownload",
+                "name": "Description",
+                "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
+                "encodingFormat": "application/docx"
+            },
+            {
+                "@type": "DataDownload",
+                "name": "Metadata",
+                "contentUrl": "https://zenodo.org/record/1346097/export/schemaorg_jsonld",
+                "encodingFormat": "application/html"
+            },
+            {
+                "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
+                "encodingFormat": "zip",
+                "@type": "DataDownload",
+                "name": "Data"
+            },
+            {
+                "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_tables.zip",
+                "encodingFormat": "zip",
+                "@type": "DataDownload",
+                "name": "Data"
+            }
+        ]
+```
+
+#### metadata
+
+An Array of [Google Dataset](https://developers.google.com/search/docs/data-types/dataset?hl=uk) [schema.org](https://schema.org/) [`DataSet`](https://vizztools.github.io/vizzToolsCore/json-schema/DataSet.html) metadata objects.
+
+The aim of this property is to store metadata about the specific dataset. At present this is only `DataSet` objects but could be extended to other structures. Any number of objects maybe stored, hence there maybe different languages, metadata structured-data sources, and potentially versions. There is still an open question as to how best to deal with original metadata objects, and the potentially adjusted metadata object for the `VtcDataset`, hence this property may be adjusted soon.
+
+In terms of the `DataSet` object the minimum required properties are `name` and `description`. A large variety of metadata properties maybe considered, we recommend trying to follow the [Google Dataset guide](https://developers.google.com/search/docs/data-types/dataset?hl=uk). In general the idea is to reuse, harvest and harmonize metadata, reducing the burden on the user.
+
+Please check out the [`DataSet` definitions and examples](https://vizztools.github.io/vizzToolsCore/json-schema/DataSet.html) for more information.
+
+> Example JSON-LD
+
+```json
+{
+    "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore/json-schema/",
+    "@type": "Dataset",
+    "@id": "<collection-id>",
+    "name": "Example collection",
+    "description": "The summary must be between 50 and 5000 characters long. The summary may include Markdown syntax. Embedded images need to use absolute path URLs (instead of relative paths). When using the JSON-LD format, denote new lines with two characters: backslash and lower case letter 'n'.",
+    "version": "0.0.1",
+    "datePublished": "2018-05-08",
+    "isBasedOn": "https://doi.org/XXXXXX",
+    "sameAs": "https://doi.org/XXXXXX",
+    "creator": [
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0002-5011-6744",
+            "sameAs": "https://orcid.org/0000-0002-5011-6744",
+            "affiliation": "Vizzuality, Madrid, Spain",
+            "name": "Edward P. Morris"
+        },
+        {
+            "@type": "Organization",
+            "@id": "https://ror.org/02a809t02",
+            "sameAs": "https://ror.org/02a809t02",
+            "name": "Vizzuality"
+        }
+    ],
+    "identifier": "https://doi.org/XXXXXX",
+    "keywords": [
+        "keyword1",
+        "keyword2",
+        "keyword3"
+    ],
+    "citation": "Identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.",
+    "license": "https://creativecommons.org/licenses/by/4.0",
+    "url": "https://zenodo.org/XXXXXX",
+    "inLanguage": "en",
+    "alternateName": "Example version 0.0.1",
+    "variableMeasured": "The variable that this dataset measures. For example, temperature or pressure.",
+    "measurementTechnique": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured.",
+    "unitText": "t OC / ha",
+    "spatialCoverage": "Global tropics",
+    "temporalCoverage": "1996--2016",
+    "thumbnailUrl": "https://dataset-thumbnail.jpeg",
+    "provider": {
+        "@type": "Organization",
+        "@id": "https://ror.org/02a809t02",
+        "sameAs": "https://ror.org/02a809t02",
+        "name": "Vizzuality"
     },
-    "@type": "Collection",
-    "@id": "my-dataset",
-    "sdPublisher": "vizzuality.",
-    "dateCreated": "2020-10-18T20:48:57Z",
-    "dateModified": "2020-10-18T20:48:57Z",
-    "links": {},
-    "metadata": {},
-    "providers": {},
-    "context": {},
-    "lineage": {}
+    "funder": [
+        {
+            "@type": "Organization",
+            "@id": "https://ror.org/02a809t02",
+            "sameAs": "https://ror.org/02a809t02",
+            "name": "Vizzuality"
+        }
+    ],
+    "distribution": [{
+        "@type": "DataDownload",
+        "name": "Description",
+        "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx", 
+        "encodingFormat": "docx"
+      }, 
+      {
+        "@type": "DataDownload",
+        "name": "Data",
+        "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip", 
+        "encodingFormat": "zip"
+      }] 
 }
 ```
 
-#### Links
+#### dataProviders
 
-A object for providing the URLs of the collection `metadata`, `description`, and `data`. The idea would be that using these links you can either import (or at least view and copy) each of the categories. So we could support (via a vizzTool) mapping of some common metadata schemas, which get the metadata from the URL, transform it an add a JSON-ĹD representation to `metadata`. These links would be used to get the data files and (using vizzTools) transform it to a standard format for inclusion into `providers`. If already in a "standard format", this link can be directly transferred to a Provider object. The description is a long detailed description, that is usually a bit annoying to manage in JSON and best edited in text editor.
+An Array of [`DataProvider`](https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.html) configuration objects, which can be extended to provide configurations for a variety of data formats. 
 
-```json
-{
-    "description": [
-        {
-            "@type": "DataDownload",
-            "name": "Description",
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
-            "encodingFormat": "application/docx"
-        }
-    ],
-    "metadata": [
-        {
-            "@type": "DataDownload",
-            "name": "Metadata",
-            "contentUrl": "https://zenodo.org/record/1346097/export/schemaorg_jsonld",
-            "encodingFormat": "application/html"
-        }
-    ],
-    "data": [
-        {
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload",
-            "name": "Input maps"
-        },
-        {
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_tables.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload",
-            "name": "Input tables"
-        },
-        {
-            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/output_global_damage.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload",
-            "name": "Output global damage"
-        }
-    ]
-}
-```
+These are grouped into sub-types based on the OGC definitions of Geospatial data types, and further defined by either the data format or processing library; [`FeatureProvider`](https://vizztools.github.io/vizzToolsCore/json-schema/FeatureProvider.html), [`CoverageProvider`](https://vizztools.github.io/vizzToolsCore/json-schema/CoverageProvider.html), and [`TileProvider`](https://vizztools.github.io/vizzToolsCore/json-schema/TileProvider.html).  
 
-> DISCUSS: It seems like the first step, get the links to the data. Often this data needs to be manually examined, and then a transformation script made (using vizzTools!). Does the dict structure make sense or does it miss use cases? This is essentially similar to the metadata.distribution field, which does not try and define the link content themes.
+The aim of the `dataProviders` property is to store configurations for accessing a (limited) number of optimized data storage formats.
 
-#### Metadata
+An example workflow could be to examine the original datasets, do any pre-processing needed (such as fixing geometries or transformations), add the transformed data to a (remote) storage location, and log the `DataProvider` configuration(s) for accessing this optimized data, either in further processing steps or for transfer to an API.
 
-A JSON-LD description of the ORIGINAL dataset, using schema.org Dataset, and following the Google Dataset guide. The aim here is to support easy importation and mapping of a limited number of standard metadata formats. This information can be used for getting links to data and for display.
-
->DISCUSS: Here there is an issue with potentially having the original metadata and metadata after some transformation. Which should be stored here? Maybe just having a link to original could be enough. So far have been thinking that this is a store for the original metadata, often imported from a source and maybe enriched (a bit). Could get messy?
-
-#### Providers
-
-A list of Provider configuration objects, which follow the structure of `pygeoapi` [resources.providers configuration](https://docs.pygeoapi.io/en/latest/configuration.html#resources). The aim of providers is to store configurations for accessing a (limited) number of optimized data storage formats. The general workflow could be to examine the original datasets, do any pre-processing needed (such as fixing geometries or transformations), add the transformed data to a (remote) storage location, and log the configurations for accessing this optimized data.
+> Example JSON-LD
 
 ```json
 [
-    {
-        "type": "feature",
-        "name": "CSV",
-        "data": "tests/data/obs.csv",
-        "id_field": "id",
-        "geometry": {
-            "x_field": "long",
-            "y_field": "lat"
+     {
+            "type": "feature",
+            "name": "CSV",
+            "data": "tests/data/obs.csv",
+            "id_field": "id",
+            "geometry": {
+                "x_field": "long",
+                "y_field": "lat"
+            }
+        },
+        {
+            "type": "feature",
+            "name": "GeoJSON",
+            "data": "tests/data/obs.json",
+            "id_field": "id"
+        },
+        {
+            "type": "feature",
+            "name": "Elasticsearch",
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "time_field": "datetimefield"
+        },
+        {
+            "type": "feature",
+            "name": "PostgreSQL",
+            "data": {
+                "host": "127.0.0.1",
+                "dbname": "test",
+                "user": "postgres",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ]
+            },
+            "id_field": "osm_id",
+            "table": "hotosm_bdi_waterways",
+            "geom_field": "foo_geom"
+        },
+        {
+            "type": "coverage",
+            "name": "rasterio",
+            "data": "tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            },
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "tests/data/coads_sst.nc",
+            "x_field": "lon",
+            "time_field": "time",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        },
+        {
+            "type": "tile",
+            "name": "MVT",
+            "data": "tests/data/tiles/ne_110m_lakes",
+            "options": {
+                "metadata_format": "raw",
+                "zoom": {
+                    "min": 0,
+                    "max": 5
+                },
+                "schemes": [
+                    "WorldCRS84Quad"
+                ]
+            },
+            "format": {
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
+            }
         }
-    },
-    {
-        "type": "feature",
-        "name": "GeoJSON",
-        "data": "tests/data/obs.json",
-        "id_field": "id"
-    }
 ]
 ```
-
->DISCUSS: Do we want ultimate flexibility of data formats or should we aim to limit to a specific types; Table=CSV(Parquet), Features=GeoJSON(MVT), Coverage=GeoTIFF(ZARR)?
-
-#### Context
-
-This is used by `pygeoapi` to give context to fields (properties or variables) in data files. In theory it could be a neat mechanism for reducing ambiguity, and could be linked to "any" describing resource, potentially such as CF standard names. Note it does not imply any validation!
-
-For example, we could define a field in a data file called `datetime` as `https://schema.org/DateTime` by adding an entry like:
-
-```json
-{"datetime": "https://schema.org/DateTime"}
-```
-
-#### Lineage
-
-The purpose of the `lineage` object is to keep a record of the data processing history of the collection. Here the idea would be that each of process (vizzTool) returns a concise statement about an action applied to the collection object (WHAT, WHEN, WHO). We should also allow custom comments! For example, a user creates the collection, downloads the data from a url, and transforms and repairs a FeatureCollection.
-
-```json
-{
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": [
-        "Collection created at 2020-10-18T20:48:57Z by user 123234.",
-        "Data files retrieved from URL at 2020-10-18T20:48:57Z by user 123234.",
-        "SHP file converted to GeoJSON, geometries repaired, and exported to URL using VIZZTOOL version X.X.X at 2020-10-18T20:48:57Z by user 123234."
-    ],
-    "itemListOrder": "https://schema.org/ItemListOrderDescending",
-    "name": "Data processing history"
-  }
-```
-
-### Pseudo user/code examples
-
-#### It's all about the metadata
-
-We would like to include Mangrove soil organic carbon on the Global Mangrove Watch platform, and we find that this dataset is available on [Zenodo](https://zenodo.org/record/2536803).
-
-> How to prepare a dataset stored in a large data repository for query, processing, and web visualization.
-
-Checking the zenodo site we see can see the different linked data resources and get a JSON-LD metadata version of the dataset. Unfortunately, we do not seem to be able to download the JSON-LD metadata; but we can just copy it to file.
-
-Great! Lets fire up our `vizzTools` and make a collection.
-
-```python
-import vizzToolsCore as vtc
-
-# Define a basic collection links dict
-links = {
-    metadata :  {
-      "contentUrl": "https://storage.googleapis.com/mangrove_atlas/mangrove-properties/mangroves_SOC30m_0_100cm.jsonld",
-      "encodingFormat": "application/jsonld",
-      "@type": "DataDownload"
-    },
-    data :  {
-      "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/mangroves_SOC30m_0_100cm.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    }
-
-# Create a new collection
-# metadata file is parsed and is automagically added to `metadata`
-collection = vtc.Collection(
-    id = "mangrove-soc-30m-tha-0to100cm-version02",
-    links = links
-)
-
-# Inspect the metadata of our bare-bones collection
-collection.metadata.json()
-```
-
-> Output
-
-```json
-{
-    "description": "<p>This is an update of maps produced by&nbsp;<a href=\"https://doi.org/10.1088/1748-9326/aabe1c\">Sanderman et al (2018)</a>. The improvements to the 3D spatial prediction include:</p>\n\n<ul>\n\t<li>\n\t<p>new updated global mangrove coverage map (contact Thomas Worthington),</p>\n\t</li>\n\t<li>\n\t<p>new ALOS-based DEM of the world AW3D30 v18.04,</p>\n\t</li>\n\t<li>\n\t<p>new radar ALOS-based PALSAR radar images of the world,</p>\n\t</li>\n\t<li>\n\t<p>additional SOC points (ca 550) <a href=\"https://static-content.springer.com/esm/art%3A10.1038%2Fs41558-018-0162-5/MediaObjects/41558_2018_162_MOESM2_ESM.xlsx\">published in Rovai et al. (2018)</a>&nbsp;used in model training (see gpkg file).</p>\n\t</li>\n</ul>\n\n<p>To open map in QGIS or similar, drag and drop the &quot;mangroves_dSOC_0_100cm_30m.vrt&quot; file. You can than add also the gpkg file contain the training points.&nbsp;A preview (WMS) of the predictions is available <a href=\"https://www.arcgis.com/apps/MapSeries/index.html?appid=fe214a492f114bde8b3aa1d54ef23224\">here</a>.</p>\n\n<p>Production steps (ensemble predictions using SuperLearner) are explained in detail at:&nbsp;</p>\n\n<ul>\n\t<li>R code:&nbsp;<a href=\"https://github.com/whrc/Mangrove-Soil-Carbon/\">https://github.com/whrc/Mangrove-Soil-Carbon/</a>&nbsp;(see &quot;R_code/GMW_mangroves_SOC_30m.R&quot;)</li>\n\t<li>Tutorial:&nbsp;<a href=\"https://envirometrix.github.io/PredictiveSoilMapping/soilmapping-using-mla.html#ensemble-predictions-using-superlearner-package\">&quot;Predictive Soil Mapping with R&quot;</a></li>\n</ul>\n\n<p>Produced&nbsp;for the purpose of Mangrove Restoration Potential Map funded by The&nbsp;Nature Conservancy and IUCN. Contact TNC: Emily Landis&nbsp;&lt;<a href=\"mailto:elandis@TNC.ORG\">elandis@TNC.ORG</a>&gt;.&nbsp;Contact IUCN / University of Cambridge: Thomas Worthington &lt;<a href=\"mailto:taw52@cam.ac.uk\">taw52@cam.ac.uk</a>&gt;.</p>",
-    "license": "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
-    "creator": [
-        {
-            "affiliation": "Envirometrix Ltd",
-            "@id": "https://orcid.org/0000-0002-9921-5129",
-            "@type": "Person",
-            "name": "Tomislav Hengl"
-        }
-    ],
-    "url": "https://zenodo.org/record/2536803",
-    "datePublished": "2018-10-23",
-    "version": "0.2",
-    "keywords": [
-        "mangroves",
-        "soil carbon",
-        "machine learning",
-        "superlearner package"
-    ],
-    "@context": "https://schema.org/",
-    "distribution": [
-        {
-            "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/mangroves_SOC30m_0_100cm.zip",
-            "encodingFormat": "zip",
-            "@type": "DataDownload"
-        },
-        {
-            "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/mangroves_SOC_points.gpkg",
-            "encodingFormat": "gpkg",
-            "@type": "DataDownload"
-        },
-        {
-            "contentUrl": "https://zenodo.org/api/files/826b6287-7c3d-4a49-a1d5-cbecb5d0496d/preview_mangroves_soil_carbon_QGIS.png",
-            "encodingFormat": "png",
-            "@type": "DataDownload"
-        }
-    ],
-    "identifier": "https://doi.org/10.5281/zenodo.2536803",
-    "@id": "https://doi.org/10.5281/zenodo.2536803",
-    "@type": "Dataset",
-    "name": "Predicted soil organic carbon stock at 30 m in t/ha for 0-100 cm depth global / update of the map of mangrove forest soil carbon"
-}
-```
-
-Now we want to use the vizzTools to download the data, transform it into a standard format, enrich the metadata, push the processed data to (various) remote storage locations, and update our collection with `providers`.
-
-```python
-
-import vizzTools as vtc
-import vizzToolsIO as io
-import geeUtils
-
-# Download and unpack the zip file to dir "dataset"
-ds = io.get(collection.links.data).unpack("dataset")
-
-# Transform and add to Google Earth Engine
-gee_collection_params = {
-    collection_id: collection.id,
-    data_path: ds.path,
-    collection_metadata: collection.metadata
-}
-# Imagine this does all the adding, and returns a Provider object.
-gee_provider_object = geeUtils.addImageCollection(gee_collection_params)
-
-# Add the provider object to the collection
-collection = collection.addProvider(gee_provider)
-
-# Export the collection
-io.export(collection, "gs://mangrove_atlas/mangrove-properties/mangroves_SOC30m_0_100cm.collection.jsonld")
-
-# Add to an API
-# automagically converting to appropriate API payload
-io.export(collection, "https://api.resourcewatch.org/v1/dataset")
-
-```
-
-And thats it! We have now pre-processed the dataset using a number of standardized tools, added it to our remote storage solution, and made the configuration available in our favorite API. Time to take *another* coffee.
 
 ## Inspiration (further reading)
 
@@ -309,3 +327,4 @@ And thats it! We have now pre-processed the dataset using a number of standardiz
 + [JSON-LD](https://json-ld.org/)
 + [quick-type](https://app.quicktype.io/)
 + [Google Dataset JSON-LD](https://developers.google.com/search/docs/data-types/dataset?hl=uk)
++ [CF Standard Names](http://cfconventions.org/standard-names.html)

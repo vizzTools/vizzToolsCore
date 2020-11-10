@@ -39,14 +39,14 @@
     "measurementTechnique": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured.",
     "unitText": "t OC / ha",
     "spatialCoverage": "Global tropics",
-    "temporalCoverage": "1996--2016",
+    "temporalCoverage": "1950-01-01/2013-12-18",
     "thumbnailUrl": "https://dataset-thumbnail.jpeg",
-    "provider": {
+    "provider": [{
         "@type": "Organization",
         "@id": "https://ror.org/02a809t02",
         "sameAs": "https://ror.org/02a809t02",
         "name": "Vizzuality"
-    },
+    }],
     "funder": [
         {
             "@type": "Organization",

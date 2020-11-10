@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/lineage.schema.json",
+    "title": "lineage",
+    "description": "List of text descriptions with information about the major data processing actions applied to the dataset.",
+    "allOf": [
+        {
+            "$ref": "ItemList.schema.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "default": "Data processing history"
+                }
+            }
+        }
+    ]
+}

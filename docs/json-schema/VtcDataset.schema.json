@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/vtcDataset.schema.json",
+    "type": "object",
+    "title": "VtcDataset",
+    "description": "A vizzToolsCore Dataset configuration object.",
+    "examples": [
+        {
+            "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/VtcDataset",
+            "@context": "https://vizztools.github.io/vizzToolsCore/json-schema",
+            "@type": "VtcDataset",
+            "@id": "gmw-mangrove-total-carbon-version-1-0-0",
+            "sdPublisher": {
+                "@type": "Organization",
+                "@id": "https://ror.org/02a809t02",
+                "sameAs": "https://ror.org/02a809t02",
+                "name": "Vizzuality"
+            },
+            "dateCreated": "2020-10-18T20:48:57Z",
+            "dateModified": "2020-10-18T20:48:57Z",
+            "links": {},
+            "metadata": {},
+            "dataProviders": {}
+        }
+    ],
+    "required": [
+        "$schema",
+        "@context",
+        "@type",
+        "@id"
+    ],
+    "properties": {
+        "$schema": {
+            "$ref": "$schema.schema.json"
+        },
+        "@context": {
+            "$ref": "@context.schema.json"
+        },
+        "@type": {
+            "$ref": "@type.schema.json",
+            "enum": [
+                "VcsDataset"
+            ]
+        },
+        "@id": {
+            "$id": "@id.schema.json"
+        },
+        "sdPublisher": {
+            "title": "Structured data publisher",
+            "$ref": "sdPublisher.schema.json"
+        },
+        "dateCreated": {
+            "$ref": "dateCreated.schema.json"
+        },
+        "dateModified": {
+            "$ref": "dateModified.schema.json"
+        },
+        "links": {
+            "$ref": "links.schema.json"
+        },
+        "metadata": {
+            "$ref": "metadata.schema.json"
+        },
+        "dataProviders": {
+            "$ref": "dataProviders.schema.json"
+        }
+    }
+}
