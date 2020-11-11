@@ -3,7 +3,7 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DataDownload.schema.json",
     "type": "object",
     "title": "DataDownload",
-    "description": "A schema.org DataDownload object representing the location and file format for downloadable data.",
+    "description": "A schema.org DataDownload object representing the location and file format for downloadable data of any type. It is best practice to give the entity a name and the encoding.",
     "required": [
         "@type",
         "contentUrl"],
@@ -15,7 +15,7 @@
         "type": "string"
     },
     "contentUrl": {
-        "$ref": "uri.schema.json"
+        "$ref": "URI.schema.json"
     },
     "encodingFormat": {
         "type": "string"

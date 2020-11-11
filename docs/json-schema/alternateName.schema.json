@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/alternateName.schema.json",
     "title": "alternateName",
-    "description": "String or array of strings of alternative names that have been used to refer to this dataset, such as aliases or abbreviations.",
+    "description": "String or array of strings of alternative names that have been used to refer to this entity, such as aliases or abbreviations.",
     "oneOf": [
         {
             "type": "string"

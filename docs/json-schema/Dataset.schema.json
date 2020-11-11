@@ -11,58 +11,6 @@
         "name",
         "description"
     ],
-    "definitions": {
-        "arrayOrString": {
-            "oneOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            ]
-        },
-        "arrayOrUrl": {
-            "oneOf": [
-                {
-                    "$ref": "uri.schema.json"
-                },
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "uri.schema.json"
-                    }
-                }
-            ]
-        },
-        "personOrOrganization": {
-            "oneOf": [
-                {
-                    "$ref": "Person.schema.json"
-                },
-                {
-                    "$ref": "Organization.schema.json"
-                }
-            ]
-        },
-        "arrayPersonOrOrganization": {
-            "oneOf": [
-                {
-                    "type": "array",
-                    "title": "Dataset creator(s)",
-                    "items": {
-                        "$ref": "#/definitions/personOrOrganization"
-                    }
-                },
-                {
-                    "$ref": "#/definitions/personOrOrganization"
-                }
-            ]
-        }
-    },
     "properties": {
         "$schema": {
             "$ref": "$schema.schema.json",
@@ -96,7 +44,7 @@
         },
         "datePublished": {
             "title": "Publishing date of the dataset",
-            "$ref": "date.schema.json"
+            "$ref": "Date.schema.json"
         },
         "creator": {
             "title": "The creator or author of the dataset",
@@ -116,7 +64,7 @@
         },
         "url": {
             "title": "URL of the dataset",
-            "$ref": "uri.schema.json"
+            "$ref": "URI.schema.json"
         },
         "isBasedOn": {
             "title": "Resources this dataset is based on",
@@ -124,7 +72,6 @@
         },
         "sameAs": {
             "title": "Resources this dataset is the same as",
-            "description": "Use the sameAs property to indicate the most canonical URLs for the original in cases when the dataset or description is a simple republication of materials published elsewhere. The value of sameAs needs to unambiguously indicate the datasets identity - in other words two different datasets should not use the same URL as sameAs value.",
             "$ref": "sameAs.schema.json"
         },
         "hasPart": {
@@ -161,7 +108,7 @@
         },
         "thumbnailUrl": {
             "title": "Thumbnail URL of the dataset",
-            "$ref": "uri.schema.json"
+            "$ref": "URI.schema.json"
         },
         "funder": {
             "title": "Funder who facilitated the creation of the dataset",
@@ -176,5 +123,5 @@
             "$ref": "distribution.schema.json"
         }
     },
-    "examples": [{"$ref":"https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.jsonld"}]
+    "examples": [{"$ref":"https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.jsonld"}]
 }

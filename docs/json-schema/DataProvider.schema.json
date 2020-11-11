@@ -16,7 +16,7 @@
             "description": "Provider definition name."
         },
         "data": {
-            "$ref": "uri.schema.json",
+            "$ref": "URI.schema.json",
             "description": "URI pointing to the data."
         },
         "id_field": {

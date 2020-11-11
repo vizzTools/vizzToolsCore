@@ -17,6 +17,11 @@
         },
         "geo": {
             "$ref": "geo.schema.json"
+        },
+        "globalLocationNumber": {"$ref": "globalLocationNumber.schema.json"},
+        "name": {
+            "$ref": "name.schema.json",
+            "title": "Name of the place"
         }
     }
 }

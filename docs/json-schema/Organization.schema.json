@@ -27,37 +27,14 @@
             "$ref": "@id.schema.json"
         },
         "url": {
-            "$ref": "uri.schema.json"
+            "$ref": "URI.schema.json"
         },
         "name": {
-            "type": "string"
+            "$ref": "name.schema.json"
         },
         "sameAs": {"$ref": "sameAs.schema.json"},
         "contactPoint": {
-            "type": "object",
-            "title": "contactPoint",
-            "required": [
-                "@type",
-                "email"
-            ],
-            "properties": {
-                "@type": {
-                    "$ref": "@type.schema.json",
-                    "enum": [
-                        "contactPoint"
-                    ]
-                },
-                "contactType": {
-                    "type": "string"
-                },
-                "telephone": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string",
-                    "format": "email"
-                }
-            }
+            "$ref": "ContactPoint.schema.json"
         }
     }
 }
