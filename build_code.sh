@@ -11,12 +11,20 @@ CODE_DIR=./vizzToolsCore/
 CODE_EXT=.py
 
 # Declare a string array with type
-declare -a StringArray=("Dataset" "Person" "Organization" "PropertyValue" "Place"  "TileProvider" "CoverageProvider" "FeatureProvider" "DataDownload" "DataProvider" "GeoCoordinates" "GeoShape" "Iso6391LanguageCodes" "ContactPoint")
+# "Person" "Organization" "PropertyValue" "Place"  "TileProvider" "CoverageProvider" "FeatureProvider" "DataDownload" "GeoCoordinates" "GeoShape" "Iso6391LanguageCodes" "ContactPoint"
+declare -a StringArray=("Dataset")
 
 # Read the array values with space
 for val in "${StringArray[@]}"; do
     #rm $CODE_DIR$val$CODE_EXT
     echo "Processing $val"
-    echo "from .$val import  $val" >> $CODE_DIR"__init__.py"
-    quicktype -s schema $SCHEMA_DIR$val$SCHEMA_EXT -o $CODE_DIR$val$CODE_EXT
+    echo "from .$val import  *" >> $CODE_DIR"__init__.py"
+    #--no-combine-classes \
+    #--no-ignore-json-refs \
+    quicktype \
+    --alphabetize-properties \
+    --python-version 3.7 \
+    --debug all \
+    -s schema $SCHEMA_DIR$val$SCHEMA_EXT \
+    -o $CODE_DIR$val$CODE_EXT
 done

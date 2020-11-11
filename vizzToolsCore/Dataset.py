@@ -11,6 +11,7 @@
 #     result = dataset_from_dict(json.loads(json_string))
 
 from enum import Enum
+from dataclasses import dataclass
 from typing import Optional, Any, Union, List, Dict, TypeVar, Type, cast, Callable
 from datetime import datetime
 import dateutil.parser
@@ -152,34 +153,29 @@ class ContactPointType(Enum):
     CONTACT_POINT = "ContactPoint"
 
 
+@dataclass
 class ContactPoint:
     """A contact point—for example, a Customer Complaints department."""
     type: ContactPointType
-    contact_type: Optional[str]
     email: str
+    contact_type: Optional[str]
     telephone: Optional[str]
-
-    def __init__(self, type: ContactPointType, contact_type: Optional[str], email: str, telephone: Optional[str]) -> None:
-        self.type = type
-        self.contact_type = contact_type
-        self.email = email
-        self.telephone = telephone
 
     @staticmethod
     def from_dict(obj: Any) -> 'ContactPoint':
         assert isinstance(obj, dict)
         type = ContactPointType(obj.get("@type"))
-        contact_type = from_union([from_str, from_none], obj.get("contactType"))
         email = from_str(obj.get("email"))
-        telephone = from_union([from_str, from_none], obj.get("telephone"))
-        return ContactPoint(type, contact_type, email, telephone)
+        contact_type = from_union([from_none, from_str], obj.get("contactType"))
+        telephone = from_union([from_none, from_str], obj.get("telephone"))
+        return ContactPoint(type, email, contact_type, telephone)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(ContactPointType, self.type)
-        result["contactType"] = from_union([from_str, from_none], self.contact_type)
         result["email"] = from_str(self.email)
-        result["telephone"] = from_union([from_str, from_none], self.telephone)
+        result["contactType"] = from_union([from_none, from_str], self.contact_type)
+        result["telephone"] = from_union([from_none, from_str], self.telephone)
         return result
 
 
@@ -252,42 +248,35 @@ class OrganizationType(Enum):
     ORGANIZATION = "Organization"
 
 
+@dataclass
 class Organization:
     """An organization such as a school, NGO, corporation, club, etc."""
-    id: Optional[str]
     type: OrganizationType
-    contact_point: Optional[ContactPoint]
     name: str
+    id: Optional[str]
+    contact_point: Optional[ContactPoint]
     same_as: Optional[str]
     url: Optional[str]
-
-    def __init__(self, id: Optional[str], type: OrganizationType, contact_point: Optional[ContactPoint], name: str, same_as: Optional[str], url: Optional[str]) -> None:
-        self.id = id
-        self.type = type
-        self.contact_point = contact_point
-        self.name = name
-        self.same_as = same_as
-        self.url = url
 
     @staticmethod
     def from_dict(obj: Any) -> 'Organization':
         assert isinstance(obj, dict)
-        id = from_union([from_str, from_none], obj.get("@id"))
         type = OrganizationType(obj.get("@type"))
-        contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
         name = from_str(obj.get("name"))
-        same_as = from_union([from_str, from_none], obj.get("sameAs"))
-        url = from_union([from_str, from_none], obj.get("url"))
-        return Organization(id, type, contact_point, name, same_as, url)
+        id = from_union([from_none, from_str], obj.get("@id"))
+        contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
+        same_as = from_union([from_none, from_str], obj.get("sameAs"))
+        url = from_union([from_none, from_str], obj.get("url"))
+        return Organization(type, name, id, contact_point, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["@id"] = from_union([from_str, from_none], self.id)
         result["@type"] = to_enum(OrganizationType, self.type)
-        result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
         result["name"] = from_str(self.name)
-        result["sameAs"] = from_union([from_str, from_none], self.same_as)
-        result["url"] = from_union([from_str, from_none], self.url)
+        result["@id"] = from_union([from_none, from_str], self.id)
+        result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
+        result["sameAs"] = from_union([from_none, from_str], self.same_as)
+        result["url"] = from_union([from_none, from_str], self.url)
         return result
 
 
@@ -361,6 +350,7 @@ class SDPublisherType(Enum):
     PERSON = "Person"
 
 
+@dataclass
 class SDPublisher:
     """An array of schema.org Person or Organization objects. To uniquely identify individuals,
     use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify
@@ -376,55 +366,45 @@ class SDPublisher:
     
     An organization such as a school, NGO, corporation, club, etc.
     """
-    id: Optional[str]
     type: SDPublisherType
     affiliation: Union[Organization, None, str]
+    name: str
+    id: Optional[str]
+    contact_point: Optional[ContactPoint]
     family_name: Optional[str]
     given_name: Optional[str]
-    name: str
     same_as: Optional[str]
-    contact_point: Optional[ContactPoint]
     url: Optional[str]
-
-    def __init__(self, id: Optional[str], type: SDPublisherType, affiliation: Union[Organization, None, str], family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
-        self.id = id
-        self.type = type
-        self.affiliation = affiliation
-        self.family_name = family_name
-        self.given_name = given_name
-        self.name = name
-        self.same_as = same_as
-        self.contact_point = contact_point
-        self.url = url
 
     @staticmethod
     def from_dict(obj: Any) -> 'SDPublisher':
         assert isinstance(obj, dict)
-        id = from_union([from_str, from_none], obj.get("@id"))
         type = SDPublisherType(obj.get("@type"))
-        affiliation = from_union([Organization.from_dict, from_str, from_none], obj.get("affiliation"))
-        family_name = from_union([from_str, from_none], obj.get("familyName"))
-        given_name = from_union([from_str, from_none], obj.get("givenName"))
+        affiliation = from_union([Organization.from_dict, from_none, from_str], obj.get("affiliation"))
         name = from_str(obj.get("name"))
-        same_as = from_union([from_str, from_none], obj.get("sameAs"))
+        id = from_union([from_none, from_str], obj.get("@id"))
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
-        url = from_union([from_str, from_none], obj.get("url"))
-        return SDPublisher(id, type, affiliation, family_name, given_name, name, same_as, contact_point, url)
+        family_name = from_union([from_none, from_str], obj.get("familyName"))
+        given_name = from_union([from_none, from_str], obj.get("givenName"))
+        same_as = from_union([from_none, from_str], obj.get("sameAs"))
+        url = from_union([from_none, from_str], obj.get("url"))
+        return SDPublisher(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["@id"] = from_union([from_str, from_none], self.id)
         result["@type"] = to_enum(SDPublisherType, self.type)
-        result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_str, from_none], self.affiliation)
-        result["familyName"] = from_union([from_str, from_none], self.family_name)
-        result["givenName"] = from_union([from_str, from_none], self.given_name)
+        result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_none, from_str], self.affiliation)
         result["name"] = from_str(self.name)
-        result["sameAs"] = from_union([from_str, from_none], self.same_as)
+        result["@id"] = from_union([from_none, from_str], self.id)
         result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
-        result["url"] = from_union([from_str, from_none], self.url)
+        result["familyName"] = from_union([from_none, from_str], self.family_name)
+        result["givenName"] = from_union([from_none, from_str], self.given_name)
+        result["sameAs"] = from_union([from_none, from_str], self.same_as)
+        result["url"] = from_union([from_none, from_str], self.url)
         return result
 
 
+@dataclass
 class DatabaseData:
     """Object defining database connection."""
     dbname: Optional[str]
@@ -433,64 +413,51 @@ class DatabaseData:
     search_path: Optional[List[str]]
     user: Optional[str]
 
-    def __init__(self, dbname: Optional[str], host: Optional[str], password: Optional[str], search_path: Optional[List[str]], user: Optional[str]) -> None:
-        self.dbname = dbname
-        self.host = host
-        self.password = password
-        self.search_path = search_path
-        self.user = user
-
     @staticmethod
     def from_dict(obj: Any) -> 'DatabaseData':
         assert isinstance(obj, dict)
-        dbname = from_union([from_str, from_none], obj.get("dbname"))
-        host = from_union([from_str, from_none], obj.get("host"))
-        password = from_union([from_str, from_none], obj.get("password"))
+        dbname = from_union([from_none, from_str], obj.get("dbname"))
+        host = from_union([from_none, from_str], obj.get("host"))
+        password = from_union([from_none, from_str], obj.get("password"))
         search_path = from_union([lambda x: from_list(from_str, x), from_none], obj.get("search_path"))
-        user = from_union([from_str, from_none], obj.get("user"))
+        user = from_union([from_none, from_str], obj.get("user"))
         return DatabaseData(dbname, host, password, search_path, user)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["dbname"] = from_union([from_str, from_none], self.dbname)
-        result["host"] = from_union([from_str, from_none], self.host)
-        result["password"] = from_union([from_str, from_none], self.password)
+        result["dbname"] = from_union([from_none, from_str], self.dbname)
+        result["host"] = from_union([from_none, from_str], self.host)
+        result["password"] = from_union([from_none, from_str], self.password)
         result["search_path"] = from_union([lambda x: from_list(from_str, x), from_none], self.search_path)
-        result["user"] = from_union([from_str, from_none], self.user)
+        result["user"] = from_union([from_none, from_str], self.user)
         return result
 
 
+@dataclass
 class Format:
     """Provider data format."""
     mimetype: Optional[str]
     name: Optional[str]
 
-    def __init__(self, mimetype: Optional[str], name: Optional[str]) -> None:
-        self.mimetype = mimetype
-        self.name = name
-
     @staticmethod
     def from_dict(obj: Any) -> 'Format':
         assert isinstance(obj, dict)
-        mimetype = from_union([from_str, from_none], obj.get("mimetype"))
-        name = from_union([from_str, from_none], obj.get("name"))
+        mimetype = from_union([from_none, from_str], obj.get("mimetype"))
+        name = from_union([from_none, from_str], obj.get("name"))
         return Format(mimetype, name)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["mimetype"] = from_union([from_str, from_none], self.mimetype)
-        result["name"] = from_union([from_str, from_none], self.name)
+        result["mimetype"] = from_union([from_none, from_str], self.mimetype)
+        result["name"] = from_union([from_none, from_str], self.name)
         return result
 
 
+@dataclass
 class Zoom:
     """Minimum and maximum zoom levels."""
     max: Optional[int]
     min: Optional[int]
-
-    def __init__(self, max: Optional[int], min: Optional[int]) -> None:
-        self.max = max
-        self.min = min
 
     @staticmethod
     def from_dict(obj: Any) -> 'Zoom':
@@ -506,6 +473,7 @@ class Zoom:
         return result
 
 
+@dataclass
 class EOptions:
     """Coverage provider data specific options.
     
@@ -516,25 +484,19 @@ class EOptions:
     schemes: Optional[List[str]]
     zoom: Optional[Zoom]
 
-    def __init__(self, data_encoding: Optional[str], metadata_format: Optional[str], schemes: Optional[List[str]], zoom: Optional[Zoom]) -> None:
-        self.data_encoding = data_encoding
-        self.metadata_format = metadata_format
-        self.schemes = schemes
-        self.zoom = zoom
-
     @staticmethod
     def from_dict(obj: Any) -> 'EOptions':
         assert isinstance(obj, dict)
-        data_encoding = from_union([from_str, from_none], obj.get("DATA_ENCODING"))
-        metadata_format = from_union([from_str, from_none], obj.get("metadata_format"))
+        data_encoding = from_union([from_none, from_str], obj.get("DATA_ENCODING"))
+        metadata_format = from_union([from_none, from_str], obj.get("metadata_format"))
         schemes = from_union([lambda x: from_list(from_str, x), from_none], obj.get("schemes"))
         zoom = from_union([Zoom.from_dict, from_none], obj.get("zoom"))
         return EOptions(data_encoding, metadata_format, schemes, zoom)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["DATA_ENCODING"] = from_union([from_str, from_none], self.data_encoding)
-        result["metadata_format"] = from_union([from_str, from_none], self.metadata_format)
+        result["DATA_ENCODING"] = from_union([from_none, from_str], self.data_encoding)
+        result["metadata_format"] = from_union([from_none, from_str], self.metadata_format)
         result["schemes"] = from_union([lambda x: from_list(from_str, x), from_none], self.schemes)
         result["zoom"] = from_union([lambda x: to_class(Zoom, x), from_none], self.zoom)
         return result
@@ -545,6 +507,7 @@ class TypeEnum(Enum):
     COVERAGE = "coverage"
 
 
+@dataclass
 class DataProvider:
     """An array of vizzToolsCore provider definition objects that describe the connections to
     the data of the dataset.
@@ -569,62 +532,50 @@ class DataProvider:
     MVT TileProvider
     """
     data: Union[DatabaseData, str]
-    id_field: Optional[str]
     name: str
     type: TypeEnum
-    time_field: Optional[str]
-    table: Optional[str]
-    geom_field: Optional[str]
-    format: Optional[Format]
-    options: Optional[EOptions]
-    x_field: Optional[str]
+    id_field: Optional[str]
     y_field: Optional[str]
-
-    def __init__(self, data: Union[DatabaseData, str], id_field: Optional[str], name: str, type: TypeEnum, time_field: Optional[str], table: Optional[str], geom_field: Optional[str], format: Optional[Format], options: Optional[EOptions], x_field: Optional[str], y_field: Optional[str]) -> None:
-        self.data = data
-        self.id_field = id_field
-        self.name = name
-        self.type = type
-        self.time_field = time_field
-        self.table = table
-        self.geom_field = geom_field
-        self.format = format
-        self.options = options
-        self.x_field = x_field
-        self.y_field = y_field
+    format: Optional[Format]
+    table: Optional[str]
+    time_field: Optional[str]
+    geom_field: Optional[str]
+    x_field: Optional[str]
+    options: Optional[EOptions]
 
     @staticmethod
     def from_dict(obj: Any) -> 'DataProvider':
         assert isinstance(obj, dict)
-        data = from_union([from_str, DatabaseData.from_dict], obj.get("data"))
-        id_field = from_union([from_str, from_none], obj.get("id_field"))
+        data = from_union([DatabaseData.from_dict, from_str], obj.get("data"))
         name = from_str(obj.get("name"))
         type = TypeEnum(obj.get("type"))
-        time_field = from_union([from_str, from_none], obj.get("time_field"))
-        table = from_union([from_str, from_none], obj.get("table"))
-        geom_field = from_union([from_str, from_none], obj.get("geom_field"))
+        id_field = from_union([from_none, from_str], obj.get("id_field"))
+        y_field = from_union([from_none, from_str], obj.get("y_field"))
         format = from_union([Format.from_dict, from_none], obj.get("format"))
+        table = from_union([from_none, from_str], obj.get("table"))
+        time_field = from_union([from_none, from_str], obj.get("time_field"))
+        geom_field = from_union([from_none, from_str], obj.get("geom_field"))
+        x_field = from_union([from_none, from_str], obj.get("x_field"))
         options = from_union([EOptions.from_dict, from_none], obj.get("options"))
-        x_field = from_union([from_str, from_none], obj.get("x_field"))
-        y_field = from_union([from_str, from_none], obj.get("y_field"))
-        return DataProvider(data, id_field, name, type, time_field, table, geom_field, format, options, x_field, y_field)
+        return DataProvider(data, name, type, id_field, y_field, format, table, time_field, geom_field, x_field, options)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["data"] = from_union([from_str, lambda x: to_class(DatabaseData, x)], self.data)
-        result["id_field"] = from_union([from_str, from_none], self.id_field)
+        result["data"] = from_union([lambda x: to_class(DatabaseData, x), from_str], self.data)
         result["name"] = from_str(self.name)
         result["type"] = to_enum(TypeEnum, self.type)
-        result["time_field"] = from_union([from_str, from_none], self.time_field)
-        result["table"] = from_union([from_str, from_none], self.table)
-        result["geom_field"] = from_union([from_str, from_none], self.geom_field)
+        result["id_field"] = from_union([from_none, from_str], self.id_field)
+        result["y_field"] = from_union([from_none, from_str], self.y_field)
         result["format"] = from_union([lambda x: to_class(Format, x), from_none], self.format)
+        result["table"] = from_union([from_none, from_str], self.table)
+        result["time_field"] = from_union([from_none, from_str], self.time_field)
+        result["geom_field"] = from_union([from_none, from_str], self.geom_field)
+        result["x_field"] = from_union([from_none, from_str], self.x_field)
         result["options"] = from_union([lambda x: to_class(EOptions, x), from_none], self.options)
-        result["x_field"] = from_union([from_str, from_none], self.x_field)
-        result["y_field"] = from_union([from_str, from_none], self.y_field)
         return result
 
 
+@dataclass
 class DataDownload:
     """An array of schema.org DataDownload objects that describe URIs to access to the entity.
     
@@ -634,10 +585,6 @@ class DataDownload:
     """
     type: Any
     content_url: Any
-
-    def __init__(self, type: Any, content_url: Any) -> None:
-        self.type = type
-        self.content_url = content_url
 
     @staticmethod
     def from_dict(obj: Any) -> 'DataDownload':
@@ -913,6 +860,7 @@ class GeoType(Enum):
     GEO_SHAPE = "GeoShape"
 
 
+@dataclass
 class Geo:
     """The geo coordinates of the place.
     
@@ -924,37 +872,31 @@ class Geo:
     several such points.
     """
     type: GeoType
-    """The latitude of a location. For example 37.42242 (WGS 84)."""
-    latitude: Optional[float]
-    """The longitude of a location. For example -122.08585 (WGS 84)."""
-    longitude: Optional[float]
     """A box is the area enclosed by the rectangle formed by two points. The first point is the
     lower corner, the second point is the upper corner. A box is expressed as two points
     separated by a space character.
     """
     box: Optional[str]
-
-    def __init__(self, type: GeoType, latitude: Optional[float], longitude: Optional[float], box: Optional[str]) -> None:
-        self.type = type
-        self.latitude = latitude
-        self.longitude = longitude
-        self.box = box
+    """The latitude of a location. For example 37.42242 (WGS 84)."""
+    latitude: Optional[float]
+    """The longitude of a location. For example -122.08585 (WGS 84)."""
+    longitude: Optional[float]
 
     @staticmethod
     def from_dict(obj: Any) -> 'Geo':
         assert isinstance(obj, dict)
         type = GeoType(obj.get("@type"))
+        box = from_union([from_none, from_str], obj.get("box"))
         latitude = from_union([from_float, from_none], obj.get("latitude"))
         longitude = from_union([from_float, from_none], obj.get("longitude"))
-        box = from_union([from_str, from_none], obj.get("box"))
-        return Geo(type, latitude, longitude, box)
+        return Geo(type, box, latitude, longitude)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(GeoType, self.type)
+        result["box"] = from_union([from_none, from_str], self.box)
         result["latitude"] = from_union([to_float, from_none], self.latitude)
         result["longitude"] = from_union([to_float, from_none], self.longitude)
-        result["box"] = from_union([from_str, from_none], self.box)
         return result
 
 
@@ -1027,6 +969,7 @@ class PlaceType(Enum):
     PLACE = "Place"
 
 
+@dataclass
 class Place:
     """Entities that have a somewhat fixed, physical extension."""
     type: PlaceType
@@ -1034,27 +977,21 @@ class Place:
     global_location_number: Optional[str]
     name: Optional[str]
 
-    def __init__(self, type: PlaceType, geo: Geo, global_location_number: Optional[str], name: Optional[str]) -> None:
-        self.type = type
-        self.geo = geo
-        self.global_location_number = global_location_number
-        self.name = name
-
     @staticmethod
     def from_dict(obj: Any) -> 'Place':
         assert isinstance(obj, dict)
         type = PlaceType(obj.get("@type"))
         geo = Geo.from_dict(obj.get("geo"))
-        global_location_number = from_union([from_str, from_none], obj.get("globalLocationNumber"))
-        name = from_union([from_str, from_none], obj.get("name"))
+        global_location_number = from_union([from_none, from_str], obj.get("globalLocationNumber"))
+        name = from_union([from_none, from_str], obj.get("name"))
         return Place(type, geo, global_location_number, name)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PlaceType, self.type)
         result["geo"] = to_class(Geo, self.geo)
-        result["globalLocationNumber"] = from_union([from_str, from_none], self.global_location_number)
-        result["name"] = from_union([from_str, from_none], self.name)
+        result["globalLocationNumber"] = from_union([from_none, from_str], self.global_location_number)
+        result["name"] = from_union([from_none, from_str], self.name)
         return result
 
 
@@ -1196,6 +1133,7 @@ class PropertyValueType(Enum):
     PROPERTY_VALUE = "PropertyValue"
 
 
+@dataclass
 class PropertyValue:
     """Adaptation of schema.org PropertyValue for the description of the physical quantities of
     data variables (fields or parameters). Note this is non standard and includes extra
@@ -1203,6 +1141,10 @@ class PropertyValue:
     (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).
     """
     type: PropertyValueType
+    """Name of the property as used in the dataset."""
+    name: str
+    """Value of the property."""
+    value: Union[List[Any], bool, float, int, Dict[str, Any], None, str]
     """Representative units of the physical quantity. Unless it is dimensionless, a variable
     with a standard_name attribute must have units which are physically equivalent (not
     necessarily identical) to the canonical units and are usually the SI units for the
@@ -1219,8 +1161,6 @@ class PropertyValue:
     description: Optional[str]
     """The long name of the property. Use this to provide a human readable name fro the property."""
     long_name: Optional[str]
-    """Name of the property as used in the dataset."""
-    name: str
     """Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     """
@@ -1231,188 +1171,143 @@ class PropertyValue:
     """
     standard_name: Optional[str]
     unit_text: Optional[str]
-    """Value of the property."""
-    value: Union[List[Any], bool, float, int, Dict[str, Any], None, str]
-
-    def __init__(self, type: PropertyValueType, canonical_units: Optional[str], description: Optional[str], long_name: Optional[str], name: str, same_as: Optional[str], standard_name: Optional[str], unit_text: Optional[str], value: Union[List[Any], bool, float, int, Dict[str, Any], None, str]) -> None:
-        self.type = type
-        self.canonical_units = canonical_units
-        self.description = description
-        self.long_name = long_name
-        self.name = name
-        self.same_as = same_as
-        self.standard_name = standard_name
-        self.unit_text = unit_text
-        self.value = value
 
     @staticmethod
     def from_dict(obj: Any) -> 'PropertyValue':
         assert isinstance(obj, dict)
         type = PropertyValueType(obj.get("@type"))
-        canonical_units = from_union([from_str, from_none], obj.get("canonical_units"))
-        description = from_union([from_str, from_none], obj.get("description"))
-        long_name = from_union([from_str, from_none], obj.get("long_name"))
         name = from_str(obj.get("name"))
-        same_as = from_union([from_str, from_none], obj.get("sameAs"))
-        standard_name = from_union([from_str, from_none], obj.get("standard_name"))
-        unit_text = from_union([from_str, from_none], obj.get("unitText"))
-        value = from_union([from_float, from_int, from_bool, lambda x: from_dict(lambda x: x, x), lambda x: from_list(lambda x: x, x), from_str, from_none], obj.get("value"))
-        return PropertyValue(type, canonical_units, description, long_name, name, same_as, standard_name, unit_text, value)
+        value = from_union([lambda x: from_list(lambda x: x, x), from_bool, from_float, from_int, lambda x: from_dict(lambda x: x, x), from_none, from_str], obj.get("value"))
+        canonical_units = from_union([from_none, from_str], obj.get("canonical_units"))
+        description = from_union([from_none, from_str], obj.get("description"))
+        long_name = from_union([from_none, from_str], obj.get("long_name"))
+        same_as = from_union([from_none, from_str], obj.get("sameAs"))
+        standard_name = from_union([from_none, from_str], obj.get("standard_name"))
+        unit_text = from_union([from_none, from_str], obj.get("unitText"))
+        return PropertyValue(type, name, value, canonical_units, description, long_name, same_as, standard_name, unit_text)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PropertyValueType, self.type)
-        result["canonical_units"] = from_union([from_str, from_none], self.canonical_units)
-        result["description"] = from_union([from_str, from_none], self.description)
-        result["long_name"] = from_union([from_str, from_none], self.long_name)
         result["name"] = from_str(self.name)
-        result["sameAs"] = from_union([from_str, from_none], self.same_as)
-        result["standard_name"] = from_union([from_str, from_none], self.standard_name)
-        result["unitText"] = from_union([from_str, from_none], self.unit_text)
-        result["value"] = from_union([to_float, from_int, from_bool, lambda x: from_dict(lambda x: x, x), lambda x: from_list(lambda x: x, x), from_str, from_none], self.value)
+        result["value"] = from_union([lambda x: from_list(lambda x: x, x), from_bool, to_float, from_int, lambda x: from_dict(lambda x: x, x), from_none, from_str], self.value)
+        result["canonical_units"] = from_union([from_none, from_str], self.canonical_units)
+        result["description"] = from_union([from_none, from_str], self.description)
+        result["long_name"] = from_union([from_none, from_str], self.long_name)
+        result["sameAs"] = from_union([from_none, from_str], self.same_as)
+        result["standard_name"] = from_union([from_none, from_str], self.standard_name)
+        result["unitText"] = from_union([from_none, from_str], self.unit_text)
         return result
 
 
+@dataclass
 class Dataset:
     """A vizzToolsCore Dataset metadata/configuration object. This is an extended version of
     schema.org [Dataset](https://schema.org/Dataset) following the Google structured data
     Dataset guidelines. Non schema.org extensions to this include the properties;
     [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).
     """
-    schema: Optional[str]
-    context: Optional[str]
+    identifier: Union[List[str], None, str]
+    version: Union[int, None, str]
     id: str
-    type: Optional[DatasetType]
+    variable_measured: Union[PropertyValue, None, str]
     alternate_name: Union[List[str], None, str]
     citation: Union[List[str], None, str]
-    creator: Optional[List[SDPublisher]]
+    spatial_coverage: Union[Place, None, str]
+    license: Optional[str]
     data_providers: Optional[List[DataProvider]]
-    date_created: Optional[datetime]
     date_modified: Optional[datetime]
     date_published: Optional[datetime]
     description: Optional[str]
     distribution: Optional[List[DataDownload]]
     funder: Optional[List[SDPublisher]]
     has_part: Optional[List[Union[Dict[str, Any], str]]]
-    identifier: Union[List[str], None, str]
+    context: Optional[str]
     in_language: Optional[InLanguage]
     is_based_on: Optional[str]
     is_part_of: Optional[List[Union[Dict[str, Any], str]]]
-    license: Optional[str]
+    date_created: Optional[datetime]
     measurement_technique: Optional[str]
     name: Optional[str]
     provider: Optional[List[SDPublisher]]
     same_as: Optional[str]
     sd_publisher: Optional[SDPublisher]
-    spatial_coverage: Union[Place, None, str]
+    creator: Optional[List[SDPublisher]]
     temporal_coverage: Optional[str]
     thumbnail_url: Optional[str]
     url: Optional[str]
-    variable_measured: Union[PropertyValue, None, str]
-    version: Union[int, None, str]
-
-    def __init__(self, schema: Optional[str], context: Optional[str], id: str, type: Optional[DatasetType], alternate_name: Union[List[str], None, str], citation: Union[List[str], None, str], creator: Optional[List[SDPublisher]], data_providers: Optional[List[DataProvider]], date_created: Optional[datetime], date_modified: Optional[datetime], date_published: Optional[datetime], description: Optional[str], distribution: Optional[List[DataDownload]], funder: Optional[List[SDPublisher]], has_part: Optional[List[Union[Dict[str, Any], str]]], identifier: Union[List[str], None, str], in_language: Optional[InLanguage], is_based_on: Optional[str], is_part_of: Optional[List[Union[Dict[str, Any], str]]], license: Optional[str], measurement_technique: Optional[str], name: Optional[str], provider: Optional[List[SDPublisher]], same_as: Optional[str], sd_publisher: Optional[SDPublisher], spatial_coverage: Union[Place, None, str], temporal_coverage: Optional[str], thumbnail_url: Optional[str], url: Optional[str], variable_measured: Union[PropertyValue, None, str], version: Union[int, None, str]) -> None:
-        self.schema = schema
-        self.context = context
-        self.id = id
-        self.type = type
-        self.alternate_name = alternate_name
-        self.citation = citation
-        self.creator = creator
-        self.data_providers = data_providers
-        self.date_created = date_created
-        self.date_modified = date_modified
-        self.date_published = date_published
-        self.description = description
-        self.distribution = distribution
-        self.funder = funder
-        self.has_part = has_part
-        self.identifier = identifier
-        self.in_language = in_language
-        self.is_based_on = is_based_on
-        self.is_part_of = is_part_of
-        self.license = license
-        self.measurement_technique = measurement_technique
-        self.name = name
-        self.provider = provider
-        self.same_as = same_as
-        self.sd_publisher = sd_publisher
-        self.spatial_coverage = spatial_coverage
-        self.temporal_coverage = temporal_coverage
-        self.thumbnail_url = thumbnail_url
-        self.url = url
-        self.variable_measured = variable_measured
-        self.version = version
+    type: Optional[DatasetType]
+    schema: Optional[str]
 
     @staticmethod
     def from_dict(obj: Any) -> 'Dataset':
         assert isinstance(obj, dict)
-        schema = from_union([from_str, from_none], obj.get("$schema"))
-        context = from_union([from_str, from_none], obj.get("@context"))
+        identifier = from_union([lambda x: from_list(from_str, x), from_none, from_str], obj.get("identifier"))
+        version = from_union([from_int, from_none, from_str], obj.get("version"))
         id = from_str(obj.get("@id"))
-        type = from_union([DatasetType, from_none], obj.get("@type"))
-        alternate_name = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("alternateName"))
-        citation = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("citation"))
-        creator = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("creator"))
+        variable_measured = from_union([PropertyValue.from_dict, from_none, from_str], obj.get("variableMeasured"))
+        alternate_name = from_union([lambda x: from_list(from_str, x), from_none, from_str], obj.get("alternateName"))
+        citation = from_union([lambda x: from_list(from_str, x), from_none, from_str], obj.get("citation"))
+        spatial_coverage = from_union([Place.from_dict, from_none, from_str], obj.get("spatialCoverage"))
+        license = from_union([from_none, from_str], obj.get("license"))
         data_providers = from_union([lambda x: from_list(DataProvider.from_dict, x), from_none], obj.get("dataProviders"))
-        date_created = from_union([from_datetime, from_none], obj.get("dateCreated"))
         date_modified = from_union([from_datetime, from_none], obj.get("dateModified"))
         date_published = from_union([from_datetime, from_none], obj.get("datePublished"))
-        description = from_union([from_str, from_none], obj.get("description"))
+        description = from_union([from_none, from_str], obj.get("description"))
         distribution = from_union([lambda x: from_list(DataDownload.from_dict, x), from_none], obj.get("distribution"))
         funder = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("funder"))
         has_part = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("hasPart"))
-        identifier = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("identifier"))
+        context = from_union([from_none, from_str], obj.get("@context"))
         in_language = from_union([InLanguage, from_none], obj.get("inLanguage"))
-        is_based_on = from_union([from_str, from_none], obj.get("isBasedOn"))
+        is_based_on = from_union([from_none, from_str], obj.get("isBasedOn"))
         is_part_of = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("isPartOf"))
-        license = from_union([from_str, from_none], obj.get("license"))
-        measurement_technique = from_union([from_str, from_none], obj.get("measurementTechnique"))
-        name = from_union([from_str, from_none], obj.get("name"))
+        date_created = from_union([from_datetime, from_none], obj.get("dateCreated"))
+        measurement_technique = from_union([from_none, from_str], obj.get("measurementTechnique"))
+        name = from_union([from_none, from_str], obj.get("name"))
         provider = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("provider"))
-        same_as = from_union([from_str, from_none], obj.get("sameAs"))
+        same_as = from_union([from_none, from_str], obj.get("sameAs"))
         sd_publisher = from_union([SDPublisher.from_dict, from_none], obj.get("sdPublisher"))
-        spatial_coverage = from_union([Place.from_dict, from_str, from_none], obj.get("spatialCoverage"))
-        temporal_coverage = from_union([from_str, from_none], obj.get("temporalCoverage"))
-        thumbnail_url = from_union([from_str, from_none], obj.get("thumbnailUrl"))
-        url = from_union([from_str, from_none], obj.get("url"))
-        variable_measured = from_union([PropertyValue.from_dict, from_str, from_none], obj.get("variableMeasured"))
-        version = from_union([from_int, from_str, from_none], obj.get("version"))
-        return Dataset(schema, context, id, type, alternate_name, citation, creator, data_providers, date_created, date_modified, date_published, description, distribution, funder, has_part, identifier, in_language, is_based_on, is_part_of, license, measurement_technique, name, provider, same_as, sd_publisher, spatial_coverage, temporal_coverage, thumbnail_url, url, variable_measured, version)
+        creator = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("creator"))
+        temporal_coverage = from_union([from_none, from_str], obj.get("temporalCoverage"))
+        thumbnail_url = from_union([from_none, from_str], obj.get("thumbnailUrl"))
+        url = from_union([from_none, from_str], obj.get("url"))
+        type = from_union([DatasetType, from_none], obj.get("@type"))
+        schema = from_union([from_none, from_str], obj.get("$schema"))
+        return Dataset(identifier, version, id, variable_measured, alternate_name, citation, spatial_coverage, license, data_providers, date_modified, date_published, description, distribution, funder, has_part, context, in_language, is_based_on, is_part_of, date_created, measurement_technique, name, provider, same_as, sd_publisher, creator, temporal_coverage, thumbnail_url, url, type, schema)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["$schema"] = from_union([from_str, from_none], self.schema)
-        result["@context"] = from_union([from_str, from_none], self.context)
+        result["identifier"] = from_union([lambda x: from_list(from_str, x), from_none, from_str], self.identifier)
+        result["version"] = from_union([from_int, from_none, from_str], self.version)
         result["@id"] = from_str(self.id)
-        result["@type"] = from_union([lambda x: to_enum(DatasetType, x), from_none], self.type)
-        result["alternateName"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.alternate_name)
-        result["citation"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.citation)
-        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.creator)
+        result["variableMeasured"] = from_union([lambda x: to_class(PropertyValue, x), from_none, from_str], self.variable_measured)
+        result["alternateName"] = from_union([lambda x: from_list(from_str, x), from_none, from_str], self.alternate_name)
+        result["citation"] = from_union([lambda x: from_list(from_str, x), from_none, from_str], self.citation)
+        result["spatialCoverage"] = from_union([lambda x: to_class(Place, x), from_none, from_str], self.spatial_coverage)
+        result["license"] = from_union([from_none, from_str], self.license)
         result["dataProviders"] = from_union([lambda x: from_list(lambda x: to_class(DataProvider, x), x), from_none], self.data_providers)
-        result["dateCreated"] = from_union([lambda x: x.isoformat(), from_none], self.date_created)
         result["dateModified"] = from_union([lambda x: x.isoformat(), from_none], self.date_modified)
         result["datePublished"] = from_union([lambda x: x.isoformat(), from_none], self.date_published)
-        result["description"] = from_union([from_str, from_none], self.description)
+        result["description"] = from_union([from_none, from_str], self.description)
         result["distribution"] = from_union([lambda x: from_list(lambda x: to_class(DataDownload, x), x), from_none], self.distribution)
         result["funder"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.funder)
         result["hasPart"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.has_part)
-        result["identifier"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.identifier)
+        result["@context"] = from_union([from_none, from_str], self.context)
         result["inLanguage"] = from_union([lambda x: to_enum(InLanguage, x), from_none], self.in_language)
-        result["isBasedOn"] = from_union([from_str, from_none], self.is_based_on)
+        result["isBasedOn"] = from_union([from_none, from_str], self.is_based_on)
         result["isPartOf"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.is_part_of)
-        result["license"] = from_union([from_str, from_none], self.license)
-        result["measurementTechnique"] = from_union([from_str, from_none], self.measurement_technique)
-        result["name"] = from_union([from_str, from_none], self.name)
+        result["dateCreated"] = from_union([lambda x: x.isoformat(), from_none], self.date_created)
+        result["measurementTechnique"] = from_union([from_none, from_str], self.measurement_technique)
+        result["name"] = from_union([from_none, from_str], self.name)
         result["provider"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.provider)
-        result["sameAs"] = from_union([from_str, from_none], self.same_as)
+        result["sameAs"] = from_union([from_none, from_str], self.same_as)
         result["sdPublisher"] = from_union([lambda x: to_class(SDPublisher, x), from_none], self.sd_publisher)
-        result["spatialCoverage"] = from_union([lambda x: to_class(Place, x), from_str, from_none], self.spatial_coverage)
-        result["temporalCoverage"] = from_union([from_str, from_none], self.temporal_coverage)
-        result["thumbnailUrl"] = from_union([from_str, from_none], self.thumbnail_url)
-        result["url"] = from_union([from_str, from_none], self.url)
-        result["variableMeasured"] = from_union([lambda x: to_class(PropertyValue, x), from_str, from_none], self.variable_measured)
-        result["version"] = from_union([from_int, from_str, from_none], self.version)
+        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.creator)
+        result["temporalCoverage"] = from_union([from_none, from_str], self.temporal_coverage)
+        result["thumbnailUrl"] = from_union([from_none, from_str], self.thumbnail_url)
+        result["url"] = from_union([from_none, from_str], self.url)
+        result["@type"] = from_union([lambda x: to_enum(DatasetType, x), from_none], self.type)
+        result["$schema"] = from_union([from_none, from_str], self.schema)
         return result
 
 
