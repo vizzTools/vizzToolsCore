@@ -59,7 +59,7 @@
     of the dataset data.
   title: TileProvider
 - description: ISO-8601 time timestamp string.
-  title: time
+  title: Time
 - description: String representing a URI.
   title: URI
 - description: String or array of strings of alternative names that have been used

@@ -24,7 +24,7 @@ for val in "${StringArray[@]}"; do
     quicktype \
     --alphabetize-properties \
     --python-version 3.7 \
-    --debug all \
+    --debug print-schema-resolving \
     -s schema $SCHEMA_DIR$val$SCHEMA_EXT \
     -o $CODE_DIR$val$CODE_EXT
 done
