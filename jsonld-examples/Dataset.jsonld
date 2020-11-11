@@ -75,5 +75,20 @@
     },
     "dateCreated": "2020-10-18T20:48:57Z",
     "dateModified": "2020-10-18T20:48:57Z",
-    "dataProviders": [] 
+    "dataProviders": [{
+        "type": "feature",
+        "name": "CSV",
+        "data": "tests/data/obs.csv",
+        "id_field": "id",
+        "geometry": {
+            "x_field": "long",
+            "y_field": "lat"
+        }
+    },
+    {
+        "type": "feature",
+        "name": "GeoJSON",
+        "data": "tests/data/obs.json",
+        "id_field": "id"
+    }] 
 }
