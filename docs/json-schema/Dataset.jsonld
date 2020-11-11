@@ -2,7 +2,7 @@
     "$schema": "https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.json",
     "@context": "https://vizztools.github.io/vizzToolsCore/json-schema/",
     "@type": "Dataset",
-    "@id": "<collection-id>",
+    "@id": "gmw-mangrove-total-carbon-version-1-0-0",
     "name": "Example collection",
     "description": "The summary must be between 50 and 5000 characters long. The summary may include Markdown syntax. Embedded images need to use absolute path URLs (instead of relative paths). When using the JSON-LD format, denote new lines with two characters: backslash and lower case letter 'n'.",
     "version": "0.0.1",
@@ -66,5 +66,29 @@
         "name": "Data",
         "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip", 
         "encodingFormat": "zip"
-      }] 
+      }],
+    "sdPublisher": {
+        "@type": "Organization",
+        "@id": "https://ror.org/02a809t02",
+        "sameAs": "https://ror.org/02a809t02",
+        "name": "Vizzuality"
+    },
+    "dateCreated": "2020-10-18T20:48:57Z",
+    "dateModified": "2020-10-18T20:48:57Z",
+    "dataProviders": [{
+        "type": "feature",
+        "name": "CSV",
+        "data": "tests/data/obs.csv",
+        "id_field": "id",
+        "geometry": {
+            "x_field": "long",
+            "y_field": "lat"
+        }
+    },
+    {
+        "type": "feature",
+        "name": "GeoJSON",
+        "data": "tests/data/obs.json",
+        "id_field": "id"
+    }] 
 }

@@ -7,13 +7,13 @@ import json
 import yaml
 import pprint
 
-#sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath(".."))
 
 from json_schema_for_humans.generate import generate_from_filename, GenerationConfiguration
 
 # Create site directory structure
-schema_source_dir =  "/home/edward/Documents/vizzToolsCore/json-schema"
-jsonld_source_dir =  "/home/edward/Documents/vizzToolsCore/jsonld-examples"
+schema_source_dir =  "/vizzToolsCore/json-schema"
+jsonld_source_dir =  "/vizzToolsCore/jsonld-examples"
 schema_dir = os.path.join(os.getcwd(), "docs", "json-schema")
 print("schema_dir", schema_dir)
 os.makedirs(schema_dir, exist_ok=True)

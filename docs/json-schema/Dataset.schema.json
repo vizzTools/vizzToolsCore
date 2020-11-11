@@ -3,13 +3,9 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.schema.json",
     "type": "object",
     "title": "Dataset",
-    "description": "A schema.org Dataset metadata object that describes the dataset.",
+    "description": "A vizzToolsCore Dataset metadata/configuration object. This is an extended version of schema.org [Dataset](https://schema.org/Dataset) following the Google structured data Dataset guidelines. Non schema.org extensions to this include the properties; [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).",
     "required": [
-        "$schema",
-        "@type",
-        "@context",
-        "name",
-        "description"
+        "@id"
     ],
     "properties": {
         "$schema": {
@@ -25,7 +21,7 @@
         },
         "@context": {
             "$ref": "@context.schema.json",
-            "default": "https://schema.org"
+            "default": "https://vizztools.github.io/vizzToolsCore/json-schema"
         },
         "@id": {
             "$ref": "@id.schema.json"
@@ -91,7 +87,7 @@
             "$ref": "alternateName.schema.json"
         },
         "variableMeasured": {
-            "title": "The variables measured in the dataset",
+            "title": "The variable(s) measured in the dataset",
             "$ref": "variableMeasured.schema.json"
         },
         "measurementTechnique": {
@@ -121,6 +117,22 @@
         "distribution": {
             "title": "Data download URIs of the dataset",
             "$ref": "distribution.schema.json"
+        },
+        "sdPublisher": {
+            "title": "Structured data publisher of this object",
+            "$ref": "sdPublisher.schema.json"
+        },
+        "dateCreated": {
+            "title": "Timestamp for the creation of this object",
+            "$ref": "dateCreated.schema.json"
+        },
+        "dateModified": {
+            "title": "Timestamp for the modification of this object",
+            "$ref": "dateModified.schema.json"
+        },
+        "dataProviders": {
+            "title": "Data provider configurations to access the data of the dataset",
+            "$ref": "dataProviders.schema.json"
         }
     },
     "examples": [{"$ref":"https://vizztools.github.io/vizzToolsCore/json-schema/Dataset.jsonld"}]

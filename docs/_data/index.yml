@@ -20,7 +20,10 @@
     the information needed for accessing the dataset data items. This Type is meant
     as a template for specific data provider definitions.
   title: DataProvider
-- description: A schema.org Dataset metadata object that describes the dataset.
+- description: A vizzToolsCore Dataset metadata/configuration object. This is an extended
+    version of schema.org [Dataset](https://schema.org/Dataset) following the Google
+    structured data Dataset guidelines. Non schema.org extensions to this include
+    the properties; [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).
   title: Dataset
 - description: ISO-8601 date string.
   title: date
@@ -58,9 +61,7 @@
 - description: ISO-8601 time timestamp string.
   title: time
 - description: String representing a URI.
-  title: uri
-- description: A vizzToolsCore Dataset configuration object.
-  title: VtcDataset
+  title: URI
 - description: String or array of strings of alternative names that have been used
     to refer to this entity, such as aliases or abbreviations.
   title: alternateName

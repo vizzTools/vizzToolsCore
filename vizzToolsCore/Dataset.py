@@ -49,6 +49,16 @@ def to_class(c: Type[T], x: Any) -> dict:
     return cast(Any, x).to_dict()
 
 
+def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
+    assert isinstance(x, list)
+    return [f(y) for y in x]
+
+
+def from_int(x: Any) -> int:
+    assert isinstance(x, int) and not isinstance(x, bool)
+    return x
+
+
 def from_float(x: Any) -> float:
     assert isinstance(x, (float, int)) and not isinstance(x, bool)
     return float(x)
@@ -56,11 +66,6 @@ def from_float(x: Any) -> float:
 
 def to_float(x: Any) -> float:
     assert isinstance(x, float)
-    return x
-
-
-def from_int(x: Any) -> int:
-    assert isinstance(x, int) and not isinstance(x, bool)
     return x
 
 
@@ -72,11 +77,6 @@ def from_bool(x: Any) -> bool:
 def from_dict(f: Callable[[Any], T], x: Any) -> Dict[str, T]:
     assert isinstance(x, dict)
     return { k: f(v) for (k, v) in x.items() }
-
-
-def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
-    assert isinstance(x, list)
-    return [f(y) for y in x]
 
 
 def from_datetime(x: Any) -> datetime:
@@ -95,6 +95,8 @@ class ContactPointType(Enum):
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
+    URI pointing to the data.
+    
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
@@ -110,6 +112,20 @@ class ContactPointType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -179,6 +195,8 @@ class OrganizationType(Enum):
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
+    URI pointing to the data.
+    
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
@@ -194,6 +212,20 @@ class OrganizationType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -259,7 +291,7 @@ class Organization:
         return result
 
 
-class CreatorType(Enum):
+class SDPublisherType(Enum):
     """URI of the JSON schema of this object.
     
     String representing a URI.
@@ -270,6 +302,8 @@ class CreatorType(Enum):
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    URI pointing to the data.
     
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
@@ -286,6 +320,20 @@ class CreatorType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -313,17 +361,23 @@ class CreatorType(Enum):
     PERSON = "Person"
 
 
-class Creator:
+class SDPublisher:
     """An array of schema.org Person or Organization objects. To uniquely identify individuals,
     use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify
     institutions and organizations, use ROR ID.
+    
+    Indicates the party responsible for generating and publishing the current structured data
+    markup, typically in cases where the structured data is derived automatically from
+    existing published content but published on a different site. For example, student
+    projects and open data initiatives often re-publish existing content with more explicitly
+    structured metadata. The sdPublisher property helps make such practices more explicit.
     
     A person (alive, dead, undead, or fictional).
     
     An organization such as a school, NGO, corporation, club, etc.
     """
     id: Optional[str]
-    type: CreatorType
+    type: SDPublisherType
     affiliation: Union[Organization, None, str]
     family_name: Optional[str]
     given_name: Optional[str]
@@ -332,7 +386,7 @@ class Creator:
     contact_point: Optional[ContactPoint]
     url: Optional[str]
 
-    def __init__(self, id: Optional[str], type: CreatorType, affiliation: Union[Organization, None, str], family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
+    def __init__(self, id: Optional[str], type: SDPublisherType, affiliation: Union[Organization, None, str], family_name: Optional[str], given_name: Optional[str], name: str, same_as: Optional[str], contact_point: Optional[ContactPoint], url: Optional[str]) -> None:
         self.id = id
         self.type = type
         self.affiliation = affiliation
@@ -344,10 +398,10 @@ class Creator:
         self.url = url
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Creator':
+    def from_dict(obj: Any) -> 'SDPublisher':
         assert isinstance(obj, dict)
         id = from_union([from_str, from_none], obj.get("@id"))
-        type = CreatorType(obj.get("@type"))
+        type = SDPublisherType(obj.get("@type"))
         affiliation = from_union([Organization.from_dict, from_str, from_none], obj.get("affiliation"))
         family_name = from_union([from_str, from_none], obj.get("familyName"))
         given_name = from_union([from_str, from_none], obj.get("givenName"))
@@ -355,12 +409,12 @@ class Creator:
         same_as = from_union([from_str, from_none], obj.get("sameAs"))
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
         url = from_union([from_str, from_none], obj.get("url"))
-        return Creator(id, type, affiliation, family_name, given_name, name, same_as, contact_point, url)
+        return SDPublisher(id, type, affiliation, family_name, given_name, name, same_as, contact_point, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@id"] = from_union([from_str, from_none], self.id)
-        result["@type"] = to_enum(CreatorType, self.type)
+        result["@type"] = to_enum(SDPublisherType, self.type)
         result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_str, from_none], self.affiliation)
         result["familyName"] = from_union([from_str, from_none], self.family_name)
         result["givenName"] = from_union([from_str, from_none], self.given_name)
@@ -368,6 +422,206 @@ class Creator:
         result["sameAs"] = from_union([from_str, from_none], self.same_as)
         result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
         result["url"] = from_union([from_str, from_none], self.url)
+        return result
+
+
+class DatabaseData:
+    """Object defining database connection."""
+    dbname: Optional[str]
+    host: Optional[str]
+    password: Optional[str]
+    search_path: Optional[List[str]]
+    user: Optional[str]
+
+    def __init__(self, dbname: Optional[str], host: Optional[str], password: Optional[str], search_path: Optional[List[str]], user: Optional[str]) -> None:
+        self.dbname = dbname
+        self.host = host
+        self.password = password
+        self.search_path = search_path
+        self.user = user
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'DatabaseData':
+        assert isinstance(obj, dict)
+        dbname = from_union([from_str, from_none], obj.get("dbname"))
+        host = from_union([from_str, from_none], obj.get("host"))
+        password = from_union([from_str, from_none], obj.get("password"))
+        search_path = from_union([lambda x: from_list(from_str, x), from_none], obj.get("search_path"))
+        user = from_union([from_str, from_none], obj.get("user"))
+        return DatabaseData(dbname, host, password, search_path, user)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["dbname"] = from_union([from_str, from_none], self.dbname)
+        result["host"] = from_union([from_str, from_none], self.host)
+        result["password"] = from_union([from_str, from_none], self.password)
+        result["search_path"] = from_union([lambda x: from_list(from_str, x), from_none], self.search_path)
+        result["user"] = from_union([from_str, from_none], self.user)
+        return result
+
+
+class Format:
+    """Provider data format."""
+    mimetype: Optional[str]
+    name: Optional[str]
+
+    def __init__(self, mimetype: Optional[str], name: Optional[str]) -> None:
+        self.mimetype = mimetype
+        self.name = name
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Format':
+        assert isinstance(obj, dict)
+        mimetype = from_union([from_str, from_none], obj.get("mimetype"))
+        name = from_union([from_str, from_none], obj.get("name"))
+        return Format(mimetype, name)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["mimetype"] = from_union([from_str, from_none], self.mimetype)
+        result["name"] = from_union([from_str, from_none], self.name)
+        return result
+
+
+class Zoom:
+    """Minimum and maximum zoom levels."""
+    max: Optional[int]
+    min: Optional[int]
+
+    def __init__(self, max: Optional[int], min: Optional[int]) -> None:
+        self.max = max
+        self.min = min
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Zoom':
+        assert isinstance(obj, dict)
+        max = from_union([from_int, from_none], obj.get("max"))
+        min = from_union([from_int, from_none], obj.get("min"))
+        return Zoom(max, min)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["max"] = from_union([from_int, from_none], self.max)
+        result["min"] = from_union([from_int, from_none], self.min)
+        return result
+
+
+class EOptions:
+    """Coverage provider data specific options.
+    
+    Tile provider data specific options.
+    """
+    data_encoding: Optional[str]
+    metadata_format: Optional[str]
+    schemes: Optional[List[str]]
+    zoom: Optional[Zoom]
+
+    def __init__(self, data_encoding: Optional[str], metadata_format: Optional[str], schemes: Optional[List[str]], zoom: Optional[Zoom]) -> None:
+        self.data_encoding = data_encoding
+        self.metadata_format = metadata_format
+        self.schemes = schemes
+        self.zoom = zoom
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'EOptions':
+        assert isinstance(obj, dict)
+        data_encoding = from_union([from_str, from_none], obj.get("DATA_ENCODING"))
+        metadata_format = from_union([from_str, from_none], obj.get("metadata_format"))
+        schemes = from_union([lambda x: from_list(from_str, x), from_none], obj.get("schemes"))
+        zoom = from_union([Zoom.from_dict, from_none], obj.get("zoom"))
+        return EOptions(data_encoding, metadata_format, schemes, zoom)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["DATA_ENCODING"] = from_union([from_str, from_none], self.data_encoding)
+        result["metadata_format"] = from_union([from_str, from_none], self.metadata_format)
+        result["schemes"] = from_union([lambda x: from_list(from_str, x), from_none], self.schemes)
+        result["zoom"] = from_union([lambda x: to_class(Zoom, x), from_none], self.zoom)
+        return result
+
+
+class TypeEnum(Enum):
+    """Provider definition type."""
+    COVERAGE = "coverage"
+
+
+class DataProvider:
+    """An array of vizzToolsCore provider definition objects that describe the connections to
+    the data of the dataset.
+    
+    CSV featureProvider
+    
+    GeoJSON FeatureProvider
+    
+    Elasticsearch FeatureProvider
+    
+    SQLiteGPKG featureProvider
+    
+    PostgreSQL featureProvider
+    
+    rasterio CoverageProvider
+    
+    xarray CoverageProvider
+    
+    A vizzToolsCore TileProvider definition object that describes the connection of the
+    dataset data.
+    
+    MVT TileProvider
+    """
+    data: Union[DatabaseData, str]
+    id_field: Optional[str]
+    name: str
+    type: TypeEnum
+    time_field: Optional[str]
+    table: Optional[str]
+    geom_field: Optional[str]
+    format: Optional[Format]
+    options: Optional[EOptions]
+    x_field: Optional[str]
+    y_field: Optional[str]
+
+    def __init__(self, data: Union[DatabaseData, str], id_field: Optional[str], name: str, type: TypeEnum, time_field: Optional[str], table: Optional[str], geom_field: Optional[str], format: Optional[Format], options: Optional[EOptions], x_field: Optional[str], y_field: Optional[str]) -> None:
+        self.data = data
+        self.id_field = id_field
+        self.name = name
+        self.type = type
+        self.time_field = time_field
+        self.table = table
+        self.geom_field = geom_field
+        self.format = format
+        self.options = options
+        self.x_field = x_field
+        self.y_field = y_field
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'DataProvider':
+        assert isinstance(obj, dict)
+        data = from_union([from_str, DatabaseData.from_dict], obj.get("data"))
+        id_field = from_union([from_str, from_none], obj.get("id_field"))
+        name = from_str(obj.get("name"))
+        type = TypeEnum(obj.get("type"))
+        time_field = from_union([from_str, from_none], obj.get("time_field"))
+        table = from_union([from_str, from_none], obj.get("table"))
+        geom_field = from_union([from_str, from_none], obj.get("geom_field"))
+        format = from_union([Format.from_dict, from_none], obj.get("format"))
+        options = from_union([EOptions.from_dict, from_none], obj.get("options"))
+        x_field = from_union([from_str, from_none], obj.get("x_field"))
+        y_field = from_union([from_str, from_none], obj.get("y_field"))
+        return DataProvider(data, id_field, name, type, time_field, table, geom_field, format, options, x_field, y_field)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["data"] = from_union([from_str, lambda x: to_class(DatabaseData, x)], self.data)
+        result["id_field"] = from_union([from_str, from_none], self.id_field)
+        result["name"] = from_str(self.name)
+        result["type"] = to_enum(TypeEnum, self.type)
+        result["time_field"] = from_union([from_str, from_none], self.time_field)
+        result["table"] = from_union([from_str, from_none], self.table)
+        result["geom_field"] = from_union([from_str, from_none], self.geom_field)
+        result["format"] = from_union([lambda x: to_class(Format, x), from_none], self.format)
+        result["options"] = from_union([lambda x: to_class(EOptions, x), from_none], self.options)
+        result["x_field"] = from_union([from_str, from_none], self.x_field)
+        result["y_field"] = from_union([from_str, from_none], self.y_field)
         return result
 
 
@@ -601,6 +855,8 @@ class GeoType(Enum):
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
+    URI pointing to the data.
+    
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
@@ -616,6 +872,20 @@ class GeoType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -700,6 +970,8 @@ class PlaceType(Enum):
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
+    URI pointing to the data.
+    
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
@@ -715,6 +987,20 @@ class PlaceType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -784,6 +1070,8 @@ class DatasetType(Enum):
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
+    URI pointing to the data.
+    
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
@@ -799,6 +1087,20 @@ class DatasetType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -837,6 +1139,8 @@ class PropertyValueType(Enum):
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
     
+    URI pointing to the data.
+    
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
     several originals, use the isBasedOn property. TODO: Align with Google Dataset
@@ -852,6 +1156,20 @@ class PropertyValueType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -956,18 +1274,25 @@ class PropertyValue:
 
 
 class Dataset:
-    """A schema.org Dataset metadata object that describes the dataset."""
-    schema: str
-    context: str
-    id: Optional[str]
-    type: DatasetType
+    """A vizzToolsCore Dataset metadata/configuration object. This is an extended version of
+    schema.org [Dataset](https://schema.org/Dataset) following the Google structured data
+    Dataset guidelines. Non schema.org extensions to this include the properties;
+    [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).
+    """
+    schema: Optional[str]
+    context: Optional[str]
+    id: str
+    type: Optional[DatasetType]
     alternate_name: Union[List[str], None, str]
     citation: Union[List[str], None, str]
-    creator: Optional[List[Creator]]
+    creator: Optional[List[SDPublisher]]
+    data_providers: Optional[List[DataProvider]]
+    date_created: Optional[datetime]
+    date_modified: Optional[datetime]
     date_published: Optional[datetime]
-    description: str
+    description: Optional[str]
     distribution: Optional[List[DataDownload]]
-    funder: Optional[List[Creator]]
+    funder: Optional[List[SDPublisher]]
     has_part: Optional[List[Union[Dict[str, Any], str]]]
     identifier: Union[List[str], None, str]
     in_language: Optional[InLanguage]
@@ -975,9 +1300,10 @@ class Dataset:
     is_part_of: Optional[List[Union[Dict[str, Any], str]]]
     license: Optional[str]
     measurement_technique: Optional[str]
-    name: str
-    provider: Optional[List[Creator]]
+    name: Optional[str]
+    provider: Optional[List[SDPublisher]]
     same_as: Optional[str]
+    sd_publisher: Optional[SDPublisher]
     spatial_coverage: Union[Place, None, str]
     temporal_coverage: Optional[str]
     thumbnail_url: Optional[str]
@@ -985,7 +1311,7 @@ class Dataset:
     variable_measured: Union[PropertyValue, None, str]
     version: Union[int, None, str]
 
-    def __init__(self, schema: str, context: str, id: Optional[str], type: DatasetType, alternate_name: Union[List[str], None, str], citation: Union[List[str], None, str], creator: Optional[List[Creator]], date_published: Optional[datetime], description: str, distribution: Optional[List[DataDownload]], funder: Optional[List[Creator]], has_part: Optional[List[Union[Dict[str, Any], str]]], identifier: Union[List[str], None, str], in_language: Optional[InLanguage], is_based_on: Optional[str], is_part_of: Optional[List[Union[Dict[str, Any], str]]], license: Optional[str], measurement_technique: Optional[str], name: str, provider: Optional[List[Creator]], same_as: Optional[str], spatial_coverage: Union[Place, None, str], temporal_coverage: Optional[str], thumbnail_url: Optional[str], url: Optional[str], variable_measured: Union[PropertyValue, None, str], version: Union[int, None, str]) -> None:
+    def __init__(self, schema: Optional[str], context: Optional[str], id: str, type: Optional[DatasetType], alternate_name: Union[List[str], None, str], citation: Union[List[str], None, str], creator: Optional[List[SDPublisher]], data_providers: Optional[List[DataProvider]], date_created: Optional[datetime], date_modified: Optional[datetime], date_published: Optional[datetime], description: Optional[str], distribution: Optional[List[DataDownload]], funder: Optional[List[SDPublisher]], has_part: Optional[List[Union[Dict[str, Any], str]]], identifier: Union[List[str], None, str], in_language: Optional[InLanguage], is_based_on: Optional[str], is_part_of: Optional[List[Union[Dict[str, Any], str]]], license: Optional[str], measurement_technique: Optional[str], name: Optional[str], provider: Optional[List[SDPublisher]], same_as: Optional[str], sd_publisher: Optional[SDPublisher], spatial_coverage: Union[Place, None, str], temporal_coverage: Optional[str], thumbnail_url: Optional[str], url: Optional[str], variable_measured: Union[PropertyValue, None, str], version: Union[int, None, str]) -> None:
         self.schema = schema
         self.context = context
         self.id = id
@@ -993,6 +1319,9 @@ class Dataset:
         self.alternate_name = alternate_name
         self.citation = citation
         self.creator = creator
+        self.data_providers = data_providers
+        self.date_created = date_created
+        self.date_modified = date_modified
         self.date_published = date_published
         self.description = description
         self.distribution = distribution
@@ -1007,6 +1336,7 @@ class Dataset:
         self.name = name
         self.provider = provider
         self.same_as = same_as
+        self.sd_publisher = sd_publisher
         self.spatial_coverage = spatial_coverage
         self.temporal_coverage = temporal_coverage
         self.thumbnail_url = thumbnail_url
@@ -1017,17 +1347,20 @@ class Dataset:
     @staticmethod
     def from_dict(obj: Any) -> 'Dataset':
         assert isinstance(obj, dict)
-        schema = from_str(obj.get("$schema"))
-        context = from_str(obj.get("@context"))
-        id = from_union([from_str, from_none], obj.get("@id"))
-        type = DatasetType(obj.get("@type"))
+        schema = from_union([from_str, from_none], obj.get("$schema"))
+        context = from_union([from_str, from_none], obj.get("@context"))
+        id = from_str(obj.get("@id"))
+        type = from_union([DatasetType, from_none], obj.get("@type"))
         alternate_name = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("alternateName"))
         citation = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("citation"))
-        creator = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("creator"))
+        creator = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("creator"))
+        data_providers = from_union([lambda x: from_list(DataProvider.from_dict, x), from_none], obj.get("dataProviders"))
+        date_created = from_union([from_datetime, from_none], obj.get("dateCreated"))
+        date_modified = from_union([from_datetime, from_none], obj.get("dateModified"))
         date_published = from_union([from_datetime, from_none], obj.get("datePublished"))
-        description = from_str(obj.get("description"))
+        description = from_union([from_str, from_none], obj.get("description"))
         distribution = from_union([lambda x: from_list(DataDownload.from_dict, x), from_none], obj.get("distribution"))
-        funder = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("funder"))
+        funder = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("funder"))
         has_part = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("hasPart"))
         identifier = from_union([lambda x: from_list(from_str, x), from_str, from_none], obj.get("identifier"))
         in_language = from_union([InLanguage, from_none], obj.get("inLanguage"))
@@ -1035,30 +1368,34 @@ class Dataset:
         is_part_of = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("isPartOf"))
         license = from_union([from_str, from_none], obj.get("license"))
         measurement_technique = from_union([from_str, from_none], obj.get("measurementTechnique"))
-        name = from_str(obj.get("name"))
-        provider = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("provider"))
+        name = from_union([from_str, from_none], obj.get("name"))
+        provider = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("provider"))
         same_as = from_union([from_str, from_none], obj.get("sameAs"))
+        sd_publisher = from_union([SDPublisher.from_dict, from_none], obj.get("sdPublisher"))
         spatial_coverage = from_union([Place.from_dict, from_str, from_none], obj.get("spatialCoverage"))
         temporal_coverage = from_union([from_str, from_none], obj.get("temporalCoverage"))
         thumbnail_url = from_union([from_str, from_none], obj.get("thumbnailUrl"))
         url = from_union([from_str, from_none], obj.get("url"))
         variable_measured = from_union([PropertyValue.from_dict, from_str, from_none], obj.get("variableMeasured"))
         version = from_union([from_int, from_str, from_none], obj.get("version"))
-        return Dataset(schema, context, id, type, alternate_name, citation, creator, date_published, description, distribution, funder, has_part, identifier, in_language, is_based_on, is_part_of, license, measurement_technique, name, provider, same_as, spatial_coverage, temporal_coverage, thumbnail_url, url, variable_measured, version)
+        return Dataset(schema, context, id, type, alternate_name, citation, creator, data_providers, date_created, date_modified, date_published, description, distribution, funder, has_part, identifier, in_language, is_based_on, is_part_of, license, measurement_technique, name, provider, same_as, sd_publisher, spatial_coverage, temporal_coverage, thumbnail_url, url, variable_measured, version)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["$schema"] = from_str(self.schema)
-        result["@context"] = from_str(self.context)
-        result["@id"] = from_union([from_str, from_none], self.id)
-        result["@type"] = to_enum(DatasetType, self.type)
+        result["$schema"] = from_union([from_str, from_none], self.schema)
+        result["@context"] = from_union([from_str, from_none], self.context)
+        result["@id"] = from_str(self.id)
+        result["@type"] = from_union([lambda x: to_enum(DatasetType, x), from_none], self.type)
         result["alternateName"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.alternate_name)
         result["citation"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.citation)
-        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.creator)
+        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.creator)
+        result["dataProviders"] = from_union([lambda x: from_list(lambda x: to_class(DataProvider, x), x), from_none], self.data_providers)
+        result["dateCreated"] = from_union([lambda x: x.isoformat(), from_none], self.date_created)
+        result["dateModified"] = from_union([lambda x: x.isoformat(), from_none], self.date_modified)
         result["datePublished"] = from_union([lambda x: x.isoformat(), from_none], self.date_published)
-        result["description"] = from_str(self.description)
+        result["description"] = from_union([from_str, from_none], self.description)
         result["distribution"] = from_union([lambda x: from_list(lambda x: to_class(DataDownload, x), x), from_none], self.distribution)
-        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.funder)
+        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.funder)
         result["hasPart"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.has_part)
         result["identifier"] = from_union([lambda x: from_list(from_str, x), from_str, from_none], self.identifier)
         result["inLanguage"] = from_union([lambda x: to_enum(InLanguage, x), from_none], self.in_language)
@@ -1066,9 +1403,10 @@ class Dataset:
         result["isPartOf"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.is_part_of)
         result["license"] = from_union([from_str, from_none], self.license)
         result["measurementTechnique"] = from_union([from_str, from_none], self.measurement_technique)
-        result["name"] = from_str(self.name)
-        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.provider)
+        result["name"] = from_union([from_str, from_none], self.name)
+        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.provider)
         result["sameAs"] = from_union([from_str, from_none], self.same_as)
+        result["sdPublisher"] = from_union([lambda x: to_class(SDPublisher, x), from_none], self.sd_publisher)
         result["spatialCoverage"] = from_union([lambda x: to_class(Place, x), from_str, from_none], self.spatial_coverage)
         result["temporalCoverage"] = from_union([from_str, from_none], self.temporal_coverage)
         result["thumbnailUrl"] = from_union([from_str, from_none], self.thumbnail_url)
