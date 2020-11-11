@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/TileProvider.schema.json",
+    "title": "TileProvider",
+    "description": "A vizzToolsCore TileProvider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "MVT": {
+            "type": "object",
+            "title": "MVT",
+            "description": "MVT TileProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "const": "tile"
+                },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "const": "MVT"
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                }
+            }
+        }
+    },
+    "oneOf": [
+        {
+            "$ref": "#/definitions/MVT"
+        }
+    ],
+    "examples": [
+        {
+            "type": "tile",
+            "name": "MVT",
+            "data": "tests/data/tiles/ne_110m_lakes",
+            "options": {
+                "metadata_format": "raw",
+                "zoom": {
+                    "min": 0,
+                    "max": 5
+                },
+                "schemes": [
+                    "WorldCRS84Quad"
+                ]
+            },
+            "format": {
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
+            }
+        }
+    ]
+}

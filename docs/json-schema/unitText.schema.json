@@ -1,0 +1,7 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/unitText.schema.json",
+    "title": "unitText",
+    "description": "A string or text indicating the actual unit of measurement (which maybe different to the canonical_units). In general this should be of the form 'm / s', leave a space between each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix. Dimensionless units are indicated by '1'.",
+    "type": "string"
+}

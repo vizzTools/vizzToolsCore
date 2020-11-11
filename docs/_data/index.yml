@@ -1,0 +1,181 @@
+- description: URI of the JSON schema of this object.
+  title: $schema
+- description: 'A URL that provides descriptions of this objects properties. TODO:
+    Align with full JSON-LD context definition!'
+  title: '@context'
+- description: Identifier string of this object.
+  title: '@id'
+- description: Type of this object.
+  title: '@type'
+- description: "A contact point\u2014for example, a Customer Complaints department."
+  title: ContactPoint
+- description: A vizzToolsCore CoverageProvider definition object that describes the
+    connection of the dataset data.
+  title: CoverageProvider
+- description: A schema.org DataDownload object representing the location and file
+    format for downloadable data of any type. It is best practice to give the entity
+    a name and the encoding.
+  title: DataDownload
+- description: A vizzToolsCore generic DataProvider definition object that describes
+    the information needed for accessing the dataset data items. This Type is meant
+    as a template for specific data provider definitions.
+  title: DataProvider
+- description: A vizzToolsCore Dataset metadata/configuration object. This is an extended
+    version of schema.org [Dataset](https://schema.org/Dataset) following the Google
+    structured data Dataset guidelines. Non schema.org extensions to this include
+    the properties; [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).
+  title: Dataset
+- description: ISO-8601 date string.
+  title: Date
+- description: ISO-8601 date-time timestamp string.
+  title: DateTime
+- description: A vizzToolsCore FeatureProvider definition object that describes the
+    connection of the dataset data.
+  title: FeatureProvider
+- description: The geographic coordinates of an entity.
+  title: GeoCoordinates
+- description: The geographic shape of a place. A GeoShape can be described using
+    several properties whose values are based on latitude/longitude pairs. Either
+    whitespace or commas can be used to separate latitude and longitude; whitespace
+    should be used when writing a list of several such points.
+  title: GeoShape
+- description: 2-digit ISO 639-1 language codes
+  title: Iso6391LanguageCodes
+- description: "A list of items of any sort\u2014for example, Top 10 Movies About\
+    \ Weathermen, or Top 100 Party Songs. Not to be confused with HTML lists, which\
+    \ are often used only for formatting."
+  title: ItemList
+- description: An organization such as a school, NGO, corporation, club, etc.
+  title: Organization
+- description: A person (alive, dead, undead, or fictional).
+  title: Person
+- description: Entities that have a somewhat fixed, physical extension.
+  title: Place
+- description: Adaptation of schema.org PropertyValue for the description of the physical
+    quantities of data variables (fields or parameters). Note this is non standard
+    and includes extra properties from the CF standard name definition (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).
+  title: PropertyValue
+- description: A vizzToolsCore TileProvider definition object that describes the connection
+    of the dataset data.
+  title: TileProvider
+- description: ISO-8601 time timestamp string.
+  title: time
+- description: String representing a URI.
+  title: URI
+- description: String or array of strings of alternative names that have been used
+    to refer to this entity, such as aliases or abbreviations.
+  title: alternateName
+- description: String or array of strings that identify academic articles that are
+    recommended by the data provider be cited in addition to the entity itself.
+  title: citation
+- description: An array of schema.org Person or Organization objects. To uniquely
+    identify individuals, use ORCID ID as the value of the sameAs property of the
+    Person type. To uniquely identify institutions and organizations, use ROR ID.
+  title: creator
+- description: An array of vizzToolsCore provider definition objects that describe
+    the connections to the data of the dataset.
+  title: dataProviders
+- description: The ISO-8601 timestamp at which this entity was created.
+  title: dateCreated
+- description: The ISO-8601 timestamp at which this entity was modified.
+  title: dateModified
+- description: 'Short summary describing the entity. The summary must be between 50
+    and 5000 characters long. The summary may include Markdown syntax. Embedded images
+    need to use absolute path URLs (instead of relative paths). When using the JSON-LD
+    format, denote new lines with two characters: backslash and lower case letter
+    ''n''.'
+  title: description
+- description: An array of schema.org DataDownload objects that describe URIs to access
+    to the entity.
+  title: distribution
+- description: An array of schema.org Person or Organization objects. To uniquely
+    identify individuals, use ORCID ID as the value of the sameAs property of the
+    Person type. To uniquely identify institutions and organizations, use ROR ID.
+  title: funder
+- description: The geo coordinates of the place.
+  title: geo
+- description: The Global Location Number (GLN, sometimes also referred to as International
+    Location Number or ILN) of the respective organization, person, or place. The
+    GLN is a 13-digit number used to identify parties and physical locations.
+  title: globalLocationNumber
+- description: If the dataset is a collection of smaller datasets, use the hasPart
+    property to denote such relationship. Can take the form of an array of URL(s)
+    or Dataset objects.
+  title: hasPart
+- description: An identifier, such as a DOI or a Compact Identifier. If the dataset
+    has more than one identifier, repeat the identifier property as an array.
+  title: identifier
+- description: The language of the content or performance or used in an action. Please
+    use one of the language codes from the IETF BCP 47 standard.
+  title: inLanguage
+- description: 'Use the isBasedOn property in cases where the republished dataset
+    (including its metadata) has been changed significantly. When a dataset derives
+    from or aggregates several originals, use the isBasedOn property. TODO: Align
+    with Google Dataset guidelines'
+  title: isBasedOn
+- description: If the dataset is part of a larger dataset, use the isPartOf property
+    to denote such relationship. Can take the form of an array of URL(s) or a Dataset
+    objects.
+  title: isPartOf
+- description: Keywords summarizing the dataset as a comma separated string or array
+    of strings
+  title: keywords
+- description: Licensing and terms of use for the object, preferably as a URI with
+    a description
+  title: license
+- description: List of text descriptions with information about the major data processing
+    actions applied to the dataset.
+  title: lineage
+- description: An array of schema.org DataDownload objects that describe URIs to access
+    description, metadata and data of the dataset. Use `name` to indicate the information
+    type.
+  title: links
+- description: The technique, technology, or methodology used in a dataset, which
+    can correspond to the variable(s) described in variableMeasured. The measurementTechnique
+    property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/measurementTechnique
+  title: measurementTechnique
+- description: An array of schema.org Dataset objects that describe the dataset
+  title: metadata
+- description: A descriptive (full) name of the entity. For example, a dataset called
+    'Snow depth in the Northern Hemisphere' or a person called 'Sarah L. Jones' or
+    a place called 'The Empire States Building'. Use unique names for distinct entities
+    whenever possible.
+  title: name
+- description: An array of schema.org Person or Organization objects. To uniquely
+    identify individuals, use ORCID ID as the value of the sameAs property of the
+    Person type. To uniquely identify institutions and organizations, use ROR ID.
+  title: provider
+- description: Use the sameAs property to indicate the most canonical URLs for the
+    original in cases of the entity. For example this may be a link to the original
+    metadata of a dataset, definition of a property, Person, Organization or Place.
+  title: sameAs
+- description: Indicates the party responsible for generating and publishing the current
+    structured data markup, typically in cases where the structured data is derived
+    automatically from existing published content but published on a different site.
+    For example, student projects and open data initiatives often re-publish existing
+    content with more explicitly structured metadata. The sdPublisher property helps
+    make such practices more explicit.
+  title: sdPublisher
+- description: You can provide a single point that describes the spatial aspect of
+    the dataset. Only include this property if the dataset has a spatial dimension.
+    For example, a single point where all the measurements were collected, or the
+    coordinates of a bounding box for an area.
+  title: spatialCoverage
+- description: 'The data in the dataset covers a specific time interval. Only include
+    this property if the dataset has a temporal dimension. Schema.org uses the ISO
+    8601 standard to describe time intervals and time points. You can describe dates
+    differently depending upon the dataset interval. Indicate open-ended intervals
+    with two decimal points (..). TODO: adjust validation for these specific cases!'
+  title: temporalCoverage
+- description: A string or text indicating the actual unit of measurement (which maybe
+    different to the canonical_units). In general this should be of the form 'm /
+    s', leave a space between each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    Dimensionless units are indicated by '1'.
+  title: unitText
+- description: The variable that this dataset measures. For example, temperature or
+    pressure. The variableMeasured property is proposed and pending standardization
+    at schema.org, see https://pending.webschemas.org/variableMeasured.
+  title: variableMeasured
+- description: The version number for the entity. If no versioning is given, consider
+    using semantic versioning (1.0.0) or the publication date
+  title: version

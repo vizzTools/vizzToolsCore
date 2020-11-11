@@ -1,0 +1,124 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/CoverageProvider.schema.json",
+    "title": "CoverageProvider",
+    "description": "A vizzToolsCore CoverageProvider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "rasterio": {
+            "type": "object",
+            "title": "rasterio",
+            "description": "rasterio CoverageProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "const": "coverage"
+                },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "const": "rasterio"
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                }
+            }
+        },
+        "xarray": {
+            "type": "object",
+            "title": "xarray",
+            "description": "xarray CoverageProvider",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format",
+                "x_field",
+                "y_field",
+                "time_field"
+            ],
+            "properties": {
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "const": "coverage"
+                },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "const": "xarray"
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "x_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/x_field"
+                },
+                "y_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/y_field"
+                },
+                "time_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/time_field"
+                }
+            }
+        }
+    },
+    "oneOf": [
+        {
+            "$ref": "#/definitions/rasterio"
+        },
+        {
+            "$ref": "#/definitions/xarray"
+        }
+    ],
+    "examples": [
+        {
+            "type": "coverage",
+            "name": "rasterio",
+            "data": "tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            },
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "tests/data/coads_sst.nc",
+            "x_field": "lon",
+            "time_field": "time",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        }
+    ]
+}
