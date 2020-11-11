@@ -22,6 +22,10 @@
   title: DataProvider
 - description: A schema.org Dataset metadata object that describes the dataset.
   title: Dataset
+- description: ISO-8601 date string.
+  title: date
+- description: ISO-8601 date-time timestamp string.
+  title: dateTime
 - description: A vizzToolsCore FeatureProvider definition object that describes the
     connection of the dataset data.
   title: FeatureProvider
@@ -51,6 +55,10 @@
 - description: A vizzToolsCore TileProvider definition object that describes the connection
     of the dataset data.
   title: TileProvider
+- description: ISO-8601 time timestamp string.
+  title: time
+- description: String representing a URI.
+  title: uri
 - description: A vizzToolsCore Dataset configuration object.
   title: VtcDataset
 - description: String or array of strings of alternative names that have been used

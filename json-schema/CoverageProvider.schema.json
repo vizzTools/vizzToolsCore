@@ -79,7 +79,7 @@
             }
         }
     },
-    "anyOf": [
+    "oneOf": [
         {
             "$ref": "#/definitions/rasterio"
         },

@@ -36,7 +36,7 @@
             }
         }
     },
-    "anyOf": [
+    "oneOf": [
         {
             "$ref": "#/definitions/MVT"
         }

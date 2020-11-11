@@ -156,7 +156,7 @@
             }
         }
     },
-    "anyOf": [
+    "oneOf": [
         {
             "$ref": "#/definitions/CSV"
         },
