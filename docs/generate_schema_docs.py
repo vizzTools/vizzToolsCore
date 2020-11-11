@@ -5,6 +5,7 @@ import shutil
 import sys
 import json
 import yaml
+import pprint
 
 #sys.path.insert(0, os.path.abspath(".."))
 
@@ -41,6 +42,7 @@ for case_name in os.listdir(jsonld_source_dir):
 print("\nProcessing JSON Schema")
 out = []
 fl = os.listdir(schema_source_dir)
+pprint.pprint(fl)
 for case_name in sorted(fl):
     print(f"Processing {case_name}")
     name, ext = os.path.splitext(case_name)
@@ -55,12 +57,10 @@ for case_name in sorted(fl):
 
     print(f"Generating example {name}")
 
-    config = GenerationConfiguration(recursive_detection_depth=10000)
+    config = GenerationConfiguration(recursive_detection_depth=10000, expand_buttons=True, deprecated_from_description=True)
     generate_from_filename(
         case_source,
         os.path.join(schema_dir, f"{name}.html"),
-        deprecated_from_description=True,
-        expand_buttons=True,
         config=config
     )
 
@@ -72,7 +72,8 @@ for case_name in sorted(fl):
         yaml_data_dict = {'title': obj["title"], 'description': obj["description"]}
         out.append(yaml_data_dict)
 
-# Write site index YAML        
+# Write site index YAML
+pprint.pprint(out)        
 with open(os.path.join(os.getcwd(), "docs", "_data", "index.yml"),'w') as yamlfile:
     yaml.safe_dump(out, yamlfile) # Also note the safe_dump
 
