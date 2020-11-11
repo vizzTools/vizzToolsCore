@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DataDownload.schema.json",
+    "$id": "DataDownload.schema.json",
     "type": "object",
     "title": "DataDownload",
     "description": "A schema.org DataDownload object representing the location and file format for downloadable data of any type. It is best practice to give the entity a name and the encoding.",

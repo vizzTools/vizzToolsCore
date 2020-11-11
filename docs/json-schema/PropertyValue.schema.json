@@ -38,7 +38,7 @@
         },
         "description": {
             "$ref": "description.schema.json",
-            "description": "The description is meant to clarify the qualifiers of the fundamental quantities such as which surface a quantity is defined on or what the flux sign conventions are. We don’t attempt to provide precise definitions of fundamental physical quantities (e.g., temperature) which may be found in the literature. The description may define rules on the variable type, attributes and coordinates which must be complied with by any variable carrying that standard name."
+            "description": "The description is meant to clarify the qualifiers of the fundamental quantities such as which surface a quantity is defined on or what the flux sign conventions are. We don\u2019t attempt to provide precise definitions of fundamental physical quantities (e.g., temperature) which may be found in the literature. The description may define rules on the variable type, attributes and coordinates which must be complied with by any variable carrying that standard name."
         },
         "sameAs": {
             "description": "Use the sameAs property to indicate the most canonical URL for the original description of the property.",
@@ -74,7 +74,7 @@
             "@type": "PropertyValue",
             "name": "pressure_pa",
             "canonical_units": "Pa",
-            "unitText": "µ Pa",
+            "unitText": "\u00b5 Pa",
             "standard_name": "air_pressure",
             "long_name": "Air pressure",
             "description": "Air pressure is the force per unit area which would be exerted when the moving gas molecules of which the air is composed strike a theoretical surface of any orientation.",

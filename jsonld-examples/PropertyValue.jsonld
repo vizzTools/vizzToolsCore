@@ -1,4 +1,6 @@
 {
+    "$schema": "../json-schema/PropertyValue.schema.json",
+    "@context": "",
     "@type": "PropertyValue",
     "name": "pressure_pa",
     "canonical_units": "Pa",

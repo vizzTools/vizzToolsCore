@@ -32,7 +32,9 @@
         "name": {
             "$ref": "name.schema.json"
         },
-        "sameAs": {"$ref": "sameAs.schema.json"},
+        "sameAs": {
+            "$ref": "sameAs.schema.json"
+        },
         "contactPoint": {
             "$ref": "ContactPoint.schema.json"
         }

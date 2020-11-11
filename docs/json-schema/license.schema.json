@@ -4,7 +4,11 @@
     "title": "license",
     "description": "Licensing and terms of use for the object, preferably as a URI with a description",
     "anyOf": [
-        {"type": "string"},
-        {"$ref": "URI.schema.json"}
+        {
+            "type": "string"
+        },
+        {
+            "$ref": "URI.schema.json"
+        }
     ]
 }

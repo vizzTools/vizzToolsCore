@@ -5,11 +5,11 @@
     "title": "geo",
     "description": "The geo coordinates of the place.",
     "oneOf": [
-                {
-                    "$ref": "GeoCoordinates.schema.json"
-                },
-                {
-                    "$ref": "GeoShape.schema.json"
-                }
-            ]
+        {
+            "$ref": "GeoCoordinates.schema.json"
+        },
+        {
+            "$ref": "GeoShape.schema.json"
+        }
+    ]
 }

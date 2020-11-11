@@ -3,7 +3,7 @@
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/ContactPoint.schema.json",
     "type": "object",
     "title": "ContactPoint",
-    "description": "A contact point—for example, a Customer Complaints department.",
+    "description": "A contact point\u2014for example, a Customer Complaints department.",
     "required": [
         "@type",
         "email"

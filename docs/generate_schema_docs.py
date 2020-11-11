@@ -6,17 +6,24 @@ import sys
 import json
 import yaml
 import pprint
-
-sys.path.insert(0, os.path.abspath(".."))
-
 from json_schema_for_humans.generate import generate_from_filename, GenerationConfiguration
 
-# Create site directory structure
-schema_source_dir =  "json-schema"
-jsonld_source_dir =  "jsonld-examples"
-schema_dir = os.path.join(os.getcwd(), "docs", "json-schema")
-print("schema_dir", schema_dir)
-os.makedirs(schema_dir, exist_ok=True)
+# Set path when run in docs
+sys.path.insert(0, os.path.abspath(".."))
+
+# Define directory names of schema and examples
+URL_PATH = "https://vizztools.github.io/vizzToolsCore"
+SCHEMA_DIR =  "json-schema"
+JSONLD_DIR =  "jsonld-examples"
+DOCS_DIR = "docs"
+
+# Make directories in docs
+DOCS_SCHEMA_PATH = os.path.join(os.getcwd(), DOCS_DIR, SCHEMA_DIR)
+DOCS_JSONLD_PATH = os.path.join(os.getcwd(), DOCS_DIR, JSONLD_DIR)
+DOCS_PATH = os.path.join(os.getcwd(), DOCS_DIR)
+os.makedirs(DOCS_SCHEMA_PATH, exist_ok=True)
+os.makedirs(DOCS_JSONLD_PATH, exist_ok=True)
+
 #schema_includes_dir = os.path.join(os.getcwd(), "docs", "_includes", "json-schema")
 #print("schema_includes_dir", schema_includes_dir)
 #os.makedirs(schema_includes_dir, exist_ok=True)
@@ -27,54 +34,59 @@ os.makedirs(schema_dir, exist_ok=True)
 #print("schema_html_dir", schema_html_dir)
 #os.makedirs(schema_html_dir, exist_ok=True)
 
-# Add JSON-LD
+# Add JSON-LD examples
 print("\nProcessing JSON-LD")
-for case_name in os.listdir(jsonld_source_dir):
+for case_name in os.listdir(JSONLD_DIR):
     print(f"Processing {case_name}")
     name, ext = os.path.splitext(case_name)
-    case_source = os.path.abspath(os.path.join(jsonld_source_dir, case_name))
-    if not os.path.isfile(case_source) or ext != ".jsonld":
-        continue
-    shutil.copyfile(case_source, os.path.join(schema_dir, case_name))
-    #shutil.copyfile(case_source, os.path.join(jsonld_includes_dir, case_name))
+    case_source = os.path.abspath(os.path.join(JSONLD_DIR, case_name))
+    if os.path.isfile(case_source) and ext == ".jsonld":
+        print(case_source)
+        # replace @id with URL_PATH + basename
+        with open(case_source, "r") as f:
+            obj = json.load(f)
+            obj['$schema'] = os.path.join(URL_PATH,os.path.basename(obj['$schema']))
+            obj['@context'] = URL_PATH
+            print(obj['$schema'])
+            print(obj['@context'])
+            print("Writing to: ", os.path.join(DOCS_JSONLD_PATH, case_name), "\n")
+        with open(os.path.join(DOCS_JSONLD_PATH, case_name), 'w') as f:
+            json.dump(obj, f, indent=4)
 
 # Convert Schema to HTML
 print("\nProcessing JSON Schema")
 out = []
-fl = os.listdir(schema_source_dir)
-pprint.pprint(fl)
+fl = os.listdir(SCHEMA_DIR)
+#pprint.pprint(fl)
 for case_name in sorted(fl):
     print(f"Processing {case_name}")
     name, ext = os.path.splitext(case_name)
     name, _ = os.path.splitext(name)
-    case_source = os.path.abspath(os.path.join(schema_source_dir, case_name))
-    if not os.path.isfile(case_source) or ext != ".json":
-        continue
-
-    shutil.copyfile(case_source, os.path.join(schema_dir, case_name))
-    #shutil.copyfile(case_source, os.path.join(schema_includes_dir, case_name))
-    
-
-    print(f"Generating example {name}")
-
-    config = GenerationConfiguration(recursive_detection_depth=10000, expand_buttons=True, deprecated_from_description=True)
-    generate_from_filename(
-        case_source,
-        os.path.join(schema_dir, f"{name}.html"),
-        config=config
-    )
-
-    # Add to index list
-    print("Writing to index")
-    with open(case_source, "r") as f:
-        obj = json.load(f)
-        #print(obj)
-        yaml_data_dict = {'title': obj["title"], 'description': obj["description"]}
-        out.append(yaml_data_dict)
+    case_source = os.path.abspath(os.path.join(SCHEMA_DIR, case_name))
+    if os.path.isfile(case_source) and ext == ".json":
+        # replace @id with URL_PATH + basename
+        with open(case_source, "r") as f:
+            obj = json.load(f)
+            obj["$id"] = f"{URL_PATH}/{SCHEMA_DIR}/{obj['$id']}"
+            print("Updated $id: ", obj["$id"])
+            print("Writing to index")
+            yaml_data_dict = {'title': obj["title"], 'description': obj["description"]}
+            out.append(yaml_data_dict)
+            print("Writing to: ", os.path.join(DOCS_SCHEMA_PATH, case_name))
+            with open(os.path.join(DOCS_SCHEMA_PATH, case_name), 'w') as f:
+                json.dump(obj, f, indent=4)
+        
+            print(f"Generating example {name}")
+            config = GenerationConfiguration(recursive_detection_depth=10000, expand_buttons=True, deprecated_from_description=True)
+            generate_from_filename(
+                os.path.join(SCHEMA_DIR, case_name),
+                os.path.join(DOCS_PATH, f"{name}.html"),
+                config=config
+            )
 
 # Write site index YAML
-pprint.pprint(out)        
-with open(os.path.join(os.getcwd(), "docs", "_data", "index.yml"),'w') as yamlfile:
-    yaml.safe_dump(out, yamlfile) # Also note the safe_dump
+#pprint.pprint(out)        
+with open(os.path.join(DOCS_PATH, "_data", "index.yml"),'w') as yamlfile:
+    yaml.safe_dump(out, yamlfile)
 
 

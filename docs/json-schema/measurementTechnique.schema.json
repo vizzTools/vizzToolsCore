@@ -4,7 +4,11 @@
     "title": "measurementTechnique",
     "description": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured. The measurementTechnique property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/measurementTechnique",
     "oneOf": [
-        {"type": "string"},
-        {"$ref": "URI.schema.json"}
+        {
+            "type": "string"
+        },
+        {
+            "$ref": "URI.schema.json"
+        }
     ]
 }

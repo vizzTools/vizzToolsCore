@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/links.schema.json",
+    "$id": "links.schema.json",
     "title": "links",
     "description": "An array of schema.org DataDownload objects that describe URIs to access description, metadata and data of the dataset. Use `name` to indicate the information type.",
     "type": "array",

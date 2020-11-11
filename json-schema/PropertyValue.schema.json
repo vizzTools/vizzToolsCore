@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/PropertyValue.schema.json",
+    "$id": "PropertyValue.schema.json",
     "type": "object",
     "title": "PropertyValue",
     "description": "Adaptation of schema.org PropertyValue for the description of the physical quantities of data variables (fields or parameters). Note this is non standard and includes extra properties from the CF standard name definition (http://cfconventions.org/cf-conventions/cf-conventions.html#standard-name).",

@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/measurementTechnique.schema.json",
+    "$id": "measurementTechnique.schema.json",
     "title": "measurementTechnique",
     "description": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured. The measurementTechnique property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/measurementTechnique",
     "oneOf": [

@@ -280,7 +280,7 @@ class Organization:
         return result
 
 
-class SDPublisherType(Enum):
+class CreatorType(Enum):
     """URI of the JSON schema of this object.
     
     String representing a URI.
@@ -351,7 +351,7 @@ class SDPublisherType(Enum):
 
 
 @dataclass
-class SDPublisher:
+class Creator:
     """An array of schema.org Person or Organization objects. To uniquely identify individuals,
     use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify
     institutions and organizations, use ROR ID.
@@ -366,7 +366,7 @@ class SDPublisher:
     
     An organization such as a school, NGO, corporation, club, etc.
     """
-    type: SDPublisherType
+    type: CreatorType
     affiliation: Union[Organization, None, str]
     name: str
     id: Optional[str]
@@ -377,9 +377,9 @@ class SDPublisher:
     url: Optional[str]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'SDPublisher':
+    def from_dict(obj: Any) -> 'Creator':
         assert isinstance(obj, dict)
-        type = SDPublisherType(obj.get("@type"))
+        type = CreatorType(obj.get("@type"))
         affiliation = from_union([Organization.from_dict, from_none, from_str], obj.get("affiliation"))
         name = from_str(obj.get("name"))
         id = from_union([from_none, from_str], obj.get("@id"))
@@ -388,11 +388,11 @@ class SDPublisher:
         given_name = from_union([from_none, from_str], obj.get("givenName"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
         url = from_union([from_none, from_str], obj.get("url"))
-        return SDPublisher(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
+        return Creator(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["@type"] = to_enum(SDPublisherType, self.type)
+        result["@type"] = to_enum(CreatorType, self.type)
         result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_none, from_str], self.affiliation)
         result["name"] = from_str(self.name)
         result["@id"] = from_union([from_none, from_str], self.id)
@@ -1220,7 +1220,7 @@ class Dataset:
     date_published: Optional[datetime]
     description: Optional[str]
     distribution: Optional[List[DataDownload]]
-    funder: Optional[List[SDPublisher]]
+    funder: Optional[List[Creator]]
     has_part: Optional[List[Union[Dict[str, Any], str]]]
     context: Optional[str]
     in_language: Optional[InLanguage]
@@ -1229,10 +1229,10 @@ class Dataset:
     date_created: Optional[datetime]
     measurement_technique: Optional[str]
     name: Optional[str]
-    provider: Optional[List[SDPublisher]]
+    provider: Optional[List[Creator]]
     same_as: Optional[str]
-    sd_publisher: Optional[SDPublisher]
-    creator: Optional[List[SDPublisher]]
+    sd_publisher: Optional[List[Creator]]
+    creator: Optional[List[Creator]]
     temporal_coverage: Optional[str]
     thumbnail_url: Optional[str]
     url: Optional[str]
@@ -1255,7 +1255,7 @@ class Dataset:
         date_published = from_union([from_datetime, from_none], obj.get("datePublished"))
         description = from_union([from_none, from_str], obj.get("description"))
         distribution = from_union([lambda x: from_list(DataDownload.from_dict, x), from_none], obj.get("distribution"))
-        funder = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("funder"))
+        funder = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("funder"))
         has_part = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("hasPart"))
         context = from_union([from_none, from_str], obj.get("@context"))
         in_language = from_union([InLanguage, from_none], obj.get("inLanguage"))
@@ -1264,10 +1264,10 @@ class Dataset:
         date_created = from_union([from_datetime, from_none], obj.get("dateCreated"))
         measurement_technique = from_union([from_none, from_str], obj.get("measurementTechnique"))
         name = from_union([from_none, from_str], obj.get("name"))
-        provider = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("provider"))
+        provider = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("provider"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
-        sd_publisher = from_union([SDPublisher.from_dict, from_none], obj.get("sdPublisher"))
-        creator = from_union([lambda x: from_list(SDPublisher.from_dict, x), from_none], obj.get("creator"))
+        sd_publisher = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("sdPublisher"))
+        creator = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("creator"))
         temporal_coverage = from_union([from_none, from_str], obj.get("temporalCoverage"))
         thumbnail_url = from_union([from_none, from_str], obj.get("thumbnailUrl"))
         url = from_union([from_none, from_str], obj.get("url"))
@@ -1290,7 +1290,7 @@ class Dataset:
         result["datePublished"] = from_union([lambda x: x.isoformat(), from_none], self.date_published)
         result["description"] = from_union([from_none, from_str], self.description)
         result["distribution"] = from_union([lambda x: from_list(lambda x: to_class(DataDownload, x), x), from_none], self.distribution)
-        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.funder)
+        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.funder)
         result["hasPart"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.has_part)
         result["@context"] = from_union([from_none, from_str], self.context)
         result["inLanguage"] = from_union([lambda x: to_enum(InLanguage, x), from_none], self.in_language)
@@ -1299,10 +1299,10 @@ class Dataset:
         result["dateCreated"] = from_union([lambda x: x.isoformat(), from_none], self.date_created)
         result["measurementTechnique"] = from_union([from_none, from_str], self.measurement_technique)
         result["name"] = from_union([from_none, from_str], self.name)
-        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.provider)
+        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.provider)
         result["sameAs"] = from_union([from_none, from_str], self.same_as)
-        result["sdPublisher"] = from_union([lambda x: to_class(SDPublisher, x), from_none], self.sd_publisher)
-        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(SDPublisher, x), x), from_none], self.creator)
+        result["sdPublisher"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.sd_publisher)
+        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.creator)
         result["temporalCoverage"] = from_union([from_none, from_str], self.temporal_coverage)
         result["thumbnailUrl"] = from_union([from_none, from_str], self.thumbnail_url)
         result["url"] = from_union([from_none, from_str], self.url)

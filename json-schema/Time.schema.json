@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "@id": "https://vizztools.github.io/vizzToolsCore/json-schema/time.schema.json",
+    "$id": "time.schema.json",
     "title": "Time",
     "description": "ISO-8601 time timestamp string.",
     "type": "string",

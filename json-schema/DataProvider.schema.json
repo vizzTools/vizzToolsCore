@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
+    "$id": "DataProvider.schema.json",
     "title": "DataProvider",
     "description": "A vizzToolsCore generic DataProvider definition object that describes the information needed for accessing the dataset data items. This Type is meant as a template for specific data provider definitions.",
     "definitions": {

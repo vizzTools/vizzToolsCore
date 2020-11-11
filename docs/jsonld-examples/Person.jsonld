@@ -1,0 +1,9 @@
+{
+    "$schema": "https://vizztools.github.io/vizzToolsCore/Person.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore",
+    "@type": "Person",
+    "@id": "https://orcid.org/0000-0002-5011-6744",
+    "sameAs": "https://orcid.org/0000-0002-5011-6744",
+    "affiliation": "Vizzuality, Madrid, Spain",
+    "name": "Edward P. Morris"
+}

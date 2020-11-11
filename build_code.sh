@@ -19,7 +19,7 @@ for val in "${StringArray[@]}"; do
     #rm $CODE_DIR$val$CODE_EXT
     echo "Processing $val"
     echo "from .$val import  *" >> $CODE_DIR"__init__.py"
-    #--no-combine-classes \
+    --no-combine-classes \
     #--no-ignore-json-refs \
     quicktype \
     --alphabetize-properties \

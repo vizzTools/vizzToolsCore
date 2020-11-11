@@ -23,7 +23,7 @@
 - description: A vizzToolsCore Dataset metadata/configuration object. This is an extended
     version of schema.org [Dataset](https://schema.org/Dataset) following the Google
     structured data Dataset guidelines. Non schema.org extensions to this include
-    the properties; [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).
+    the properties; [dataProviders](dataProviders).
   title: Dataset
 - description: ISO-8601 date string.
   title: Date
