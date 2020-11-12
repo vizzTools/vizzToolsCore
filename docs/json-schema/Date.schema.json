@@ -1,8 +1,8 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Date.schema.json",
-    "type": "string",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "description": "ISO-8601 date string.",
     "format": "date",
     "title": "Date",
-    "description": "ISO-8601 date string."
+    "type": "string"
 }

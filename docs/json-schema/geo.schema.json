@@ -1,8 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/geo.schema.json",
-    "type": "object",
-    "title": "geo",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "The geo coordinates of the place.",
     "oneOf": [
         {
@@ -11,5 +9,7 @@
         {
             "$ref": "GeoShape.schema.json"
         }
-    ]
+    ],
+    "title": "geo",
+    "type": "object"
 }

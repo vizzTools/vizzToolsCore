@@ -1,24 +1,24 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DataDownload.schema.json",
-    "type": "object",
-    "title": "DataDownload",
-    "description": "A schema.org DataDownload object representing the location and file format for downloadable data of any type. It is best practice to give the entity a name and the encoding.",
-    "required": [
-        "@type",
-        "contentUrl"
-    ],
+    "$schema": "http://json-schema.org/draft-07/schema",
     "@type": {
         "$ref": "@type.schema.json",
         "enum": "DataDownload"
     },
-    "name": {
-        "type": "string"
-    },
     "contentUrl": {
         "$ref": "URI.schema.json"
     },
+    "description": "A schema.org DataDownload object representing the location and file format for downloadable data of any type. It is best practice to give the entity a name and the encoding.",
     "encodingFormat": {
         "type": "string"
-    }
+    },
+    "name": {
+        "type": "string"
+    },
+    "required": [
+        "@type",
+        "contentUrl"
+    ],
+    "title": "DataDownload",
+    "type": "object"
 }

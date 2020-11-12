@@ -1,43 +1,43 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/links.schema.json",
-    "title": "links",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "An array of schema.org DataDownload objects that describe URIs to access description, metadata and data of the dataset. Use `name` to indicate the information type.",
-    "type": "array",
-    "items": {
-        "required": [
-            "@type",
-            "contentUrl",
-            "name"
-        ],
-        "$ref": "DataDownload.schema.json"
-    },
     "examples": [
         [
             {
                 "@type": "DataDownload",
-                "name": "Description",
                 "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
-                "encodingFormat": "application/docx"
+                "encodingFormat": "application/docx",
+                "name": "Description"
             },
             {
                 "@type": "DataDownload",
-                "name": "Metadata",
                 "contentUrl": "https://zenodo.org/record/1346097/export/schemaorg_jsonld",
-                "encodingFormat": "application/html"
+                "encodingFormat": "application/html",
+                "name": "Metadata"
             },
             {
+                "@type": "DataDownload",
                 "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
                 "encodingFormat": "zip",
-                "@type": "DataDownload",
                 "name": "Data"
             },
             {
+                "@type": "DataDownload",
                 "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_tables.zip",
                 "encodingFormat": "zip",
-                "@type": "DataDownload",
                 "name": "Data"
             }
         ]
-    ]
+    ],
+    "items": {
+        "$ref": "DataDownload.schema.json",
+        "required": [
+            "@type",
+            "contentUrl",
+            "name"
+        ]
+    },
+    "title": "links",
+    "type": "array"
 }

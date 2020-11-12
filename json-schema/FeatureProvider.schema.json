@@ -17,11 +17,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
+                    "enum": ["feature"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "CSV"
+                    "enum": ["CSV"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
@@ -44,11 +44,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
+                    "enum": ["feature"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "CSV"
+                    "enum": ["GeoJSON"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
@@ -72,11 +72,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
+                    "enum": ["feature"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "Elasticsearch"
+                    "enum": ["Elasticsearch"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
@@ -103,11 +103,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
+                    "enum": ["feature"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "SQLiteGPKG"
+                    "enum": ["SQLiteGPKG"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
@@ -135,11 +135,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
+                    "enum": ["feature"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "PostgreSQL"
+                    "enum": ["PostgreSQL"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/DatabaseData"

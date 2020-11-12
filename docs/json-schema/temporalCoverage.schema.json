@@ -1,7 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/temporalCoverage.schema.json",
-    "title": "temporalCoverage",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "The data in the dataset covers a specific time interval. Only include this property if the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe time intervals and time points. You can describe dates differently depending upon the dataset interval. Indicate open-ended intervals with two decimal points (..). TODO: adjust validation for these specific cases!",
     "examples": [
         {
@@ -14,5 +13,6 @@
             "temporalCoverage": "2013-12-19/.."
         }
     ],
+    "title": "temporalCoverage",
     "type": "string"
 }

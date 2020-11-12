@@ -87,14 +87,22 @@ def from_datetime(x: Any) -> datetime:
 class ContactPointType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -106,17 +114,11 @@ class ContactPointType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -127,6 +129,13 @@ class ContactPointType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -142,13 +151,6 @@ class ContactPointType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     CONTACT_POINT = "ContactPoint"
 
@@ -182,14 +184,22 @@ class ContactPoint:
 class OrganizationType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -201,17 +211,11 @@ class OrganizationType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -222,6 +226,13 @@ class OrganizationType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -237,13 +248,6 @@ class OrganizationType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     ORGANIZATION = "Organization"
 
@@ -283,14 +287,22 @@ class Organization:
 class CreatorType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -302,17 +314,11 @@ class CreatorType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -323,6 +329,13 @@ class CreatorType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -338,31 +351,14 @@ class CreatorType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     ORGANIZATION = "Organization"
     PERSON = "Person"
 
 
 @dataclass
-class Creator:
-    """An array of schema.org Person or Organization objects. To uniquely identify individuals,
-    use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify
-    institutions and organizations, use ROR ID.
-    
-    Indicates the party responsible for generating and publishing the current structured data
-    markup, typically in cases where the structured data is derived automatically from
-    existing published content but published on a different site. For example, student
-    projects and open data initiatives often re-publish existing content with more explicitly
-    structured metadata. The sdPublisher property helps make such practices more explicit.
-    
-    A person (alive, dead, undead, or fictional).
+class Person:
+    """A person (alive, dead, undead, or fictional).
     
     An organization such as a school, NGO, corporation, club, etc.
     """
@@ -377,7 +373,7 @@ class Creator:
     url: Optional[str]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Creator':
+    def from_dict(obj: Any) -> 'Person':
         assert isinstance(obj, dict)
         type = CreatorType(obj.get("@type"))
         affiliation = from_union([Organization.from_dict, from_none, from_str], obj.get("affiliation"))
@@ -388,7 +384,7 @@ class Creator:
         given_name = from_union([from_none, from_str], obj.get("givenName"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
         url = from_union([from_none, from_str], obj.get("url"))
-        return Creator(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
+        return Person(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -453,6 +449,84 @@ class Format:
         return result
 
 
+class NameEnum(Enum):
+    """URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
+    
+    URI pointing to the data.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    Dimensionless units are indicated by '1'.
+    """
+    CSV = "CSV"
+    ELASTICSEARCH = "Elasticsearch"
+    GEO_JSON = "GeoJSON"
+    MVT = "MVT"
+    POSTGRE_SQL = "PostgreSQL"
+    RASTERIO = "rasterio"
+    SQ_LITE_GPKG = "SQLiteGPKG"
+    XARRAY = "xarray"
+
+
 @dataclass
 class Zoom:
     """Minimum and maximum zoom levels."""
@@ -503,8 +577,76 @@ class EOptions:
 
 
 class TypeEnum(Enum):
-    """Provider definition type."""
+    """URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
+    
+    URI pointing to the data.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    Dimensionless units are indicated by '1'.
+    """
     COVERAGE = "coverage"
+    FEATURE = "feature"
+    TILE = "tile"
 
 
 @dataclass
@@ -532,7 +674,7 @@ class DataProvider:
     MVT TileProvider
     """
     data: Union[DatabaseData, str]
-    name: str
+    name: NameEnum
     type: TypeEnum
     id_field: Optional[str]
     y_field: Optional[str]
@@ -547,7 +689,7 @@ class DataProvider:
     def from_dict(obj: Any) -> 'DataProvider':
         assert isinstance(obj, dict)
         data = from_union([DatabaseData.from_dict, from_str], obj.get("data"))
-        name = from_str(obj.get("name"))
+        name = NameEnum(obj.get("name"))
         type = TypeEnum(obj.get("type"))
         id_field = from_union([from_none, from_str], obj.get("id_field"))
         y_field = from_union([from_none, from_str], obj.get("y_field"))
@@ -562,7 +704,7 @@ class DataProvider:
     def to_dict(self) -> dict:
         result: dict = {}
         result["data"] = from_union([lambda x: to_class(DatabaseData, x), from_str], self.data)
-        result["name"] = from_str(self.name)
+        result["name"] = to_enum(NameEnum, self.name)
         result["type"] = to_enum(TypeEnum, self.type)
         result["id_field"] = from_union([from_none, from_str], self.id_field)
         result["y_field"] = from_union([from_none, from_str], self.y_field)
@@ -793,14 +935,22 @@ class InLanguage(Enum):
 class GeoType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -812,17 +962,11 @@ class GeoType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -833,6 +977,13 @@ class GeoType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -848,13 +999,6 @@ class GeoType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     GEO_COORDINATES = "GeoCoordinates"
     GEO_SHAPE = "GeoShape"
@@ -903,14 +1047,22 @@ class Geo:
 class PlaceType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -922,17 +1074,11 @@ class PlaceType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -943,6 +1089,13 @@ class PlaceType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -958,13 +1111,6 @@ class PlaceType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     PLACE = "Place"
 
@@ -998,14 +1144,22 @@ class Place:
 class DatasetType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -1017,17 +1171,11 @@ class DatasetType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -1038,6 +1186,13 @@ class DatasetType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1053,13 +1208,6 @@ class DatasetType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     DATASET = "Dataset"
 
@@ -1067,14 +1215,22 @@ class DatasetType(Enum):
 class PropertyValueType(Enum):
     """URI of the JSON schema of this object.
     
-    String representing a URI.
-    
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     Use the sameAs property to indicate the most canonical URLs for the original in cases of
     the entity. For example this may be a link to the original metadata of a dataset,
     definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
     
     URI pointing to the data.
     
@@ -1086,17 +1242,11 @@ class PropertyValueType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
-    Identifier string of this object.
-    
-    Type of this object.
-    
-    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
-    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
-    States Building'. Use unique names for distinct entities whenever possible.
-    
     Identifier field of the data.
     
     Provider definition name.
+    
+    Provider definition type.
     
     Time field of the data.
     
@@ -1107,6 +1257,13 @@ class PropertyValueType(Enum):
     X field name of the data.
     
     Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1122,13 +1279,6 @@ class PropertyValueType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
     Dimensionless units are indicated by '1'.
-    
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
     """
     PROPERTY_VALUE = "PropertyValue"
 
@@ -1205,7 +1355,7 @@ class Dataset:
     """A vizzToolsCore Dataset metadata/configuration object. This is an extended version of
     schema.org [Dataset](https://schema.org/Dataset) following the Google structured data
     Dataset guidelines. Non schema.org extensions to this include the properties;
-    [dataProviders](https://vizztools.github.io/vizzToolsCore/json-schema/dataProviders).
+    [dataProviders](dataProviders).
     """
     identifier: Union[List[str], None, str]
     version: Union[int, None, str]
@@ -1220,7 +1370,7 @@ class Dataset:
     date_published: Optional[datetime]
     description: Optional[str]
     distribution: Optional[List[DataDownload]]
-    funder: Optional[List[Creator]]
+    funder: Optional[List[Person]]
     has_part: Optional[List[Union[Dict[str, Any], str]]]
     context: Optional[str]
     in_language: Optional[InLanguage]
@@ -1229,10 +1379,10 @@ class Dataset:
     date_created: Optional[datetime]
     measurement_technique: Optional[str]
     name: Optional[str]
-    provider: Optional[List[Creator]]
+    provider: Optional[List[Person]]
     same_as: Optional[str]
-    sd_publisher: Optional[List[Creator]]
-    creator: Optional[List[Creator]]
+    sd_publisher: Optional[List[Person]]
+    creator: Optional[List[Person]]
     temporal_coverage: Optional[str]
     thumbnail_url: Optional[str]
     url: Optional[str]
@@ -1255,7 +1405,7 @@ class Dataset:
         date_published = from_union([from_datetime, from_none], obj.get("datePublished"))
         description = from_union([from_none, from_str], obj.get("description"))
         distribution = from_union([lambda x: from_list(DataDownload.from_dict, x), from_none], obj.get("distribution"))
-        funder = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("funder"))
+        funder = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("funder"))
         has_part = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("hasPart"))
         context = from_union([from_none, from_str], obj.get("@context"))
         in_language = from_union([InLanguage, from_none], obj.get("inLanguage"))
@@ -1264,10 +1414,10 @@ class Dataset:
         date_created = from_union([from_datetime, from_none], obj.get("dateCreated"))
         measurement_technique = from_union([from_none, from_str], obj.get("measurementTechnique"))
         name = from_union([from_none, from_str], obj.get("name"))
-        provider = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("provider"))
+        provider = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("provider"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
-        sd_publisher = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("sdPublisher"))
-        creator = from_union([lambda x: from_list(Creator.from_dict, x), from_none], obj.get("creator"))
+        sd_publisher = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("sdPublisher"))
+        creator = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("creator"))
         temporal_coverage = from_union([from_none, from_str], obj.get("temporalCoverage"))
         thumbnail_url = from_union([from_none, from_str], obj.get("thumbnailUrl"))
         url = from_union([from_none, from_str], obj.get("url"))
@@ -1290,7 +1440,7 @@ class Dataset:
         result["datePublished"] = from_union([lambda x: x.isoformat(), from_none], self.date_published)
         result["description"] = from_union([from_none, from_str], self.description)
         result["distribution"] = from_union([lambda x: from_list(lambda x: to_class(DataDownload, x), x), from_none], self.distribution)
-        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.funder)
+        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.funder)
         result["hasPart"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.has_part)
         result["@context"] = from_union([from_none, from_str], self.context)
         result["inLanguage"] = from_union([lambda x: to_enum(InLanguage, x), from_none], self.in_language)
@@ -1299,10 +1449,10 @@ class Dataset:
         result["dateCreated"] = from_union([lambda x: x.isoformat(), from_none], self.date_created)
         result["measurementTechnique"] = from_union([from_none, from_str], self.measurement_technique)
         result["name"] = from_union([from_none, from_str], self.name)
-        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.provider)
+        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.provider)
         result["sameAs"] = from_union([from_none, from_str], self.same_as)
-        result["sdPublisher"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.sd_publisher)
-        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.creator)
+        result["sdPublisher"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.sd_publisher)
+        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.creator)
         result["temporalCoverage"] = from_union([from_none, from_str], self.temporal_coverage)
         result["thumbnailUrl"] = from_union([from_none, from_str], self.thumbnail_url)
         result["url"] = from_union([from_none, from_str], self.url)

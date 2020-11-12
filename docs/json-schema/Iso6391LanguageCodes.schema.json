@@ -1,9 +1,7 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Iso6391LanguageCodes.schema.json",
-    "title": "Iso6391LanguageCodes",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "2-digit ISO 639-1 language codes",
-    "type": "string",
     "enum": [
         "aa",
         "ab",
@@ -187,5 +185,7 @@
         "za",
         "zh",
         "zu"
-    ]
+    ],
+    "title": "Iso6391LanguageCodes",
+    "type": "string"
 }

@@ -12,7 +12,7 @@ install:
 #test:
 #	py.test -v
 clean:
-	python setup.py clean
+	python3 setup.py clean
 	find . -name '*.pyc' -delete
 	find . -name '*~' -delete
 #release:

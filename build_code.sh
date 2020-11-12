@@ -19,12 +19,12 @@ for val in "${StringArray[@]}"; do
     #rm $CODE_DIR$val$CODE_EXT
     echo "Processing $val"
     echo "from .$val import  *" >> $CODE_DIR"__init__.py"
-    --no-combine-classes \
-    #--no-ignore-json-refs \
+    #--debug print-schema-resolving \
     quicktype \
+    --no-combine-classes \
+    --no-ignore-json-refs \
     --alphabetize-properties \
     --python-version 3.7 \
-    --debug print-schema-resolving \
     -s schema $SCHEMA_DIR$val$SCHEMA_EXT \
     -o $CODE_DIR$val$CODE_EXT
 done

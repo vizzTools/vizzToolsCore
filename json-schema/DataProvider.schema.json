@@ -6,10 +6,7 @@
     "definitions": {
         "type": {
             "type": "string",
-            "description": "Provider definition type.",
-            "enum": [
-                "coverage"
-            ]
+            "description": "Provider definition type."
         },
         "name": {
             "type": "string",
@@ -189,7 +186,7 @@
         {
             "type": "feature",
             "name": "CSV",
-            "data": "tests/data/obs.csv",
+            "data": "file:///tests/data/obs.csv",
             "id_field": "id",
             "x_field": "long",
             "y_field": "lat"
@@ -197,7 +194,7 @@
         {
             "type": "feature",
             "name": "GeoJSON",
-            "data": "tests/data/obs.json",
+            "data": "file:///tests/data/obs.json",
             "id_field": "id"
         },
         {
@@ -227,7 +224,7 @@
         {
             "type": "coverage",
             "name": "rasterio",
-            "data": "tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
             "options": {
                 "DATA_ENCODING": "COMPLEX_PACKING"
             },
@@ -239,7 +236,7 @@
         {
             "type": "coverage",
             "name": "xarray",
-            "data": "tests/data/coads_sst.nc",
+            "data": "file:///tests/data/coads_sst.nc",
             "x_field": "lon",
             "time_field": "time",
             "format": {
@@ -250,7 +247,7 @@
         {
             "type": "coverage",
             "name": "xarray",
-            "data": "tests/data/analysed_sst.zarr",
+            "data": "file:///tests/data/analysed_sst.zarr",
             "format": {
                 "name": "zarr",
                 "mimetype": "application/zip"
@@ -259,7 +256,7 @@
         {
             "type": "tile",
             "name": "MVT",
-            "data": "tests/data/tiles/ne_110m_lakes",
+            "data": "file:///tests/data/tiles/ne_110m_lakes",
             "options": {
                 "metadata_format": "raw",
                 "zoom": {

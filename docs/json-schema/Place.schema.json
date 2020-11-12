@@ -1,13 +1,7 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Place.schema.json",
-    "type": "object",
-    "title": "Place",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "Entities that have a somewhat fixed, physical extension.",
-    "required": [
-        "@type",
-        "geo"
-    ],
     "properties": {
         "@type": {
             "$ref": "@type.schema.json",
@@ -25,5 +19,11 @@
             "$ref": "name.schema.json",
             "title": "Name of the place"
         }
-    }
+    },
+    "required": [
+        "@type",
+        "geo"
+    ],
+    "title": "Place",
+    "type": "object"
 }

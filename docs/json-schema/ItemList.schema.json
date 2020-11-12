@@ -1,36 +1,36 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/ItemList.schema.json",
-    "type": "object",
-    "title": "ItemList",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "A list of items of any sort\u2014for example, Top 10 Movies About Weathermen, or Top 100 Party Songs. Not to be confused with HTML lists, which are often used only for formatting.",
-    "required": [
-        "type",
-        "itemListElement"
-    ],
     "properties": {
         "@type": {
             "$ref": "@type.schema.json"
         },
         "itemListElement": {
-            "type": "array",
-            "title": "itemListElement",
             "items": {
                 "anyOf": [
                     {
                         "type": "string"
                     }
                 ]
-            }
+            },
+            "title": "itemListElement",
+            "type": "array"
         },
         "itemListOrder": {
-            "type": "string",
+            "description": "Type of ordering (e.g. Ascending, Descending, Unordered).",
             "title": "itemListOrder",
-            "description": "Type of ordering (e.g. Ascending, Descending, Unordered)."
+            "type": "string"
         },
         "name": {
-            "type": "string",
-            "description": "Name of the ItemList."
+            "description": "Name of the ItemList.",
+            "type": "string"
         }
-    }
+    },
+    "required": [
+        "type",
+        "itemListElement"
+    ],
+    "title": "ItemList",
+    "type": "object"
 }

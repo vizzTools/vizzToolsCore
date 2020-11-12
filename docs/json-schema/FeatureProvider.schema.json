@@ -1,67 +1,63 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/FeatureProvider.schema.json",
-    "title": "FeatureProvider",
-    "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "definitions": {
         "CSV": {
-            "type": "object",
-            "title": "CSV",
             "description": "CSV featureProvider",
+            "properties": {
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "CSV"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                }
+            },
             "required": [
                 "type",
                 "name",
                 "data",
                 "id_field"
             ],
-            "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
-                },
-                "name": {
-                    "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "CSV"
-                },
-                "data": {
-                    "$ref": "DataProvider.schema.json#/definitions/data"
-                },
-                "id_field": {
-                    "$ref": "DataProvider.schema.json#/definitions/id_field"
-                }
-            }
-        },
-        "GeoJSON": {
-            "type": "object",
-            "title": "GeoJSON",
-            "description": "GeoJSON FeatureProvider",
-            "required": [
-                "type",
-                "name",
-                "data",
-                "id_field"
-            ],
-            "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
-                },
-                "name": {
-                    "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "CSV"
-                },
-                "data": {
-                    "$ref": "DataProvider.schema.json#/definitions/data"
-                },
-                "id_field": {
-                    "$ref": "DataProvider.schema.json#/definitions/id_field"
-                }
-            }
+            "title": "CSV",
+            "type": "object"
         },
         "Elasticsearch": {
-            "type": "object",
-            "title": "Elasticsearch",
             "description": "Elasticsearch FeatureProvider",
+            "properties": {
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "Elasticsearch"
+                    ]
+                },
+                "time_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/time_field"
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                }
+            },
             "required": [
                 "type",
                 "name",
@@ -69,61 +65,68 @@
                 "id_field",
                 "time_field"
             ],
+            "title": "Elasticsearch",
+            "type": "object"
+        },
+        "GeoJSON": {
+            "description": "GeoJSON FeatureProvider",
             "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
-                },
-                "name": {
-                    "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "Elasticsearch"
-                },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "id_field": {
                     "$ref": "DataProvider.schema.json#/definitions/id_field"
                 },
-                "time_field": {
-                    "$ref": "DataProvider.schema.json#/definitions/time_field"
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "GeoJSON"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
                 }
-            }
-        },
-        "SQLiteGPKG": {
-            "type": "object",
-            "title": "SQLiteGPKG",
-            "description": "SQLiteGPKG featureProvider",
+            },
             "required": [
                 "type",
                 "name",
                 "data",
-                "id_field",
-                "table"
+                "id_field"
             ],
+            "title": "GeoJSON",
+            "type": "object"
+        },
+        "PostgreSQL": {
+            "description": "PostgreSQL featureProvider",
             "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
-                },
-                "name": {
-                    "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "SQLiteGPKG"
-                },
                 "data": {
-                    "$ref": "DataProvider.schema.json#/definitions/data"
+                    "$ref": "DataProvider.schema.json#/definitions/DatabaseData"
+                },
+                "geom_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/geom_field"
                 },
                 "id_field": {
                     "$ref": "DataProvider.schema.json#/definitions/id_field"
                 },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "PostgreSQL"
+                    ]
+                },
                 "table": {
                     "$ref": "DataProvider.schema.json#/definitions/table"
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
                 }
-            }
-        },
-        "PostgreSQL": {
-            "type": "object",
-            "title": "PostgreSQL",
-            "description": "PostgreSQL featureProvider",
+            },
             "required": [
                 "type",
                 "name",
@@ -132,30 +135,86 @@
                 "table",
                 "geom_field"
             ],
+            "title": "PostgreSQL",
+            "type": "object"
+        },
+        "SQLiteGPKG": {
+            "description": "SQLiteGPKG featureProvider",
             "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "feature"
-                },
-                "name": {
-                    "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "PostgreSQL"
-                },
                 "data": {
-                    "$ref": "DataProvider.schema.json#/definitions/DatabaseData"
+                    "$ref": "DataProvider.schema.json#/definitions/data"
                 },
                 "id_field": {
                     "$ref": "DataProvider.schema.json#/definitions/id_field"
                 },
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "SQLiteGPKG"
+                    ]
+                },
                 "table": {
                     "$ref": "DataProvider.schema.json#/definitions/table"
                 },
-                "geom_field": {
-                    "$ref": "DataProvider.schema.json#/definitions/geom_field"
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
                 }
-            }
+            },
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "table"
+            ],
+            "title": "SQLiteGPKG",
+            "type": "object"
         }
     },
+    "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
+    "examples": [
+        {
+            "data": "tests/data/obs.csv",
+            "id_field": "id",
+            "name": "CSV",
+            "type": "feature",
+            "x_field": "long",
+            "y_field": "lat"
+        },
+        {
+            "data": "tests/data/obs.json",
+            "id_field": "id",
+            "name": "GeoJSON",
+            "type": "feature"
+        },
+        {
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "name": "Elasticsearch",
+            "time_field": "datetimefield",
+            "type": "feature"
+        },
+        {
+            "data": {
+                "dbname": "test",
+                "host": "127.0.0.1",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ],
+                "user": "postgres"
+            },
+            "geom_field": "foo_geom",
+            "id_field": "osm_id",
+            "name": "PostgreSQL",
+            "table": "hotosm_bdi_waterways",
+            "type": "feature"
+        }
+    ],
     "oneOf": [
         {
             "$ref": "#/definitions/CSV"
@@ -173,44 +232,5 @@
             "$ref": "#/definitions/PostgreSQL"
         }
     ],
-    "examples": [
-        {
-            "type": "feature",
-            "name": "CSV",
-            "data": "tests/data/obs.csv",
-            "id_field": "id",
-            "x_field": "long",
-            "y_field": "lat"
-        },
-        {
-            "type": "feature",
-            "name": "GeoJSON",
-            "data": "tests/data/obs.json",
-            "id_field": "id"
-        },
-        {
-            "type": "feature",
-            "name": "Elasticsearch",
-            "data": "http://localhost:9200/ne_110m_populated_places_simple",
-            "id_field": "id",
-            "time_field": "datetimefield"
-        },
-        {
-            "type": "feature",
-            "name": "PostgreSQL",
-            "data": {
-                "host": "127.0.0.1",
-                "dbname": "test",
-                "user": "postgres",
-                "password": "postgres",
-                "search_path": [
-                    "osm",
-                    "public"
-                ]
-            },
-            "id_field": "osm_id",
-            "table": "hotosm_bdi_waterways",
-            "geom_field": "foo_geom"
-        }
-    ]
+    "title": "FeatureProvider"
 }

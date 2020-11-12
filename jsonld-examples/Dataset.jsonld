@@ -85,18 +85,91 @@
         {
             "type": "feature",
             "name": "CSV",
-            "data": "tests/data/obs.csv",
+            "data": "file:///tests/data/obs.csv",
             "id_field": "id",
-            "geometry": {
-                "x_field": "long",
-                "y_field": "lat"
-            }
+            "x_field": "long",
+            "y_field": "lat"
         },
         {
             "type": "feature",
             "name": "GeoJSON",
-            "data": "tests/data/obs.json",
+            "data": "file:///tests/data/obs.json",
             "id_field": "id"
+        },
+        {
+            "type": "feature",
+            "name": "Elasticsearch",
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "time_field": "datetimefield"
+        },
+        {
+            "type": "feature",
+            "name": "PostgreSQL",
+            "data": {
+                "host": "127.0.0.1",
+                "dbname": "test",
+                "user": "postgres",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ]
+            },
+            "id_field": "osm_id",
+            "table": "hotosm_bdi_waterways",
+            "geom_field": "foo_geom"
+        },
+        {
+            "type": "coverage",
+            "name": "rasterio",
+            "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            },
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "file:///tests/data/coads_sst.nc",
+            "x_field": "lon",
+            "time_field": "time",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            }
+        },
+        {
+            "type": "coverage",
+            "name": "xarray",
+            "data": "file:///tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        },
+        {
+            "type": "tile",
+            "name": "MVT",
+            "data": "file:///tests/data/tiles/ne_110m_lakes",
+            "options": {
+                "metadata_format": "raw",
+                "zoom": {
+                    "min": 0,
+                    "max": 5
+                },
+                "schemes": [
+                    "WorldCRS84Quad"
+                ]
+            },
+            "format": {
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
+            }
         }
     ]
 }

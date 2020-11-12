@@ -1,7 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/version.schema.json",
-    "title": "version",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "The version number for the entity. If no versioning is given, consider using semantic versioning (1.0.0) or the publication date",
     "oneOf": [
         {
@@ -10,5 +9,6 @@
         {
             "type": "integer"
         }
-    ]
+    ],
+    "title": "version"
 }

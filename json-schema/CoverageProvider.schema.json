@@ -18,11 +18,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "coverage"
+                    "enum": ["coverage"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "rasterio"
+                    "enum": ["rasterio"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
@@ -52,11 +52,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "coverage"
+                    "enum": ["coverage"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "xarray"
+                    "enum": ["xarray"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"

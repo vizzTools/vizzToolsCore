@@ -1,8 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/GeoCoordinates.schema.json",
-    "type": "object",
-    "title": "GeoCoordinates",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "The geographic coordinates of an entity.",
     "examples": [
         {
@@ -10,11 +8,6 @@
             "latitude": 39.328,
             "longitude": 120.1633
         }
-    ],
-    "required": [
-        "@type",
-        "latitude",
-        "longitude"
     ],
     "properties": {
         "@type": {
@@ -24,14 +17,21 @@
             ]
         },
         "latitude": {
-            "type": "number",
+            "description": "The latitude of a location. For example 37.42242 (WGS 84).",
             "title": "latitude",
-            "description": "The latitude of a location. For example 37.42242 (WGS 84)."
+            "type": "number"
         },
         "longitude": {
-            "type": "number",
+            "description": "The longitude of a location. For example -122.08585 (WGS 84).",
             "title": "longitude",
-            "description": "The longitude of a location. For example -122.08585 (WGS 84)."
+            "type": "number"
         }
-    }
+    },
+    "required": [
+        "@type",
+        "latitude",
+        "longitude"
+    ],
+    "title": "GeoCoordinates",
+    "type": "object"
 }

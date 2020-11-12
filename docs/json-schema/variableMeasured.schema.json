@@ -1,7 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/variableMeasured.schema.json",
-    "title": "variableMeasured",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "description": "The variable that this dataset measures. For example, temperature or pressure. The variableMeasured property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/variableMeasured.",
     "oneOf": [
         {
@@ -10,5 +9,6 @@
         {
             "$ref": "PropertyValue.schema.json"
         }
-    ]
+    ],
+    "title": "variableMeasured"
 }

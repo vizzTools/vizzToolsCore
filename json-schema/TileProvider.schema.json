@@ -18,11 +18,11 @@
             "properties": {
                 "type": {
                     "$ref": "DataProvider.schema.json#/definitions/type",
-                    "const": "tile"
+                    "enum": ["tile"]
                 },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "const": "MVT"
+                    "enum": ["MVT"]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
