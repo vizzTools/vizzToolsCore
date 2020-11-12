@@ -149,7 +149,7 @@ class ContactPointType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     CONTACT_POINT = "ContactPoint"
@@ -246,7 +246,7 @@ class OrganizationType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     ORGANIZATION = "Organization"
@@ -349,7 +349,7 @@ class CreatorType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     ORGANIZATION = "Organization"
@@ -514,7 +514,7 @@ class NameEnum(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     CSV = "CSV"
@@ -641,7 +641,7 @@ class TypeEnum(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     COVERAGE = "coverage"
@@ -717,6 +717,77 @@ class DataProvider:
         return result
 
 
+class DistributionType(Enum):
+    """URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    String representing a URI.
+    
+    URI pointing to the data.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Identifier field of the data.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    """
+    DATA_DOWNLOAD = "DataDownload"
+
+
 @dataclass
 class DataDownload:
     """An array of schema.org DataDownload objects that describe URIs to access to the entity.
@@ -725,20 +796,26 @@ class DataDownload:
     downloadable data of any type. It is best practice to give the entity a name and the
     encoding.
     """
-    type: Any
-    content_url: Any
+    type: DistributionType
+    content_url: str
+    encoding_format: Optional[str]
+    name: Optional[str]
 
     @staticmethod
     def from_dict(obj: Any) -> 'DataDownload':
         assert isinstance(obj, dict)
-        type = obj.get("@type")
-        content_url = obj.get("contentUrl")
-        return DataDownload(type, content_url)
+        type = DistributionType(obj.get("@type"))
+        content_url = from_str(obj.get("contentUrl"))
+        encoding_format = from_union([from_none, from_str], obj.get("encodingFormat"))
+        name = from_union([from_none, from_str], obj.get("name"))
+        return DataDownload(type, content_url, encoding_format, name)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["@type"] = self.type
-        result["contentUrl"] = self.content_url
+        result["@type"] = to_enum(DistributionType, self.type)
+        result["contentUrl"] = from_str(self.content_url)
+        result["encodingFormat"] = from_union([from_none, from_str], self.encoding_format)
+        result["name"] = from_union([from_none, from_str], self.name)
         return result
 
 
@@ -997,7 +1074,7 @@ class GeoType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     GEO_COORDINATES = "GeoCoordinates"
@@ -1109,7 +1186,7 @@ class PlaceType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     PLACE = "Place"
@@ -1119,25 +1196,25 @@ class PlaceType(Enum):
 class Place:
     """Entities that have a somewhat fixed, physical extension."""
     type: PlaceType
-    geo: Geo
+    name: str
+    geo: Optional[Geo]
     global_location_number: Optional[str]
-    name: Optional[str]
 
     @staticmethod
     def from_dict(obj: Any) -> 'Place':
         assert isinstance(obj, dict)
         type = PlaceType(obj.get("@type"))
-        geo = Geo.from_dict(obj.get("geo"))
+        name = from_str(obj.get("name"))
+        geo = from_union([Geo.from_dict, from_none], obj.get("geo"))
         global_location_number = from_union([from_none, from_str], obj.get("globalLocationNumber"))
-        name = from_union([from_none, from_str], obj.get("name"))
-        return Place(type, geo, global_location_number, name)
+        return Place(type, name, geo, global_location_number)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PlaceType, self.type)
-        result["geo"] = to_class(Geo, self.geo)
+        result["name"] = from_str(self.name)
+        result["geo"] = from_union([lambda x: to_class(Geo, x), from_none], self.geo)
         result["globalLocationNumber"] = from_union([from_none, from_str], self.global_location_number)
-        result["name"] = from_union([from_none, from_str], self.name)
         return result
 
 
@@ -1206,7 +1283,7 @@ class DatasetType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     DATASET = "Dataset"
@@ -1277,7 +1354,7 @@ class PropertyValueType(Enum):
     
     A string or text indicating the actual unit of measurement (which maybe different to the
     canonical_units). In general this should be of the form 'm / s', leave a space between
-    each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
     """
     PROPERTY_VALUE = "PropertyValue"
@@ -1353,9 +1430,9 @@ class PropertyValue:
 @dataclass
 class Dataset:
     """A vizzToolsCore Dataset metadata/configuration object. This is an extended version of
-    schema.org [Dataset](https://schema.org/Dataset) following the Google structured data
-    Dataset guidelines. Non schema.org extensions to this include the properties;
-    [dataProviders](dataProviders).
+    schema.org [Dataset](https://schema.org/Dataset) following the [Google structured data
+    Dataset guidelines](https://developers.google.com/search/docs/data-types/dataset). Non
+    schema.org extensions to this include the properties; [dataProviders](dataProviders).
     """
     identifier: Union[List[str], None, str]
     version: Union[int, None, str]
