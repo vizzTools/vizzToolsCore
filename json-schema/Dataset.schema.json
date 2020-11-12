@@ -14,7 +14,7 @@
         },
         "@context": {
             "$ref": "@context.schema.json",
-            "default": "https://vizztools.github.io/vizzToolsCore/json-schema"
+            "default": "https://vizztools.github.io/vizzToolsCore"
         },
         "@id": {
             "$ref": "@id.schema.json"
