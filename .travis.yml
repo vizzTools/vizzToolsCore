@@ -6,15 +6,15 @@ python:
 
 install:
   - npm install -g quicktype
-  - pip install -r docs/requirements.txt
-  - pip install -r requirements.txt
+  - pip3 install -r docs/requirements.txt
+  - pip3 install -r requirements.txt
   
 script:
   - make docs
   - make code
 
 after_success:
-  - pip install .
+  - pip3 install .
 
 deploy:
   provider: pypi
@@ -30,6 +30,5 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
-  local_dir: docs
   on:
     branch: master
