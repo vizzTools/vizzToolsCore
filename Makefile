@@ -5,8 +5,10 @@ help:
 	sh -c "$(MAKE) -p no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | sort"
 docs:
 	python3 ./docs/generate_schema_docs.py
+	echo "Docs created!"
 code:
 	./build_code.sh
+	echo "Code built!"
 install:
 	pip3 install -e .
 #test:

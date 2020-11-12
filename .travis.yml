@@ -3,6 +3,8 @@ python:
   - "3.6"
   - "3.7"
 install:
+  - npm install -g quicktype
+  - pip install -r docs/requirements.txt
   - make docs
   - make code
   - pip install -r requirements.txt

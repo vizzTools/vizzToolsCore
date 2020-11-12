@@ -1,12 +1,13 @@
 """Run this to populate the json-schema html docs"""
 
+import json
 import os
 import shutil
 import sys
-import json
+
 import yaml
-import pprint
-from json_schema_for_humans.generate import generate_from_filename, GenerationConfiguration
+from json_schema_for_humans.generate import (GenerationConfiguration,
+                                             generate_from_filename)
 
 # Set path when run in docs
 sys.path.insert(0, os.path.abspath(".."))
