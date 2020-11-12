@@ -1,18 +1,29 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json",
+    "title": "DataProvider",
+    "description": "A vizzToolsCore generic DataProvider definition object that describes the information needed for accessing the dataset data items. This Type is meant as a template for specific data provider definitions.",
     "definitions": {
+        "name": {
+            "description": "Provider definition name.",
+            "type": "string"
+        },
+        "type": {
+            "description": "Provider definition type.",
+            "type": "string"
+        },
         "CoverageOptions": {
             "description": "Coverage provider data specific options.",
+            "type": "object",
             "properties": {
                 "DATA_ENCODING": {
                     "type": "string"
                 }
-            },
-            "type": "object"
+            }
         },
         "DatabaseData": {
             "description": "Object defining database connection.",
+            "type": "object",
             "properties": {
                 "dbname": {
                     "type": "string"
@@ -24,21 +35,21 @@
                     "type": "string"
                 },
                 "search_path": {
+                    "type": "array",
                     "items": [
                         {
                             "type": "string"
                         }
-                    ],
-                    "type": "array"
+                    ]
                 },
                 "user": {
                     "type": "string"
                 }
-            },
-            "type": "object"
+            }
         },
         "TileOptions": {
             "description": "Tile provider data specific options.",
+            "type": "object",
             "properties": {
                 "metadata_format": {
                     "type": "string"
@@ -49,24 +60,23 @@
                 "zoom": {
                     "$ref": "#/definitions/zoom"
                 }
-            },
-            "type": "object"
+            }
         },
         "data": {
-            "$ref": "URI.schema.json",
-            "description": "URI pointing to the data."
+            "description": "URI pointing to the data.",
+            "$ref": "URI.schema.json"
         },
         "format": {
             "description": "Provider data format.",
+            "type": "object",
             "properties": {
-                "mimetype": {
-                    "type": "string"
-                },
                 "name": {
                     "type": "string"
+                },
+                "mimetype": {
+                    "type": "string"
                 }
-            },
-            "type": "object"
+            }
         },
         "geom_field": {
             "description": "Geometry field of the data.",
@@ -76,19 +86,15 @@
             "description": "Identifier field of the data.",
             "type": "string"
         },
-        "name": {
-            "description": "Provider definition name.",
-            "type": "string"
-        },
         "options": {
             "description": "Provider data specific options.",
             "type": "object"
         },
         "schemes": {
+            "type": "array",
             "items": {
                 "type": "string"
-            },
-            "type": "array"
+            }
         },
         "table": {
             "description": "Table name of the data.",
@@ -96,10 +102,6 @@
         },
         "time_field": {
             "description": "Time field of the data.",
-            "type": "string"
-        },
-        "type": {
-            "description": "Provider definition type.",
             "type": "string"
         },
         "x_field": {
@@ -112,6 +114,7 @@
         },
         "zoom": {
             "description": "Minimum and maximum zoom levels.",
+            "type": "object",
             "properties": {
                 "max": {
                     "type": "integer"
@@ -119,103 +122,21 @@
                 "min": {
                     "type": "integer"
                 }
-            },
-            "type": "object"
+            }
         }
     },
-    "description": "A vizzToolsCore generic DataProvider definition object that describes the information needed for accessing the dataset data items. This Type is meant as a template for specific data provider definitions.",
-    "examples": [
-        {
-            "data": "file:///tests/data/obs.csv",
-            "id_field": "id",
-            "name": "CSV",
-            "type": "feature",
-            "x_field": "long",
-            "y_field": "lat"
-        },
-        {
-            "data": "file:///tests/data/obs.json",
-            "id_field": "id",
-            "name": "GeoJSON",
-            "type": "feature"
-        },
-        {
-            "data": "http://localhost:9200/ne_110m_populated_places_simple",
-            "id_field": "id",
-            "name": "Elasticsearch",
-            "time_field": "datetimefield",
-            "type": "feature"
-        },
-        {
-            "data": {
-                "dbname": "test",
-                "host": "127.0.0.1",
-                "password": "postgres",
-                "search_path": [
-                    "osm",
-                    "public"
-                ],
-                "user": "postgres"
-            },
-            "geom_field": "foo_geom",
-            "id_field": "osm_id",
-            "name": "PostgreSQL",
-            "table": "hotosm_bdi_waterways",
-            "type": "feature"
-        },
-        {
-            "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
-            "format": {
-                "mimetype": "application/x-grib2",
-                "name": "GRIB"
-            },
-            "name": "rasterio",
-            "options": {
-                "DATA_ENCODING": "COMPLEX_PACKING"
-            },
-            "type": "coverage"
-        },
-        {
-            "data": "file:///tests/data/coads_sst.nc",
-            "format": {
-                "mimetype": "application/x-netcdf",
-                "name": "netcdf"
-            },
-            "name": "xarray",
-            "time_field": "time",
-            "type": "coverage",
-            "x_field": "lon"
-        },
-        {
-            "data": "file:///tests/data/analysed_sst.zarr",
-            "format": {
-                "mimetype": "application/zip",
-                "name": "zarr"
-            },
-            "name": "xarray",
-            "type": "coverage"
-        },
-        {
-            "data": "file:///tests/data/tiles/ne_110m_lakes",
-            "format": {
-                "mimetype": "application/vnd.mapbox-vector-tile",
-                "name": "pbf"
-            },
-            "name": "MVT",
-            "options": {
-                "metadata_format": "raw",
-                "schemes": [
-                    "WorldCRS84Quad"
-                ],
-                "zoom": {
-                    "max": 5,
-                    "min": 0
-                }
-            },
-            "type": "tile"
-        }
+    "required": [
+        "type",
+        "name",
+        "data"
     ],
     "properties": {
+        "name": {
+            "$ref": "#/definitions/name"
+        },
+        "type": {
+            "$ref": "#/definitions/type"
+        },
         "data": {
             "oneOf": [
                 {
@@ -234,9 +155,6 @@
         },
         "id_field": {
             "$ref": "#/definitions/id_field"
-        },
-        "name": {
-            "$ref": "#/definitions/name"
         },
         "options": {
             "oneOf": [
@@ -257,9 +175,6 @@
         "time_field": {
             "$ref": "#/definitions/time_field"
         },
-        "type": {
-            "$ref": "#/definitions/type"
-        },
         "x_field": {
             "$ref": "#/definitions/x_field"
         },
@@ -267,10 +182,95 @@
             "$ref": "#/definitions/y_field"
         }
     },
-    "required": [
-        "type",
-        "name",
-        "data"
-    ],
-    "title": "DataProvider"
+    "examples": [
+        {
+            "name": "CSV",
+            "type": "feature",
+            "data": "file:///tests/data/obs.csv",
+            "id_field": "id",
+            "x_field": "long",
+            "y_field": "lat"
+        },
+        {
+            "name": "GeoJSON",
+            "type": "feature",
+            "data": "file:///tests/data/obs.json",
+            "id_field": "id"
+        },
+        {
+            "name": "Elasticsearch",
+            "type": "feature",
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "time_field": "datetimefield"
+        },
+        {
+            "name": "PostgreSQL",
+            "type": "feature",
+            "data": {
+                "dbname": "test",
+                "host": "127.0.0.1",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ],
+                "user": "postgres"
+            },
+            "geom_field": "foo_geom",
+            "id_field": "osm_id",
+            "table": "hotosm_bdi_waterways"
+        },
+        {
+            "name": "rasterio",
+            "type": "coverage",
+            "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            },
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            }
+        },
+        {
+            "name": "xarray",
+            "type": "coverage",
+            "data": "file:///tests/data/coads_sst.nc",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            },
+            "time_field": "time",
+            "x_field": "lon"
+        },
+        {
+            "name": "xarray",
+            "type": "coverage",
+            "data": "file:///tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        },
+        {
+            "name": "MVT",
+            "type": "tile",
+            "data": "file:///tests/data/tiles/ne_110m_lakes",
+            "format": {
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
+            },
+            "options": {
+                "metadata_format": "raw",
+                "schemes": [
+                    "WorldCRS84Quad"
+                ],
+                "zoom": {
+                    "max": 5,
+                    "min": 0
+                }
+            }
+        }
+    ]
 }

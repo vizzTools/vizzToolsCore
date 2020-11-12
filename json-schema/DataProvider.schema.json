@@ -4,111 +4,31 @@
     "title": "DataProvider",
     "description": "A vizzToolsCore generic DataProvider definition object that describes the information needed for accessing the dataset data items. This Type is meant as a template for specific data provider definitions.",
     "definitions": {
-        "type": {
-            "type": "string",
-            "description": "Provider definition type."
-        },
         "name": {
-            "type": "string",
-            "description": "Provider definition name."
+            "description": "Provider definition name.",
+            "type": "string"
         },
-        "data": {
-            "$ref": "URI.schema.json",
-            "description": "URI pointing to the data."
-        },
-        "id_field": {
-            "type": "string",
-            "description": "Identifier field of the data."
-        },
-        "time_field": {
-            "type": "string",
-            "description": "Time field of the data."
-        },
-        "x_field": {
-            "type": "string",
-            "description": "X field name of the data."
-        },
-        "y_field": {
-            "type": "string",
-            "description": "Y field name of the data."
-        },
-        "geom_field": {
-            "type": "string",
-            "description": "Geometry field of the data."
-        },
-        "table": {
-            "type": "string",
-            "description": "Table name of the data."
-        },
-        "options": {
-            "type": "object",
-            "description": "Provider data specific options."
-        },
-        "format": {
-            "type": "object",
-            "description": "Provider data format.",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "mimetype": {
-                    "type": "string"
-                }
-            }
-        },
-        "zoom": {
-            "type": "object",
-            "description": "Minimum and maximum zoom levels.",
-            "properties": {
-                "min": {
-                    "type": "integer"
-                },
-                "max": {
-                    "type": "integer"
-                }
-            }
-        },
-        "schemes": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
+        "type": {
+            "description": "Provider definition type.",
+            "type": "string"
         },
         "CoverageOptions": {
-            "type": "object",
             "description": "Coverage provider data specific options.",
+            "type": "object",
             "properties": {
                 "DATA_ENCODING": {
                     "type": "string"
                 }
             }
         },
-        "TileOptions": {
-            "type": "object",
-            "description": "Tile provider data specific options.",
-            "properties": {
-                "metadata_format": {
-                    "type": "string"
-                },
-                "zoom": {
-                    "$ref": "#/definitions/zoom"
-                },
-                "schemes": {
-                    "$ref": "#/definitions/schemes"
-                }
-            }
-        },
         "DatabaseData": {
-            "type": "object",
             "description": "Object defining database connection.",
+            "type": "object",
             "properties": {
-                "host": {
-                    "type": "string"
-                },
                 "dbname": {
                     "type": "string"
                 },
-                "user": {
+                "host": {
                     "type": "string"
                 },
                 "password": {
@@ -121,6 +41,86 @@
                             "type": "string"
                         }
                     ]
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "TileOptions": {
+            "description": "Tile provider data specific options.",
+            "type": "object",
+            "properties": {
+                "metadata_format": {
+                    "type": "string"
+                },
+                "schemes": {
+                    "$ref": "#/definitions/schemes"
+                },
+                "zoom": {
+                    "$ref": "#/definitions/zoom"
+                }
+            }
+        },
+        "data": {
+            "description": "URI pointing to the data.",
+            "$ref": "URI.schema.json"
+        },
+        "format": {
+            "description": "Provider data format.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "mimetype": {
+                    "type": "string"
+                }
+            }
+        },
+        "geom_field": {
+            "description": "Geometry field of the data.",
+            "type": "string"
+        },
+        "id_field": {
+            "description": "Identifier field of the data.",
+            "type": "string"
+        },
+        "options": {
+            "description": "Provider data specific options.",
+            "type": "object"
+        },
+        "schemes": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "table": {
+            "description": "Table name of the data.",
+            "type": "string"
+        },
+        "time_field": {
+            "description": "Time field of the data.",
+            "type": "string"
+        },
+        "x_field": {
+            "description": "X field name of the data.",
+            "type": "string"
+        },
+        "y_field": {
+            "description": "Y field name of the data.",
+            "type": "string"
+        },
+        "zoom": {
+            "description": "Minimum and maximum zoom levels.",
+            "type": "object",
+            "properties": {
+                "max": {
+                    "type": "integer"
+                },
+                "min": {
+                    "type": "integer"
                 }
             }
         }
@@ -131,11 +131,11 @@
         "data"
     ],
     "properties": {
-        "type": {
-            "$ref": "#/definitions/type"
-        },
         "name": {
             "$ref": "#/definitions/name"
+        },
+        "type": {
+            "$ref": "#/definitions/type"
         },
         "data": {
             "oneOf": [
@@ -147,23 +147,14 @@
                 }
             ]
         },
-        "id_field": {
-            "$ref": "#/definitions/id_field"
-        },
-        "time_field": {
-            "$ref": "#/definitions/time_field"
-        },
-        "x_field": {
-            "$ref": "#/definitions/x_field"
-        },
-        "y_field": {
-            "$ref": "#/definitions/y_field"
+        "format": {
+            "$ref": "#/definitions/format"
         },
         "geom_field": {
             "$ref": "#/definitions/geom_field"
         },
-        "table": {
-            "$ref": "#/definitions/table"
+        "id_field": {
+            "$ref": "#/definitions/id_field"
         },
         "options": {
             "oneOf": [
@@ -178,75 +169,84 @@
                 }
             ]
         },
-        "format": {
-            "$ref": "#/definitions/format"
+        "table": {
+            "$ref": "#/definitions/table"
+        },
+        "time_field": {
+            "$ref": "#/definitions/time_field"
+        },
+        "x_field": {
+            "$ref": "#/definitions/x_field"
+        },
+        "y_field": {
+            "$ref": "#/definitions/y_field"
         }
     },
     "examples": [
         {
-            "type": "feature",
             "name": "CSV",
+            "type": "feature",
             "data": "file:///tests/data/obs.csv",
             "id_field": "id",
             "x_field": "long",
             "y_field": "lat"
         },
         {
-            "type": "feature",
             "name": "GeoJSON",
+            "type": "feature",
             "data": "file:///tests/data/obs.json",
             "id_field": "id"
         },
         {
-            "type": "feature",
             "name": "Elasticsearch",
+            "type": "feature",
             "data": "http://localhost:9200/ne_110m_populated_places_simple",
             "id_field": "id",
             "time_field": "datetimefield"
         },
         {
-            "type": "feature",
             "name": "PostgreSQL",
+            "type": "feature",
             "data": {
-                "host": "127.0.0.1",
                 "dbname": "test",
-                "user": "postgres",
+                "host": "127.0.0.1",
                 "password": "postgres",
                 "search_path": [
                     "osm",
                     "public"
-                ]
+                ],
+                "user": "postgres"
             },
+            "geom_field": "foo_geom",
             "id_field": "osm_id",
-            "table": "hotosm_bdi_waterways",
-            "geom_field": "foo_geom"
+            "table": "hotosm_bdi_waterways"
         },
         {
-            "type": "coverage",
             "name": "rasterio",
+            "type": "coverage",
             "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
-            "options": {
-                "DATA_ENCODING": "COMPLEX_PACKING"
-            },
             "format": {
                 "name": "GRIB",
                 "mimetype": "application/x-grib2"
+            },
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
             }
         },
         {
-            "type": "coverage",
             "name": "xarray",
+            "type": "coverage",
             "data": "file:///tests/data/coads_sst.nc",
-            "x_field": "lon",
-            "time_field": "time",
             "format": {
                 "name": "netcdf",
                 "mimetype": "application/x-netcdf"
-            }
+            },
+            "time_field": "time",
+            "x_field": "lon"
         },
         {
-            "type": "coverage",
             "name": "xarray",
+            "type": "coverage",
             "data": "file:///tests/data/analysed_sst.zarr",
             "format": {
                 "name": "zarr",
@@ -254,22 +254,22 @@
             }
         },
         {
-            "type": "tile",
             "name": "MVT",
+            "type": "tile",
             "data": "file:///tests/data/tiles/ne_110m_lakes",
-            "options": {
-                "metadata_format": "raw",
-                "zoom": {
-                    "min": 0,
-                    "max": 5
-                },
-                "schemes": [
-                    "WorldCRS84Quad"
-                ]
-            },
             "format": {
                 "name": "pbf",
                 "mimetype": "application/vnd.mapbox-vector-tile"
+            },
+            "options": {
+                "metadata_format": "raw",
+                "schemes": [
+                    "WorldCRS84Quad"
+                ],
+                "zoom": {
+                    "max": 5,
+                    "min": 0
+                }
             }
         }
     ]

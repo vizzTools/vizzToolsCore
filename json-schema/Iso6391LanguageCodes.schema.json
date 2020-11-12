@@ -4,6 +4,9 @@
     "title": "Iso6391LanguageCodes",
     "description": "2-digit ISO 639-1 language codes",
     "type": "string",
+    "examples": [
+        "en"
+    ],
     "enum": [
         "aa",
         "ab",

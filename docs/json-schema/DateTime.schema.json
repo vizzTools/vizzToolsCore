@@ -1,8 +1,8 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DateTime.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
-    "description": "ISO-8601 date-time timestamp string.",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/DateTime.schema.json",
+    "type": "string",
     "format": "date-time",
     "title": "DateTime",
-    "type": "string"
+    "description": "ISO-8601 date-time timestamp string."
 }

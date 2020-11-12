@@ -1,7 +1,13 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Person.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Person.schema.json",
+    "title": "Person",
     "description": "A person (alive, dead, undead, or fictional).",
+    "type": "object",
+    "required": [
+        "@type",
+        "name"
+    ],
     "properties": {
         "@id": {
             "$ref": "@id.schema.json"
@@ -12,7 +18,12 @@
                 "Person"
             ]
         },
+        "name": {
+            "title": "Full name as Given Family name",
+            "$ref": "name.schema.json"
+        },
         "affiliation": {
+            "title": "Organization person is affiliated with",
             "oneOf": [
                 {
                     "$ref": "Organization.schema.json"
@@ -20,8 +31,7 @@
                 {
                     "type": "string"
                 }
-            ],
-            "title": "Organization person is affiliated with"
+            ]
         },
         "familyName": {
             "title": "Family or last name",
@@ -31,18 +41,8 @@
             "title": "Given or first name",
             "type": "string"
         },
-        "name": {
-            "$ref": "name.schema.json",
-            "title": "Full name as Given Family name"
-        },
         "sameAs": {
             "$ref": "sameAs.schema.json"
         }
-    },
-    "required": [
-        "@type",
-        "name"
-    ],
-    "title": "Person",
-    "type": "object"
+    }
 }

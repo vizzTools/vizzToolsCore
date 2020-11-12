@@ -1,7 +1,16 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/spatialCoverage.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/spatialCoverage.schema.json",
+    "title": "spatialCoverage",
     "description": "You can provide a single point that describes the spatial aspect of the dataset. Only include this property if the dataset has a spatial dimension. For example, a single point where all the measurements were collected, or the coordinates of a bounding box for an area.",
+    "oneOf": [
+        {
+            "$ref": "Place.schema.json"
+        },
+        {
+            "type": "string"
+        }
+    ],
     "examples": [
         {
             "spatialCoverage": {
@@ -25,14 +34,5 @@
         {
             "spatialCoverage": "Tahoe City, CA"
         }
-    ],
-    "oneOf": [
-        {
-            "$ref": "Place.schema.json"
-        },
-        {
-            "type": "string"
-        }
-    ],
-    "title": "spatialCoverage"
+    ]
 }

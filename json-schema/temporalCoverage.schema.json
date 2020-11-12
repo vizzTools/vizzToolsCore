@@ -3,6 +3,7 @@
     "$id": "temporalCoverage.schema.json",
     "title": "temporalCoverage",
     "description": "The data in the dataset covers a specific time interval. Only include this property if the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe time intervals and time points. You can describe dates differently depending upon the dataset interval. Indicate open-ended intervals with two decimal points (..). TODO: adjust validation for these specific cases!",
+    "type": "string",
     "examples": [
         {
             "temporalCoverage": "2008"
@@ -13,6 +14,5 @@
         {
             "temporalCoverage": "2013-12-19/.."
         }
-    ],
-    "type": "string"
+    ]
 }

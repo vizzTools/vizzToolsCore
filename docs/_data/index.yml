@@ -21,9 +21,9 @@
     as a template for specific data provider definitions.
   title: DataProvider
 - description: A vizzToolsCore Dataset metadata/configuration object. This is an extended
-    version of schema.org [Dataset](https://schema.org/Dataset) following the Google
-    structured data Dataset guidelines. Non schema.org extensions to this include
-    the properties; [dataProviders](dataProviders).
+    version of schema.org [Dataset](https://schema.org/Dataset) following the [Google
+    structured data Dataset guidelines](https://developers.google.com/search/docs/data-types/dataset).
+    Non schema.org extensions to this include the properties; [dataProviders](dataProviders).
   title: Dataset
 - description: ISO-8601 date string.
   title: Date
@@ -126,16 +126,10 @@
 - description: List of text descriptions with information about the major data processing
     actions applied to the dataset.
   title: lineage
-- description: An array of schema.org DataDownload objects that describe URIs to access
-    description, metadata and data of the dataset. Use `name` to indicate the information
-    type.
-  title: links
 - description: The technique, technology, or methodology used in a dataset, which
     can correspond to the variable(s) described in variableMeasured. The measurementTechnique
     property is proposed and pending standardization at schema.org, see https://pending.webschemas.org/measurementTechnique
   title: measurementTechnique
-- description: An array of schema.org Dataset objects that describe the dataset
-  title: metadata
 - description: A descriptive (full) name of the entity. For example, a dataset called
     'Snow depth in the Northern Hemisphere' or a person called 'Sarah L. Jones' or
     a place called 'The Empire States Building'. Use unique names for distinct entities
@@ -169,7 +163,7 @@
   title: temporalCoverage
 - description: A string or text indicating the actual unit of measurement (which maybe
     different to the canonical_units). In general this should be of the form 'm /
-    s', leave a space between each character. Use SI prefix symbols; https://en.wikipedia.org/wiki/Metric_prefix.
+    s', leave a space between each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
   title: unitText
 - description: The variable that this dataset measures. For example, temperature or

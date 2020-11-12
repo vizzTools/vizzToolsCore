@@ -1,12 +1,12 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/GeoShape.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/GeoShape.schema.json",
+    "title": "GeoShape",
     "description": "The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.",
-    "examples": [
-        {
-            "@type": "GeoShape",
-            "box": "39.3280 120.1633 40.445 123.7878"
-        }
+    "type": "object",
+    "required": [
+        "@type",
+        "box"
     ],
     "properties": {
         "@type": {
@@ -16,15 +16,15 @@
             ]
         },
         "box": {
-            "description": "A box is the area enclosed by the rectangle formed by two points. The first point is the lower corner, the second point is the upper corner. A box is expressed as two points separated by a space character.",
             "title": "box",
+            "description": "A box is the area enclosed by the rectangle formed by two points. The first point is the lower corner, the second point is the upper corner. A box is expressed as two points separated by a space character.",
             "type": "string"
         }
     },
-    "required": [
-        "@type",
-        "box"
-    ],
-    "title": "GeoShape",
-    "type": "object"
+    "examples": [
+        {
+            "@type": "GeoShape",
+            "box": "39.3280 120.1633 40.445 123.7878"
+        }
+    ]
 }

@@ -5,4 +5,4 @@
     "description": "ISO-8601 time timestamp string.",
     "type": "string",
     "format": "time"
-}    
+}

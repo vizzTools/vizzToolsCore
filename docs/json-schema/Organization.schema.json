@@ -1,14 +1,12 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Organization.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/Organization.schema.json",
+    "title": "Organization",
     "description": "An organization such as a school, NGO, corporation, club, etc.",
-    "examples": [
-        {
-            "@id": "https://ror.org/02a809t02",
-            "@type": "Organization",
-            "name": "Vizzuality",
-            "sameAs": "https://ror.org/02a809t02"
-        }
+    "type": "object",
+    "required": [
+        "@type",
+        "name"
     ],
     "properties": {
         "@id": {
@@ -20,11 +18,11 @@
                 "Organization"
             ]
         },
-        "contactPoint": {
-            "$ref": "ContactPoint.schema.json"
-        },
         "name": {
             "$ref": "name.schema.json"
+        },
+        "contactPoint": {
+            "$ref": "ContactPoint.schema.json"
         },
         "sameAs": {
             "$ref": "sameAs.schema.json"
@@ -33,10 +31,12 @@
             "$ref": "URI.schema.json"
         }
     },
-    "required": [
-        "@type",
-        "name"
-    ],
-    "title": "Organization",
-    "type": "object"
+    "examples": [
+        {
+            "@id": "https://ror.org/02a809t02",
+            "@type": "Organization",
+            "name": "Vizzuality",
+            "sameAs": "https://ror.org/02a809t02"
+        }
+    ]
 }

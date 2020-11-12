@@ -1,10 +1,10 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/distribution.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/distribution.schema.json",
+    "title": "distribution",
     "description": "An array of schema.org DataDownload objects that describe URIs to access to the entity.",
+    "type": "array",
     "items": {
         "$ref": "DataDownload.schema.json"
-    },
-    "title": "distribution",
-    "type": "array"
+    }
 }

@@ -1,16 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "GeoCoordinates.schema.json",
-    "type": "object",
     "title": "GeoCoordinates",
     "description": "The geographic coordinates of an entity.",
-    "examples": [
-        {
-            "@type": "GeoCoordinates",
-            "latitude": 39.328,
-            "longitude": 120.1633
-        }
-    ],
+    "type": "object",
     "required": [
         "@type",
         "latitude",
@@ -24,14 +17,21 @@
             ]
         },
         "latitude": {
-            "type": "number",
             "title": "latitude",
-            "description": "The latitude of a location. For example 37.42242 (WGS 84)."
+            "description": "The latitude of a location. For example 37.42242 (WGS 84).",
+            "type": "number"
         },
         "longitude": {
-            "type": "number",
             "title": "longitude",
-            "description": "The longitude of a location. For example -122.08585 (WGS 84)."
+            "description": "The longitude of a location. For example -122.08585 (WGS 84).",
+            "type": "number"
         }
-    }
+    },
+    "examples": [
+        {
+            "@type": "GeoCoordinates",
+            "latitude": 39.328,
+            "longitude": 120.1633
+        }
+    ]
 }

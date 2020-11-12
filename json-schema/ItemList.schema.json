@@ -1,17 +1,32 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "ItemList.schema.json",
-    "type": "object",
     "title": "ItemList",
     "description": "A list of items of any sort—for example, Top 10 Movies About Weathermen, or Top 100 Party Songs. Not to be confused with HTML lists, which are often used only for formatting.",
-    "required": ["type", "itemListElement"],
+    "type": "object",
+    "required": [
+        "itemListElement"
+    ],
     "properties": {
         "@type": {
-            "$ref": "@type.schema.json"
+            "allOf": [
+                {
+                    "$ref": "@type.schema.json"
+                },
+                {
+                    "enum": [
+                        "ItemList"
+                    ]
+                }
+            ]
+        },
+        "name": {
+            "description": "Name of the ItemList.",
+            "type": "string"
         },
         "itemListElement": {
-            "type": "array",
             "title": "itemListElement",
+            "type": "array",
             "items": {
                 "anyOf": [
                     {
@@ -21,13 +36,9 @@
             }
         },
         "itemListOrder": {
-            "type": "string",
             "title": "itemListOrder",
-            "description": "Type of ordering (e.g. Ascending, Descending, Unordered)."
-        },
-        "name": {
-            "type": "string",
-            "description": "Name of the ItemList."
+            "description": "Type of ordering (e.g. Ascending, Descending, Unordered).",
+            "type": "string"
         }
     }
 }

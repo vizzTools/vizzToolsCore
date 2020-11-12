@@ -3,14 +3,16 @@
     "@context": "https://vizztools.github.io/vizzToolsCore",
     "@id": "gmw-mangrove-total-carbon-version-1-0-0",
     "@type": "Dataset",
+    "name": "Example collection",
+    "description": "The summary must be between 50 and 5000 characters long. The summary may include Markdown syntax. Embedded images need to use absolute path URLs (instead of relative paths). When using the JSON-LD format, denote new lines with two characters: backslash and lower case letter 'n'.",
     "alternateName": "Example version 0.0.1",
     "citation": "Identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.",
     "creator": [
         {
             "@id": "https://orcid.org/0000-0002-5011-6744",
             "@type": "Person",
-            "affiliation": "Vizzuality, Madrid, Spain",
             "name": "Edward P. Morris",
+            "affiliation": "Vizzuality, Madrid, Spain",
             "sameAs": "https://orcid.org/0000-0002-5011-6744"
         },
         {
@@ -22,27 +24,29 @@
     ],
     "dataProviders": [
         {
-            "data": "file:///tests/data/obs.csv",
-            "id_field": "id",
             "name": "CSV",
             "type": "feature",
+            "data": "file:///tests/data/obs.csv",
+            "id_field": "id",
             "x_field": "long",
             "y_field": "lat"
         },
         {
-            "data": "file:///tests/data/obs.json",
-            "id_field": "id",
             "name": "GeoJSON",
-            "type": "feature"
+            "type": "feature",
+            "data": "file:///tests/data/obs.json",
+            "id_field": "id"
         },
         {
+            "name": "Elasticsearch",
+            "type": "feature",
             "data": "http://localhost:9200/ne_110m_populated_places_simple",
             "id_field": "id",
-            "name": "Elasticsearch",
-            "time_field": "datetimefield",
-            "type": "feature"
+            "time_field": "datetimefield"
         },
         {
+            "name": "PostgreSQL",
+            "type": "feature",
             "data": {
                 "dbname": "test",
                 "host": "127.0.0.1",
@@ -55,49 +59,48 @@
             },
             "geom_field": "foo_geom",
             "id_field": "osm_id",
-            "name": "PostgreSQL",
-            "table": "hotosm_bdi_waterways",
-            "type": "feature"
+            "table": "hotosm_bdi_waterways"
         },
         {
+            "name": "rasterio",
+            "type": "coverage",
             "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
             "format": {
-                "mimetype": "application/x-grib2",
-                "name": "GRIB"
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
             },
-            "name": "rasterio",
             "options": {
                 "DATA_ENCODING": "COMPLEX_PACKING"
-            },
-            "type": "coverage"
+            }
         },
         {
+            "name": "xarray",
+            "type": "coverage",
             "data": "file:///tests/data/coads_sst.nc",
             "format": {
-                "mimetype": "application/x-netcdf",
-                "name": "netcdf"
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
             },
-            "name": "xarray",
             "time_field": "time",
-            "type": "coverage",
             "x_field": "lon"
         },
         {
+            "name": "xarray",
+            "type": "coverage",
             "data": "file:///tests/data/analysed_sst.zarr",
             "format": {
-                "mimetype": "application/zip",
-                "name": "zarr"
-            },
-            "name": "xarray",
-            "type": "coverage"
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
         },
         {
+            "name": "MVT",
+            "type": "tile",
             "data": "file:///tests/data/tiles/ne_110m_lakes",
             "format": {
-                "mimetype": "application/vnd.mapbox-vector-tile",
-                "name": "pbf"
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
             },
-            "name": "MVT",
             "options": {
                 "metadata_format": "raw",
                 "schemes": [
@@ -107,26 +110,24 @@
                     "max": 5,
                     "min": 0
                 }
-            },
-            "type": "tile"
+            }
         }
     ],
     "dateCreated": "2020-10-18T20:48:57Z",
     "dateModified": "2020-10-18T20:48:57Z",
     "datePublished": "2018-05-08",
-    "description": "The summary must be between 50 and 5000 characters long. The summary may include Markdown syntax. Embedded images need to use absolute path URLs (instead of relative paths). When using the JSON-LD format, denote new lines with two characters: backslash and lower case letter 'n'.",
     "distribution": [
         {
             "@type": "DataDownload",
+            "name": "Description",
             "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
-            "encodingFormat": "docx",
-            "name": "Description"
+            "encodingFormat": "docx"
         },
         {
             "@type": "DataDownload",
+            "name": "Data",
             "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
-            "encodingFormat": "zip",
-            "name": "Data"
+            "encodingFormat": "zip"
         }
     ],
     "funder": [
@@ -147,7 +148,6 @@
     ],
     "license": "https://creativecommons.org/licenses/by/4.0",
     "measurementTechnique": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured.",
-    "name": "Example collection",
     "provider": [
         {
             "@id": "https://ror.org/02a809t02",

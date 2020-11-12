@@ -1,0 +1,11 @@
+{
+    "$schema": "../json-schema/Place.schema.json",
+    "@context": "",
+    "@type": "Place",
+    "name": "A point",
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.328,
+        "longitude": 120.1633
+    }
+}

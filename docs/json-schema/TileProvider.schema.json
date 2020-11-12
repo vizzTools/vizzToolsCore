@@ -1,32 +1,13 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/TileProvider.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/TileProvider.schema.json",
+    "title": "TileProvider",
+    "description": "A vizzToolsCore TileProvider definition object that describes the connection of the dataset data.",
     "definitions": {
         "MVT": {
+            "title": "MVT",
             "description": "MVT TileProvider",
-            "properties": {
-                "data": {
-                    "$ref": "DataProvider.schema.json#/definitions/data"
-                },
-                "format": {
-                    "$ref": "DataProvider.schema.json#/definitions/format"
-                },
-                "name": {
-                    "$ref": "DataProvider.schema.json#/definitions/name",
-                    "enum": [
-                        "MVT"
-                    ]
-                },
-                "options": {
-                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
-                },
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "enum": [
-                        "tile"
-                    ]
-                }
-            },
+            "type": "object",
             "required": [
                 "type",
                 "name",
@@ -34,19 +15,45 @@
                 "options",
                 "format"
             ],
-            "title": "MVT",
-            "type": "object"
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "MVT"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "tile"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
+                }
+            }
         }
     },
-    "description": "A vizzToolsCore TileProvider definition object that describes the connection of the dataset data.",
+    "oneOf": [
+        {
+            "$ref": "#/definitions/MVT"
+        }
+    ],
     "examples": [
         {
+            "name": "MVT",
+            "type": "tile",
             "data": "tests/data/tiles/ne_110m_lakes",
             "format": {
-                "mimetype": "application/vnd.mapbox-vector-tile",
-                "name": "pbf"
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
             },
-            "name": "MVT",
             "options": {
                 "metadata_format": "raw",
                 "schemes": [
@@ -56,14 +63,7 @@
                     "max": 5,
                     "min": 0
                 }
-            },
-            "type": "tile"
+            }
         }
-    ],
-    "oneOf": [
-        {
-            "$ref": "#/definitions/MVT"
-        }
-    ],
-    "title": "TileProvider"
+    ]
 }

@@ -5,9 +5,9 @@
     "description": "A vizzToolsCore TileProvider definition object that describes the connection of the dataset data.",
     "definitions": {
         "MVT": {
-            "type": "object",
             "title": "MVT",
             "description": "MVT TileProvider",
+            "type": "object",
             "required": [
                 "type",
                 "name",
@@ -16,22 +16,26 @@
                 "format"
             ],
             "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "enum": ["tile"]
-                },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "enum": ["MVT"]
+                    "enum": [
+                        "MVT"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "tile"
+                    ]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
                 },
-                "options": {
-                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
-                },
                 "format": {
                     "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
                 }
             }
         }
@@ -43,22 +47,22 @@
     ],
     "examples": [
         {
-            "type": "tile",
             "name": "MVT",
+            "type": "tile",
             "data": "tests/data/tiles/ne_110m_lakes",
-            "options": {
-                "metadata_format": "raw",
-                "zoom": {
-                    "min": 0,
-                    "max": 5
-                },
-                "schemes": [
-                    "WorldCRS84Quad"
-                ]
-            },
             "format": {
                 "name": "pbf",
                 "mimetype": "application/vnd.mapbox-vector-tile"
+            },
+            "options": {
+                "metadata_format": "raw",
+                "schemes": [
+                    "WorldCRS84Quad"
+                ],
+                "zoom": {
+                    "max": 5,
+                    "min": 0
+                }
             }
         }
     ]

@@ -1,9 +1,9 @@
 {
     "$schema": "../json-schema/Person.schema.json",
     "@context": "",
-    "@type": "Person",
     "@id": "https://orcid.org/0000-0002-5011-6744",
-    "sameAs": "https://orcid.org/0000-0002-5011-6744",
+    "@type": "Person",
+    "name": "Edward P. Morris",
     "affiliation": "Vizzuality, Madrid, Spain",
-    "name": "Edward P. Morris"
+    "sameAs": "https://orcid.org/0000-0002-5011-6744"
 }

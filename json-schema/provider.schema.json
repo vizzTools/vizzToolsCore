@@ -5,7 +5,7 @@
     "description": "An array of schema.org Person or Organization objects. To uniquely identify individuals, use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify institutions and organizations, use ROR ID.",
     "type": "array",
     "items": {
-        "anyOf": [
+        "oneOf": [
             {
                 "$ref": "Person.schema.json"
             },
@@ -13,5 +13,5 @@
                 "$ref": "Organization.schema.json"
             }
         ]
-        }
+    }
 }

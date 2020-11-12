@@ -5,10 +5,16 @@
     "description": "An array of vizzToolsCore provider definition objects that describe the connections to the data of the dataset.",
     "type": "array",
     "items": {
-        "oneOf":[
-            {"$ref": "FeatureProvider.schema.json"},
-            {"$ref": "CoverageProvider.schema.json"},
-            {"$ref": "TileProvider.schema.json"}
+        "oneOf": [
+            {
+                "$ref": "FeatureProvider.schema.json"
+            },
+            {
+                "$ref": "CoverageProvider.schema.json"
+            },
+            {
+                "$ref": "TileProvider.schema.json"
+            }
         ]
     }
 }

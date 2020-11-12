@@ -3,11 +3,6 @@
     "$id": "isPartOf.schema.json",
     "title": "isPartOf",
     "description": "If the dataset is part of a larger dataset, use the isPartOf property to denote such relationship. Can take the form of an array of URL(s) or a Dataset objects.",
-    "examples": [
-        [
-            "https://example.com/aggregate_dataset"
-        ]
-    ],
     "type": "array",
     "items": {
         "oneOf": [
@@ -18,5 +13,18 @@
                 "type": "object"
             }
         ]
-    }
+    },
+    "examples": [
+        [
+            "https://example.com/aggregate_dataset"
+        ],
+        [
+            {
+                "@type": "Dataset",
+                "name": "Larger dataset",
+                "description": "Informative description of the larger dataset",
+                "license": "https://creativecommons.org/publicdomain/zero/1.0/"
+            }
+        ]
+    ]
 }

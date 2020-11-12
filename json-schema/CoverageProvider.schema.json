@@ -5,9 +5,9 @@
     "description": "A vizzToolsCore CoverageProvider definition object that describes the connection of the dataset data.",
     "definitions": {
         "rasterio": {
-            "type": "object",
             "title": "rasterio",
             "description": "rasterio CoverageProvider",
+            "type": "object",
             "required": [
                 "type",
                 "name",
@@ -16,29 +16,33 @@
                 "format"
             ],
             "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "enum": ["coverage"]
-                },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "enum": ["rasterio"]
+                    "enum": [
+                        "rasterio"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "coverage"
+                    ]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
                 },
-                "options": {
-                    "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
-                },
                 "format": {
                     "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
                 }
             }
         },
         "xarray": {
-            "type": "object",
             "title": "xarray",
             "description": "xarray CoverageProvider",
+            "type": "object",
             "required": [
                 "type",
                 "name",
@@ -50,31 +54,35 @@
                 "time_field"
             ],
             "properties": {
-                "type": {
-                    "$ref": "DataProvider.schema.json#/definitions/type",
-                    "enum": ["coverage"]
-                },
                 "name": {
                     "$ref": "DataProvider.schema.json#/definitions/name",
-                    "enum": ["xarray"]
+                    "enum": [
+                        "xarray"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "coverage"
+                    ]
                 },
                 "data": {
                     "$ref": "DataProvider.schema.json#/definitions/data"
                 },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                },
                 "options": {
                     "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
                 },
-                "format": {
-                    "$ref": "DataProvider.schema.json#/definitions/format"
+                "time_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/time_field"
                 },
                 "x_field": {
                     "$ref": "DataProvider.schema.json#/definitions/x_field"
                 },
                 "y_field": {
                     "$ref": "DataProvider.schema.json#/definitions/y_field"
-                },
-                "time_field": {
-                    "$ref": "DataProvider.schema.json#/definitions/time_field"
                 }
             }
         }
@@ -89,31 +97,31 @@
     ],
     "examples": [
         {
-            "type": "coverage",
             "name": "rasterio",
+            "type": "coverage",
             "data": "tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
-            "options": {
-                "DATA_ENCODING": "COMPLEX_PACKING"
-            },
             "format": {
                 "name": "GRIB",
                 "mimetype": "application/x-grib2"
+            },
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
             }
         },
         {
-            "type": "coverage",
             "name": "xarray",
+            "type": "coverage",
             "data": "tests/data/coads_sst.nc",
-            "x_field": "lon",
-            "time_field": "time",
             "format": {
                 "name": "netcdf",
                 "mimetype": "application/x-netcdf"
-            }
+            },
+            "time_field": "time",
+            "x_field": "lon"
         },
         {
-            "type": "coverage",
             "name": "xarray",
+            "type": "coverage",
             "data": "tests/data/analysed_sst.zarr",
             "format": {
                 "name": "zarr",

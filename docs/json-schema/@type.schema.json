@@ -1,7 +1,7 @@
 {
-    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/@type.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema",
-    "description": "Type of this object.",
+    "$id": "https://vizztools.github.io/vizzToolsCore/json-schema/@type.schema.json",
+    "type": "string",
     "title": "@type",
-    "type": "string"
+    "description": "Type of this object."
 }

@@ -51,7 +51,7 @@ for case_name in os.listdir(JSONLD_DIR):
             print(obj['@context'])
             print("Writing to: ", os.path.join(DOCS_JSONLD_PATH, case_name), "\n")
         with open(os.path.join(DOCS_JSONLD_PATH, case_name), 'w') as f:
-            json.dump(obj, f, indent=4, sort_keys=True)
+            json.dump(obj, f, indent=4, sort_keys=False)
 
 # Convert Schema to HTML
 print("\nProcessing JSON Schema")
@@ -74,7 +74,7 @@ for case_name in sorted(fl):
             out.append(yaml_data_dict)
             print("Writing to: ", os.path.join(DOCS_SCHEMA_PATH, case_name))
             with open(os.path.join(DOCS_SCHEMA_PATH, case_name), 'w') as f:
-                json.dump(obj, f, indent=4, sort_keys=True)
+                json.dump(obj, f, indent=4, sort_keys=False)
         
             print(f"Generating example {name}")
             config = GenerationConfiguration(recursive_detection_depth=10000, expand_buttons=True, deprecated_from_description=True)
