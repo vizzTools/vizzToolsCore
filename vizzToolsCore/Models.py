@@ -130,13 +130,6 @@ class ContactPointType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -151,6 +144,13 @@ class ContactPointType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     CONTACT_POINT = "ContactPoint"
 
@@ -227,13 +227,6 @@ class OrganizationType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -248,6 +241,13 @@ class OrganizationType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     ORGANIZATION = "Organization"
 
@@ -284,7 +284,7 @@ class Organization:
         return result
 
 
-class CreatorType(Enum):
+class PersonOrganizationType(Enum):
     """URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
@@ -330,13 +330,6 @@ class CreatorType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -351,18 +344,39 @@ class CreatorType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     ORGANIZATION = "Organization"
     PERSON = "Person"
 
 
 @dataclass
-class Person:
-    """A person (alive, dead, undead, or fictional).
+class PersonOrganization:
+    """An array of schema.org Person or Organization objects. To uniquely identify individuals,
+    use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify
+    institutions and organizations, use ROR ID.
+    
+    A schema.org Person or Organization objects. To uniquely identify individuals, use ORCID
+    ID as the value of the sameAs property of the Person type. To uniquely identify
+    institutions and organizations, use ROR ID.
+    
+    Indicates the party responsible for generating and publishing the current structured data
+    markup, typically in cases where the structured data is derived automatically from
+    existing published content but published on a different site. For example, student
+    projects and open data initiatives often re-publish existing content with more explicitly
+    structured metadata. The sdPublisher property helps make such practices more explicit.
+    
+    A person (alive, dead, undead, or fictional).
     
     An organization such as a school, NGO, corporation, club, etc.
     """
-    type: CreatorType
+    type: PersonOrganizationType
     affiliation: Union[Organization, None, str]
     name: str
     id: Optional[str]
@@ -373,9 +387,9 @@ class Person:
     url: Optional[str]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Person':
+    def from_dict(obj: Any) -> 'PersonOrganization':
         assert isinstance(obj, dict)
-        type = CreatorType(obj.get("@type"))
+        type = PersonOrganizationType(obj.get("@type"))
         affiliation = from_union([Organization.from_dict, from_none, from_str], obj.get("affiliation"))
         name = from_str(obj.get("name"))
         id = from_union([from_none, from_str], obj.get("@id"))
@@ -384,11 +398,11 @@ class Person:
         given_name = from_union([from_none, from_str], obj.get("givenName"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
         url = from_union([from_none, from_str], obj.get("url"))
-        return Person(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
+        return PersonOrganization(type, affiliation, name, id, contact_point, family_name, given_name, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["@type"] = to_enum(CreatorType, self.type)
+        result["@type"] = to_enum(PersonOrganizationType, self.type)
         result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_none, from_str], self.affiliation)
         result["name"] = from_str(self.name)
         result["@id"] = from_union([from_none, from_str], self.id)
@@ -495,13 +509,6 @@ class NameEnum(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -516,6 +523,13 @@ class NameEnum(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     CSV = "CSV"
     ELASTICSEARCH = "Elasticsearch"
@@ -622,13 +636,6 @@ class TypeEnum(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -643,6 +650,13 @@ class TypeEnum(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     COVERAGE = "coverage"
     FEATURE = "feature"
@@ -763,13 +777,6 @@ class DistributionType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -784,6 +791,13 @@ class DistributionType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     DATA_DOWNLOAD = "DataDownload"
 
@@ -1055,13 +1069,6 @@ class GeoType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -1076,6 +1083,13 @@ class GeoType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     GEO_COORDINATES = "GeoCoordinates"
     GEO_SHAPE = "GeoShape"
@@ -1167,13 +1181,6 @@ class PlaceType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -1188,6 +1195,13 @@ class PlaceType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     PLACE = "Place"
 
@@ -1264,13 +1278,6 @@ class DatasetType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -1285,6 +1292,13 @@ class DatasetType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     DATASET = "Dataset"
 
@@ -1335,13 +1349,6 @@ class PropertyValueType(Enum):
     
     Y field name of the data.
     
-    Licensing and terms of use for the object, preferably as a URI with a description
-    
-    The technique, technology, or methodology used in a dataset, which can correspond to the
-    variable(s) described in variableMeasured. The measurementTechnique property is proposed
-    and pending standardization at schema.org, see
-    https://pending.webschemas.org/measurementTechnique
-    
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
     number used to identify parties and physical locations.
@@ -1356,6 +1363,13 @@ class PropertyValueType(Enum):
     canonical_units). In general this should be of the form 'm / s', leave a space between
     each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
     Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
     """
     PROPERTY_VALUE = "PropertyValue"
 
@@ -1447,7 +1461,7 @@ class Dataset:
     date_published: Optional[datetime]
     description: Optional[str]
     distribution: Optional[List[DataDownload]]
-    funder: Optional[List[Person]]
+    funder: Optional[List[PersonOrganization]]
     has_part: Optional[List[Union[Dict[str, Any], str]]]
     context: Optional[str]
     in_language: Optional[InLanguage]
@@ -1456,10 +1470,10 @@ class Dataset:
     date_created: Optional[datetime]
     measurement_technique: Optional[str]
     name: Optional[str]
-    provider: Optional[List[Person]]
+    provider: Optional[List[PersonOrganization]]
     same_as: Optional[str]
-    sd_publisher: Optional[List[Person]]
-    creator: Optional[List[Person]]
+    sd_publisher: Optional[List[PersonOrganization]]
+    creator: Optional[List[PersonOrganization]]
     temporal_coverage: Optional[str]
     thumbnail_url: Optional[str]
     url: Optional[str]
@@ -1482,7 +1496,7 @@ class Dataset:
         date_published = from_union([from_datetime, from_none], obj.get("datePublished"))
         description = from_union([from_none, from_str], obj.get("description"))
         distribution = from_union([lambda x: from_list(DataDownload.from_dict, x), from_none], obj.get("distribution"))
-        funder = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("funder"))
+        funder = from_union([lambda x: from_list(PersonOrganization.from_dict, x), from_none], obj.get("funder"))
         has_part = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], obj.get("hasPart"))
         context = from_union([from_none, from_str], obj.get("@context"))
         in_language = from_union([InLanguage, from_none], obj.get("inLanguage"))
@@ -1491,10 +1505,10 @@ class Dataset:
         date_created = from_union([from_datetime, from_none], obj.get("dateCreated"))
         measurement_technique = from_union([from_none, from_str], obj.get("measurementTechnique"))
         name = from_union([from_none, from_str], obj.get("name"))
-        provider = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("provider"))
+        provider = from_union([lambda x: from_list(PersonOrganization.from_dict, x), from_none], obj.get("provider"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
-        sd_publisher = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("sdPublisher"))
-        creator = from_union([lambda x: from_list(Person.from_dict, x), from_none], obj.get("creator"))
+        sd_publisher = from_union([lambda x: from_list(PersonOrganization.from_dict, x), from_none], obj.get("sdPublisher"))
+        creator = from_union([lambda x: from_list(PersonOrganization.from_dict, x), from_none], obj.get("creator"))
         temporal_coverage = from_union([from_none, from_str], obj.get("temporalCoverage"))
         thumbnail_url = from_union([from_none, from_str], obj.get("thumbnailUrl"))
         url = from_union([from_none, from_str], obj.get("url"))
@@ -1517,7 +1531,7 @@ class Dataset:
         result["datePublished"] = from_union([lambda x: x.isoformat(), from_none], self.date_published)
         result["description"] = from_union([from_none, from_str], self.description)
         result["distribution"] = from_union([lambda x: from_list(lambda x: to_class(DataDownload, x), x), from_none], self.distribution)
-        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.funder)
+        result["funder"] = from_union([lambda x: from_list(lambda x: to_class(PersonOrganization, x), x), from_none], self.funder)
         result["hasPart"] = from_union([lambda x: from_list(lambda x: from_union([lambda x: from_dict(lambda x: x, x), from_str], x), x), from_none], self.has_part)
         result["@context"] = from_union([from_none, from_str], self.context)
         result["inLanguage"] = from_union([lambda x: to_enum(InLanguage, x), from_none], self.in_language)
@@ -1526,10 +1540,10 @@ class Dataset:
         result["dateCreated"] = from_union([lambda x: x.isoformat(), from_none], self.date_created)
         result["measurementTechnique"] = from_union([from_none, from_str], self.measurement_technique)
         result["name"] = from_union([from_none, from_str], self.name)
-        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.provider)
+        result["provider"] = from_union([lambda x: from_list(lambda x: to_class(PersonOrganization, x), x), from_none], self.provider)
         result["sameAs"] = from_union([from_none, from_str], self.same_as)
-        result["sdPublisher"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.sd_publisher)
-        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(Person, x), x), from_none], self.creator)
+        result["sdPublisher"] = from_union([lambda x: from_list(lambda x: to_class(PersonOrganization, x), x), from_none], self.sd_publisher)
+        result["creator"] = from_union([lambda x: from_list(lambda x: to_class(PersonOrganization, x), x), from_none], self.creator)
         result["temporalCoverage"] = from_union([from_none, from_str], self.temporal_coverage)
         result["thumbnailUrl"] = from_union([from_none, from_str], self.thumbnail_url)
         result["url"] = from_union([from_none, from_str], self.url)
