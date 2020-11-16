@@ -215,13 +215,13 @@ with open("https://vizztools.github.io/vizzToolsCore/jsonld-examples/Dataset.jso
 
 ## Build
 
-`VizzToolsCore` is automatically built using JSON schema (`./json-schema`); these are intended to be the "single source of truth" for the data structures.
+`VizzToolsCore` is automatically built using JSON schema (`./data/json-schema`); these are intended to be the "single source of truth" for the data structures.
 
 The [data structure documentation site](https://vizztools.github.io/vizzToolsCore) is generated using [`json_schema_for_humans`](https://github.com/coveooss/json-schema-for-humans); using this [script](https://github.com/vizzTools/ci-scripts/blob/master/generate_schema_docs.py). This creates HTML pages for every JSON schema file in `./json-schema`, and adds the JSON schema and JSONLD examples to the site. Configuration of this process can be found in `./docs`.  
 
-Python classes (`./VizzToolsCore/Models.py`) and simple access functions are generated using [`quicktype`](quicktype.io); using this [script](https://github.com/vizzTools/ci-scripts/blob/master/json_schema_to_python.sh). The list of Types to convert is defined in `src-urls.json`; note all properties and objects of higher level objects are converted, however it is often useful to specifically define the order these are passed. Further methods to interact with these base classes are added manually.
+Python classes (`./VizzToolsCore/Models.py`) and simple access functions are generated using [`quicktype`](quicktype.io); using this [script](https://github.com/vizzTools/ci-scripts/blob/master/json_schema_to_python.sh). The list of Types to convert is defined in `.data/src-urls.json`; note all properties and objects of higher level objects are converted, however it is often useful to specifically define the order these are passed. Further methods to interact with these base classes are added manually.
 
-Tests are carried out against JSONLD examples (`./jsonld-examples`). TODO: Add more info about tests. Finally the updated JSON schema docs and Python package are deployed to `gh-pages` and `PyPi` respectively.
+Tests are carried out against JSONLD examples (`./data/jsonld-examples`). TODO: Add more info about tests. Finally the updated JSON schema docs and Python package are deployed to `gh-pages` and `PyPi` respectively.
 
 Local build...
 

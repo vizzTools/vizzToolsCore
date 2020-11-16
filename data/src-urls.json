@@ -1,20 +1,20 @@
 {
     "CoverageProvider": [
-        "./json-schema/CoverageProvider.schema.json"
+        "data/json-schema/CoverageProvider.schema.json"
     ],
     "FeatureProvider": [
-        "./json-schema/FeatureProvider.schema.json"
+        "data/json-schema/FeatureProvider.schema.json"
     ],
     "TileProvider": [
-        "./json-schema/TileProvider.schema.json"
+        "data/json-schema/TileProvider.schema.json"
     ],
     "Dataset": [
-        "./json-schema/Dataset.schema.json"
+        "data/json-schema/Dataset.schema.json"
     ],
     "Organization": [
-        "./json-schema/Organization.schema.json"
+        "data/json-schema/Organization.schema.json"
     ],
     "Person": [
-        "./json-schema/Person.schema.json"
+        "data/json-schema/Person.schema.json"
     ]
 }
