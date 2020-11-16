@@ -16,10 +16,5 @@
     ],
     "Person": [
         "./json-schema/Person.schema.json"
-    ],
-    ,
-    "User": [
-        "./json-schema/Person.schema.json"
     ]
-
 }
