@@ -1,3 +1,14 @@
+language: python
+
+python:
+  - "3.6"
+  - "3.7"
+
+install:
+  - npm install -g quicktype
+  - pip3 install -r docs/requirements.txt
+  - pip3 install -r requirements.txt
+  
 # Set some variables
 variables:
   SCRIPTS_REPO: "https://github.com/vizzTools/ci-scripts"
@@ -13,17 +24,6 @@ before_script:
   - export SCRIPTS_DIR=$(mktemp -d)
   - git clone -q --depth 1 "$SCRIPTS_REPO" "$SCRIPTS_DIR"
 
-language: python
-
-python:
-  - "3.6"
-  - "3.7"
-
-install:
-  - npm install -g quicktype
-  - pip3 install -r docs/requirements.txt
-  - pip3 install -r requirements.txt
-  
 script:
   - $SCRIPTS_DIR/generate_schema_docs.py
   - $SCRIPTS_DIR/json_schema_to_python.sh
