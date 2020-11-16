@@ -1,25 +1,23 @@
 #!/bin/bash
 
-# Get the working directory
-#DIR="$(dirname "${BASH_SOURCE[0]}")"  # get the directory name
-#DIR="$(realpath "${DIR}")"    # resolve its full path if need be
-#echo $DIR
+# Set the JSON schema source urls JSON path
+# This should be of the form: 
+#   {"<Type>": ["<schema-path>"], "<Type>": ["<schema-path>"]}
+# where `Type` is the tope-level Type or Class name, and schema-path is a file or URL path.
+# Note if using files, references ($ref) must be in same directory
+# Note parsing only the top-level Type usually provides 
+SCHEMA_SRC_URLS="src-urls.json" 
 
-SCHEMA_DIR="https://vizztools.github.io/vizzToolsCore/json-schema/DataProvider.schema.json"
-SCHEMA_EXT=.schema.json
-SCHEMA_NAME="DataProvider"
+# Set the directory to add the generated Python code
+# all Types will be added to a single file, Models.py
+# and the __init__.py file updated to load all Types
 CODE_DIR=./vizzToolsCore
-CODE_EXT=.py
 
-# Declare a string array with type
-# "Person" "Organization" "PropertyValue" "Place"  "TileProvider" "CoverageProvider" "FeatureProvider" "DataDownload" "GeoCoordinates" "GeoShape" "Iso6391LanguageCodes" "ContactPoint"
-#declare -a StringArray=("Dataset")
-
-# Read the array values with space
-#for val in "${StringArray[@]}"; do
-#rm $CODE_DIR$val$CODE_EXT
-#echo "Processing $SCHEMA_DIR"
+# Update __init__.py
+# TODO: add automatic semantic version
 echo "from .Models import  *" >> $CODE_DIR/"__init__.py"
+
+# Convert JSON schema to Python code
 quicktype \
     --alphabetize-properties \
     --python-version 3.7 \

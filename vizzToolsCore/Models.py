@@ -8,11 +8,16 @@
 #
 # and then, to convert JSON from a string, do
 #
+#     result = coverage_provider_from_dict(json.loads(json_string))
+#     result = feature_provider_from_dict(json.loads(json_string))
+#     result = tile_provider_from_dict(json.loads(json_string))
 #     result = dataset_from_dict(json.loads(json_string))
+#     result = organization_from_dict(json.loads(json_string))
+#     result = person_from_dict(json.loads(json_string))
 
-from enum import Enum
 from dataclasses import dataclass
-from typing import Optional, Any, Union, List, Dict, TypeVar, Type, cast, Callable
+from typing import Optional, Any, List, Union, Dict, TypeVar, Type, cast, Callable
+from enum import Enum
 from datetime import datetime
 import dateutil.parser
 
@@ -21,13 +26,13 @@ T = TypeVar("T")
 EnumT = TypeVar("EnumT", bound=Enum)
 
 
-def from_str(x: Any) -> str:
-    assert isinstance(x, str)
+def from_none(x: Any) -> Any:
+    assert x is None
     return x
 
 
-def from_none(x: Any) -> Any:
-    assert x is None
+def from_str(x: Any) -> str:
+    assert isinstance(x, str)
     return x
 
 
@@ -40,14 +45,14 @@ def from_union(fs, x):
     assert False
 
 
-def to_enum(c: Type[EnumT], x: Any) -> EnumT:
-    assert isinstance(x, c)
-    return x.value
-
-
 def to_class(c: Type[T], x: Any) -> dict:
     assert isinstance(x, c)
     return cast(Any, x).to_dict()
+
+
+def to_enum(c: Type[EnumT], x: Any) -> EnumT:
+    assert isinstance(x, c)
+    return x.value
 
 
 def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
@@ -84,8 +89,60 @@ def from_datetime(x: Any) -> datetime:
     return dateutil.parser.parse(x)
 
 
-class ContactPointType(Enum):
-    """URI of the JSON schema of this object.
+@dataclass
+class Format:
+    """Provider data format."""
+    mimetype: Optional[str]
+    name: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Format':
+        assert isinstance(obj, dict)
+        mimetype = from_union([from_none, from_str], obj.get("mimetype"))
+        name = from_union([from_none, from_str], obj.get("name"))
+        return Format(mimetype, name)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["mimetype"] = from_union([from_none, from_str], self.mimetype)
+        result["name"] = from_union([from_none, from_str], self.name)
+        return result
+
+
+class CoverageProviderName(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -98,13 +155,57 @@ class ContactPointType(Enum):
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
     
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    RASTERIO = "rasterio"
+    XARRAY = "xarray"
+
+
+@dataclass
+class CoverageOptions:
+    """Coverage provider data specific options."""
+    data_encoding: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'CoverageOptions':
+        assert isinstance(obj, dict)
+        data_encoding = from_union([from_none, from_str], obj.get("DATA_ENCODING"))
+        return CoverageOptions(data_encoding)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["DATA_ENCODING"] = from_union([from_none, from_str], self.data_encoding)
+        return result
+
+
+class CoverageProviderType(Enum):
+    """URI pointing to the data.
     
     String representing a URI.
     
-    URI pointing to the data.
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
     
     Use the isBasedOn property in cases where the republished dataset (including its
     metadata) has been changed significantly. When a dataset derives from or aggregates
@@ -114,7 +215,149 @@ class ContactPointType(Enum):
     Use the sameAs property to indicate the most canonical URL for the original description
     of the property.
     
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
     Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    COVERAGE = "coverage"
+
+
+@dataclass
+class CoverageProvider:
+    """A vizzToolsCore CoverageProvider definition object that describes the connection of the
+    dataset data.
+    
+    rasterio CoverageProvider
+    
+    xarray CoverageProvider
+    """
+    data: str
+    format: Format
+    name: CoverageProviderName
+    options: CoverageOptions
+    type: CoverageProviderType
+    time_field: Optional[str]
+    x_field: Optional[str]
+    y_field: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'CoverageProvider':
+        assert isinstance(obj, dict)
+        data = from_str(obj.get("data"))
+        format = Format.from_dict(obj.get("format"))
+        name = CoverageProviderName(obj.get("name"))
+        options = CoverageOptions.from_dict(obj.get("options"))
+        type = CoverageProviderType(obj.get("type"))
+        time_field = from_union([from_none, from_str], obj.get("time_field"))
+        x_field = from_union([from_none, from_str], obj.get("x_field"))
+        y_field = from_union([from_none, from_str], obj.get("y_field"))
+        return CoverageProvider(data, format, name, options, type, time_field, x_field, y_field)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["data"] = from_str(self.data)
+        result["format"] = to_class(Format, self.format)
+        result["name"] = to_enum(CoverageProviderName, self.name)
+        result["options"] = to_class(CoverageOptions, self.options)
+        result["type"] = to_enum(CoverageProviderType, self.type)
+        result["time_field"] = from_union([from_none, from_str], self.time_field)
+        result["x_field"] = from_union([from_none, from_str], self.x_field)
+        result["y_field"] = from_union([from_none, from_str], self.y_field)
+        return result
+
+
+@dataclass
+class DatabaseData:
+    """Object defining database connection."""
+    dbname: Optional[str]
+    host: Optional[str]
+    password: Optional[str]
+    search_path: Optional[List[str]]
+    user: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'DatabaseData':
+        assert isinstance(obj, dict)
+        dbname = from_union([from_none, from_str], obj.get("dbname"))
+        host = from_union([from_none, from_str], obj.get("host"))
+        password = from_union([from_none, from_str], obj.get("password"))
+        search_path = from_union([lambda x: from_list(from_str, x), from_none], obj.get("search_path"))
+        user = from_union([from_none, from_str], obj.get("user"))
+        return DatabaseData(dbname, host, password, search_path, user)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["dbname"] = from_union([from_none, from_str], self.dbname)
+        result["host"] = from_union([from_none, from_str], self.host)
+        result["password"] = from_union([from_none, from_str], self.password)
+        result["search_path"] = from_union([lambda x: from_list(from_str, x), from_none], self.search_path)
+        result["user"] = from_union([from_none, from_str], self.user)
+        return result
+
+
+class FeatureProviderName(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
     
     Provider definition name.
     
@@ -122,13 +365,439 @@ class ContactPointType(Enum):
     
     Time field of the data.
     
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
     Table name of the data.
     
     Geometry field of the data.
     
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    CSV = "CSV"
+    ELASTICSEARCH = "Elasticsearch"
+    GEO_JSON = "GeoJSON"
+    POSTGRE_SQL = "PostgreSQL"
+    SQ_LITE_GPKG = "SQLiteGPKG"
+
+
+class FeatureProviderType(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
     X field name of the data.
     
     Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    FEATURE = "feature"
+
+
+@dataclass
+class FeatureProvider:
+    """A vizzToolsCore FeatureProvider definition object that describes the connection of the
+    dataset data.
+    
+    CSV featureProvider
+    
+    GeoJSON FeatureProvider
+    
+    Elasticsearch FeatureProvider
+    
+    SQLiteGPKG featureProvider
+    
+    PostgreSQL featureProvider
+    """
+    data: Union[DatabaseData, str]
+    id_field: str
+    name: FeatureProviderName
+    type: FeatureProviderType
+    geom_field: Optional[str]
+    table: Optional[str]
+    time_field: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'FeatureProvider':
+        assert isinstance(obj, dict)
+        data = from_union([DatabaseData.from_dict, from_str], obj.get("data"))
+        id_field = from_str(obj.get("id_field"))
+        name = FeatureProviderName(obj.get("name"))
+        type = FeatureProviderType(obj.get("type"))
+        geom_field = from_union([from_none, from_str], obj.get("geom_field"))
+        table = from_union([from_none, from_str], obj.get("table"))
+        time_field = from_union([from_none, from_str], obj.get("time_field"))
+        return FeatureProvider(data, id_field, name, type, geom_field, table, time_field)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["data"] = from_union([lambda x: to_class(DatabaseData, x), from_str], self.data)
+        result["id_field"] = from_str(self.id_field)
+        result["name"] = to_enum(FeatureProviderName, self.name)
+        result["type"] = to_enum(FeatureProviderType, self.type)
+        result["geom_field"] = from_union([from_none, from_str], self.geom_field)
+        result["table"] = from_union([from_none, from_str], self.table)
+        result["time_field"] = from_union([from_none, from_str], self.time_field)
+        return result
+
+
+class TileProviderName(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    MVT = "MVT"
+
+
+@dataclass
+class Zoom:
+    """Minimum and maximum zoom levels."""
+    max: Optional[int]
+    min: Optional[int]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Zoom':
+        assert isinstance(obj, dict)
+        max = from_union([from_int, from_none], obj.get("max"))
+        min = from_union([from_int, from_none], obj.get("min"))
+        return Zoom(max, min)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["max"] = from_union([from_int, from_none], self.max)
+        result["min"] = from_union([from_int, from_none], self.min)
+        return result
+
+
+@dataclass
+class TileOptions:
+    """Tile provider data specific options."""
+    metadata_format: Optional[str]
+    schemes: Optional[List[str]]
+    zoom: Optional[Zoom]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'TileOptions':
+        assert isinstance(obj, dict)
+        metadata_format = from_union([from_none, from_str], obj.get("metadata_format"))
+        schemes = from_union([lambda x: from_list(from_str, x), from_none], obj.get("schemes"))
+        zoom = from_union([Zoom.from_dict, from_none], obj.get("zoom"))
+        return TileOptions(metadata_format, schemes, zoom)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["metadata_format"] = from_union([from_none, from_str], self.metadata_format)
+        result["schemes"] = from_union([lambda x: from_list(from_str, x), from_none], self.schemes)
+        result["zoom"] = from_union([lambda x: to_class(Zoom, x), from_none], self.zoom)
+        return result
+
+
+class TileProviderType(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    TILE = "tile"
+
+
+@dataclass
+class TileProvider:
+    """A vizzToolsCore TileProvider definition object that describes the connection of the
+    dataset data.
+    
+    MVT TileProvider
+    """
+    data: str
+    format: Format
+    name: TileProviderName
+    options: TileOptions
+    type: TileProviderType
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'TileProvider':
+        assert isinstance(obj, dict)
+        data = from_str(obj.get("data"))
+        format = Format.from_dict(obj.get("format"))
+        name = TileProviderName(obj.get("name"))
+        options = TileOptions.from_dict(obj.get("options"))
+        type = TileProviderType(obj.get("type"))
+        return TileProvider(data, format, name, options, type)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["data"] = from_str(self.data)
+        result["format"] = to_class(Format, self.format)
+        result["name"] = to_enum(TileProviderName, self.name)
+        result["options"] = to_class(TileOptions, self.options)
+        result["type"] = to_enum(TileProviderType, self.type)
+        return result
+
+
+class ContactPointType(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -182,7 +851,39 @@ class ContactPoint:
 
 
 class OrganizationType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -194,38 +895,6 @@ class OrganizationType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -253,7 +922,7 @@ class OrganizationType(Enum):
 
 
 @dataclass
-class Organization:
+class OrganizationClass:
     """An organization such as a school, NGO, corporation, club, etc."""
     type: OrganizationType
     name: str
@@ -263,7 +932,7 @@ class Organization:
     url: Optional[str]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Organization':
+    def from_dict(obj: Any) -> 'OrganizationClass':
         assert isinstance(obj, dict)
         type = OrganizationType(obj.get("@type"))
         name = from_str(obj.get("name"))
@@ -271,7 +940,7 @@ class Organization:
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
         same_as = from_union([from_none, from_str], obj.get("sameAs"))
         url = from_union([from_none, from_str], obj.get("url"))
-        return Organization(type, name, id, contact_point, same_as, url)
+        return OrganizationClass(type, name, id, contact_point, same_as, url)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -285,7 +954,39 @@ class Organization:
 
 
 class PersonOrganizationType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -297,38 +998,6 @@ class PersonOrganizationType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -377,7 +1046,7 @@ class PersonOrganization:
     An organization such as a school, NGO, corporation, club, etc.
     """
     type: PersonOrganizationType
-    affiliation: Union[Organization, None, str]
+    affiliation: Union[OrganizationClass, None, str]
     name: str
     id: Optional[str]
     contact_point: Optional[ContactPoint]
@@ -390,7 +1059,7 @@ class PersonOrganization:
     def from_dict(obj: Any) -> 'PersonOrganization':
         assert isinstance(obj, dict)
         type = PersonOrganizationType(obj.get("@type"))
-        affiliation = from_union([Organization.from_dict, from_none, from_str], obj.get("affiliation"))
+        affiliation = from_union([OrganizationClass.from_dict, from_none, from_str], obj.get("affiliation"))
         name = from_str(obj.get("name"))
         id = from_union([from_none, from_str], obj.get("@id"))
         contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
@@ -403,7 +1072,7 @@ class PersonOrganization:
     def to_dict(self) -> dict:
         result: dict = {}
         result["@type"] = to_enum(PersonOrganizationType, self.type)
-        result["affiliation"] = from_union([lambda x: to_class(Organization, x), from_none, from_str], self.affiliation)
+        result["affiliation"] = from_union([lambda x: to_class(OrganizationClass, x), from_none, from_str], self.affiliation)
         result["name"] = from_str(self.name)
         result["@id"] = from_union([from_none, from_str], self.id)
         result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
@@ -414,57 +1083,40 @@ class PersonOrganization:
         return result
 
 
-@dataclass
-class DatabaseData:
-    """Object defining database connection."""
-    dbname: Optional[str]
-    host: Optional[str]
-    password: Optional[str]
-    search_path: Optional[List[str]]
-    user: Optional[str]
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'DatabaseData':
-        assert isinstance(obj, dict)
-        dbname = from_union([from_none, from_str], obj.get("dbname"))
-        host = from_union([from_none, from_str], obj.get("host"))
-        password = from_union([from_none, from_str], obj.get("password"))
-        search_path = from_union([lambda x: from_list(from_str, x), from_none], obj.get("search_path"))
-        user = from_union([from_none, from_str], obj.get("user"))
-        return DatabaseData(dbname, host, password, search_path, user)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["dbname"] = from_union([from_none, from_str], self.dbname)
-        result["host"] = from_union([from_none, from_str], self.host)
-        result["password"] = from_union([from_none, from_str], self.password)
-        result["search_path"] = from_union([lambda x: from_list(from_str, x), from_none], self.search_path)
-        result["user"] = from_union([from_none, from_str], self.user)
-        return result
-
-
-@dataclass
-class Format:
-    """Provider data format."""
-    mimetype: Optional[str]
-    name: Optional[str]
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'Format':
-        assert isinstance(obj, dict)
-        mimetype = from_union([from_none, from_str], obj.get("mimetype"))
-        name = from_union([from_none, from_str], obj.get("name"))
-        return Format(mimetype, name)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["mimetype"] = from_union([from_none, from_str], self.mimetype)
-        result["name"] = from_union([from_none, from_str], self.name)
-        return result
-
-
-class NameEnum(Enum):
-    """URI of the JSON schema of this object.
+class DataProviderName(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -476,38 +1128,6 @@ class NameEnum(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -542,26 +1162,6 @@ class NameEnum(Enum):
 
 
 @dataclass
-class Zoom:
-    """Minimum and maximum zoom levels."""
-    max: Optional[int]
-    min: Optional[int]
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'Zoom':
-        assert isinstance(obj, dict)
-        max = from_union([from_int, from_none], obj.get("max"))
-        min = from_union([from_int, from_none], obj.get("min"))
-        return Zoom(max, min)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["max"] = from_union([from_int, from_none], self.max)
-        result["min"] = from_union([from_int, from_none], self.min)
-        return result
-
-
-@dataclass
 class EOptions:
     """Coverage provider data specific options.
     
@@ -590,8 +1190,40 @@ class EOptions:
         return result
 
 
-class TypeEnum(Enum):
-    """URI of the JSON schema of this object.
+class DataProviderType(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -603,38 +1235,6 @@ class TypeEnum(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -688,8 +1288,8 @@ class DataProvider:
     MVT TileProvider
     """
     data: Union[DatabaseData, str]
-    name: NameEnum
-    type: TypeEnum
+    name: DataProviderName
+    type: DataProviderType
     id_field: Optional[str]
     y_field: Optional[str]
     format: Optional[Format]
@@ -703,8 +1303,8 @@ class DataProvider:
     def from_dict(obj: Any) -> 'DataProvider':
         assert isinstance(obj, dict)
         data = from_union([DatabaseData.from_dict, from_str], obj.get("data"))
-        name = NameEnum(obj.get("name"))
-        type = TypeEnum(obj.get("type"))
+        name = DataProviderName(obj.get("name"))
+        type = DataProviderType(obj.get("type"))
         id_field = from_union([from_none, from_str], obj.get("id_field"))
         y_field = from_union([from_none, from_str], obj.get("y_field"))
         format = from_union([Format.from_dict, from_none], obj.get("format"))
@@ -718,8 +1318,8 @@ class DataProvider:
     def to_dict(self) -> dict:
         result: dict = {}
         result["data"] = from_union([lambda x: to_class(DatabaseData, x), from_str], self.data)
-        result["name"] = to_enum(NameEnum, self.name)
-        result["type"] = to_enum(TypeEnum, self.type)
+        result["name"] = to_enum(DataProviderName, self.name)
+        result["type"] = to_enum(DataProviderType, self.type)
         result["id_field"] = from_union([from_none, from_str], self.id_field)
         result["y_field"] = from_union([from_none, from_str], self.y_field)
         result["format"] = from_union([lambda x: to_class(Format, x), from_none], self.format)
@@ -732,7 +1332,39 @@ class DataProvider:
 
 
 class DistributionType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -744,38 +1376,6 @@ class DistributionType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1024,7 +1624,39 @@ class InLanguage(Enum):
 
 
 class GeoType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -1036,38 +1668,6 @@ class GeoType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1136,7 +1736,39 @@ class Geo:
 
 
 class PlaceType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -1148,38 +1780,6 @@ class PlaceType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1233,7 +1833,39 @@ class Place:
 
 
 class DatasetType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -1245,38 +1877,6 @@ class DatasetType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1304,7 +1904,39 @@ class DatasetType(Enum):
 
 
 class PropertyValueType(Enum):
-    """URI of the JSON schema of this object.
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
     
     A URL that provides descriptions of this objects properties. TODO: Align with full
     JSON-LD context definition!
@@ -1316,38 +1948,6 @@ class PropertyValueType(Enum):
     A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
     Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
     States Building'. Use unique names for distinct entities whenever possible.
-    
-    Use the sameAs property to indicate the most canonical URLs for the original in cases of
-    the entity. For example this may be a link to the original metadata of a dataset,
-    definition of a property, Person, Organization or Place.
-    
-    String representing a URI.
-    
-    URI pointing to the data.
-    
-    Use the isBasedOn property in cases where the republished dataset (including its
-    metadata) has been changed significantly. When a dataset derives from or aggregates
-    several originals, use the isBasedOn property. TODO: Align with Google Dataset
-    guidelines
-    
-    Use the sameAs property to indicate the most canonical URL for the original description
-    of the property.
-    
-    Identifier field of the data.
-    
-    Provider definition name.
-    
-    Provider definition type.
-    
-    Time field of the data.
-    
-    Table name of the data.
-    
-    Geometry field of the data.
-    
-    X field name of the data.
-    
-    Y field name of the data.
     
     The Global Location Number (GLN, sometimes also referred to as International Location
     Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
@@ -1552,9 +2152,187 @@ class Dataset:
         return result
 
 
+@dataclass
+class Organization:
+    """An organization such as a school, NGO, corporation, club, etc."""
+    type: OrganizationType
+    name: str
+    id: Optional[str]
+    contact_point: Optional[ContactPoint]
+    same_as: Optional[str]
+    url: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Organization':
+        assert isinstance(obj, dict)
+        type = OrganizationType(obj.get("@type"))
+        name = from_str(obj.get("name"))
+        id = from_union([from_none, from_str], obj.get("@id"))
+        contact_point = from_union([ContactPoint.from_dict, from_none], obj.get("contactPoint"))
+        same_as = from_union([from_none, from_str], obj.get("sameAs"))
+        url = from_union([from_none, from_str], obj.get("url"))
+        return Organization(type, name, id, contact_point, same_as, url)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["@type"] = to_enum(OrganizationType, self.type)
+        result["name"] = from_str(self.name)
+        result["@id"] = from_union([from_none, from_str], self.id)
+        result["contactPoint"] = from_union([lambda x: to_class(ContactPoint, x), from_none], self.contact_point)
+        result["sameAs"] = from_union([from_none, from_str], self.same_as)
+        result["url"] = from_union([from_none, from_str], self.url)
+        return result
+
+
+class PersonType(Enum):
+    """URI pointing to the data.
+    
+    String representing a URI.
+    
+    Use the sameAs property to indicate the most canonical URLs for the original in cases of
+    the entity. For example this may be a link to the original metadata of a dataset,
+    definition of a property, Person, Organization or Place.
+    
+    Use the isBasedOn property in cases where the republished dataset (including its
+    metadata) has been changed significantly. When a dataset derives from or aggregates
+    several originals, use the isBasedOn property. TODO: Align with Google Dataset
+    guidelines
+    
+    Use the sameAs property to indicate the most canonical URL for the original description
+    of the property.
+    
+    Provider definition name.
+    
+    Provider definition type.
+    
+    Time field of the data.
+    
+    X field name of the data.
+    
+    Y field name of the data.
+    
+    Identifier field of the data.
+    
+    Table name of the data.
+    
+    Geometry field of the data.
+    
+    URI of the JSON schema of this object.
+    
+    A URL that provides descriptions of this objects properties. TODO: Align with full
+    JSON-LD context definition!
+    
+    Identifier string of this object.
+    
+    Type of this object.
+    
+    A descriptive (full) name of the entity. For example, a dataset called 'Snow depth in the
+    Northern Hemisphere' or a person called 'Sarah L. Jones' or a place called 'The Empire
+    States Building'. Use unique names for distinct entities whenever possible.
+    
+    The Global Location Number (GLN, sometimes also referred to as International Location
+    Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit
+    number used to identify parties and physical locations.
+    
+    The data in the dataset covers a specific time interval. Only include this property if
+    the dataset has a temporal dimension. Schema.org uses the ISO 8601 standard to describe
+    time intervals and time points. You can describe dates differently depending upon the
+    dataset interval. Indicate open-ended intervals with two decimal points (..). TODO:
+    adjust validation for these specific cases!
+    
+    A string or text indicating the actual unit of measurement (which maybe different to the
+    canonical_units). In general this should be of the form 'm / s', leave a space between
+    each character. Use [SI prefix symbols](https://en.wikipedia.org/wiki/Metric_prefix).
+    Dimensionless units are indicated by '1'.
+    
+    Licensing and terms of use for the object, preferably as a URI with a description
+    
+    The technique, technology, or methodology used in a dataset, which can correspond to the
+    variable(s) described in variableMeasured. The measurementTechnique property is proposed
+    and pending standardization at schema.org, see
+    https://pending.webschemas.org/measurementTechnique
+    """
+    PERSON = "Person"
+
+
+@dataclass
+class Person:
+    """A person (alive, dead, undead, or fictional)."""
+    type: PersonType
+    affiliation: Union[OrganizationClass, None, str]
+    name: str
+    id: Optional[str]
+    family_name: Optional[str]
+    given_name: Optional[str]
+    same_as: Optional[str]
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Person':
+        assert isinstance(obj, dict)
+        type = PersonType(obj.get("@type"))
+        affiliation = from_union([OrganizationClass.from_dict, from_none, from_str], obj.get("affiliation"))
+        name = from_str(obj.get("name"))
+        id = from_union([from_none, from_str], obj.get("@id"))
+        family_name = from_union([from_none, from_str], obj.get("familyName"))
+        given_name = from_union([from_none, from_str], obj.get("givenName"))
+        same_as = from_union([from_none, from_str], obj.get("sameAs"))
+        return Person(type, affiliation, name, id, family_name, given_name, same_as)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["@type"] = to_enum(PersonType, self.type)
+        result["affiliation"] = from_union([lambda x: to_class(OrganizationClass, x), from_none, from_str], self.affiliation)
+        result["name"] = from_str(self.name)
+        result["@id"] = from_union([from_none, from_str], self.id)
+        result["familyName"] = from_union([from_none, from_str], self.family_name)
+        result["givenName"] = from_union([from_none, from_str], self.given_name)
+        result["sameAs"] = from_union([from_none, from_str], self.same_as)
+        return result
+
+
+def coverage_provider_from_dict(s: Any) -> CoverageProvider:
+    return CoverageProvider.from_dict(s)
+
+
+def coverage_provider_to_dict(x: CoverageProvider) -> Any:
+    return to_class(CoverageProvider, x)
+
+
+def feature_provider_from_dict(s: Any) -> FeatureProvider:
+    return FeatureProvider.from_dict(s)
+
+
+def feature_provider_to_dict(x: FeatureProvider) -> Any:
+    return to_class(FeatureProvider, x)
+
+
+def tile_provider_from_dict(s: Any) -> TileProvider:
+    return TileProvider.from_dict(s)
+
+
+def tile_provider_to_dict(x: TileProvider) -> Any:
+    return to_class(TileProvider, x)
+
+
 def dataset_from_dict(s: Any) -> Dataset:
     return Dataset.from_dict(s)
 
 
 def dataset_to_dict(x: Dataset) -> Any:
     return to_class(Dataset, x)
+
+
+def organization_from_dict(s: Any) -> Organization:
+    return Organization.from_dict(s)
+
+
+def organization_to_dict(x: Organization) -> Any:
+    return to_class(Organization, x)
+
+
+def person_from_dict(s: Any) -> Person:
+    return Person.from_dict(s)
+
+
+def person_to_dict(x: Person) -> Any:
+    return to_class(Person, x)
