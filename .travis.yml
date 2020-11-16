@@ -3,7 +3,6 @@
 language: python
 
 python:
-  - "3.6"
   - "3.7"
 
 install:
@@ -14,11 +13,11 @@ install:
 env:
   - SCRIPTS_REPO="https://github.com/vizzTools/ci-scripts"
     DOCS_URL_PATH="https://vizztools.github.io/vizzToolsCore"
-    SCHEMA_DIR_PATH="./json-schema"
-    JSONLD_DIR_PATH="./jsonld-examples"
-    DOCS_DIR_PATH="./docs"
-    SCHEMA_SRC_PATHS="./src-urls.json"
-    CODE_DIR_PATH="./vizzToolsCore"
+    SCHEMA_DIR_PATH="json-schema"
+    JSONLD_DIR_PATH="jsonld-examples"
+    DOCS_DIR_PATH="docs"
+    SCHEMA_SRC_PATHS="src-urls.json"
+    CODE_DIR_PATH="vizzToolsCore"
 
 before_script:
   - export SCRIPTS_DIR=$(mktemp -d)
