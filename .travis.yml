@@ -26,7 +26,7 @@ before_script:
 
 script:
   - python3 $SCRIPTS_DIR/generate_schema_docs.py
-  - $SCRIPTS_DIR/json_schema_to_python.sh
+  - bash $SCRIPTS_DIR/json_schema_to_python.sh
 
 after_success:
   - pip3 install .
