@@ -23,9 +23,10 @@ env:
 before_script:
   - export SCRIPTS_DIR=$(mktemp -d)
   - git clone -q --depth 1 "$SCRIPTS_REPO" "$SCRIPTS_DIR"
+  - 
 
 script:
-  - $SCRIPTS_DIR/generate_schema_docs.py
+  - python3 $SCRIPTS_DIR/generate_schema_docs.py
   - $SCRIPTS_DIR/json_schema_to_python.sh
 
 after_success:
