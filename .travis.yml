@@ -1,37 +1,38 @@
-# Tes changes at https://config.travis-ci.com/explore
+# Test structure at https://config.travis-ci.com/explore
 
+# Set the container language
 language: python
-
+# Set the python versions to build against
 python:
+  - "3.6"
   - "3.7"
-
+# Install everything needed for the build
 install:
   - npm install -g quicktype
-  - pip3 install -r docs/requirements.txt
   - pip3 install -r requirements.txt
-  
+# Set ENV variables  
 env:
   - SCRIPTS_REPO="https://github.com/vizzTools/ci-scripts"
     DOCS_URL_PATH="https://vizztools.github.io/vizzToolsCore"
-    SCHEMA_DIR_PATH="json-schema"
-    JSONLD_DIR_PATH="jsonld-examples"
+    SCHEMA_DIR_PATH="data/json-schema"
+    JSONLD_DIR_PATH="data/jsonld-examples"
     DOCS_DIR_PATH="docs"
-    SCHEMA_SRC_PATHS="src-urls.json"
+    SCHEMA_SRC_PATHS="data/src-urls.json"
     CODE_DIR_PATH="vizzToolsCore"
-
+# Get common CI scripts from repository
 before_script:
   - export SCRIPTS_DIR=$(mktemp -d)
   - git clone -q --depth 1 "$SCRIPTS_REPO" "$SCRIPTS_DIR"
-  - 
-
+# Run the build scripts
 script:
   - python3 $SCRIPTS_DIR/generate_schema_docs.py
   - bash $SCRIPTS_DIR/json_schema_to_python.sh
-
+# Load the package
 after_success:
   - pip3 install .
-
+# Deploy
 deploy:
+  # to PyPi [ONLY on release branch]
   - provider: pypi
     user: __token__
     password: $PYPI_TRAVIS_TOKEN # Set in the settings page of your repository, as a secure variable
@@ -39,6 +40,7 @@ deploy:
     skip_existing: true
     on:
       branch: staging
+  # docs to Github [master branch]
   - provider: pages
     cleanup: false
     github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable

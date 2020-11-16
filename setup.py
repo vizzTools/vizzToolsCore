@@ -16,7 +16,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Vizzuality/vizzTools/vizzToolsCore",
     author="Vizzuality",
-    author_email="iker.sanchez@vizzuality.com",
+    author_email="edward.morris@vizzuality.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",

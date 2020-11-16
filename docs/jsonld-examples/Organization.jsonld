@@ -1,8 +1,0 @@
-{
-    "$schema": "https://vizztools.github.io/vizzToolsCore/Organization.schema.json",
-    "@context": "https://vizztools.github.io/vizzToolsCore",
-    "@id": "https://ror.org/02a809t02",
-    "@type": "Organization",
-    "name": "Vizzuality",
-    "sameAs": "https://ror.org/02a809t02"
-}
