@@ -1,3 +1,5 @@
+# Tes changes at https://config.travis-ci.com/explore
+
 language: python
 
 python:
@@ -10,13 +12,13 @@ install:
   - pip3 install -r requirements.txt
   
 env:
-  - SCRIPTS_REPO: "https://github.com/vizzTools/ci-scripts"
-  - DOCS_URL_PATH: "https://vizztools.github.io/vizzToolsCore"
-  - SCHEMA_DIR_PATH: "./json-schema"
-  - JSONLD_DIR_PATH: "./jsonld-examples"
-  - DOCS_DIR_PATH: "./docs"
-  - SCHEMA_SRC_PATHS: "./src-urls.json"
-  - CODE_DIR_PATH: ""./vizzToolsCore"
+  - SCRIPTS_REPO="https://github.com/vizzTools/ci-scripts"
+    DOCS_URL_PATH="https://vizztools.github.io/vizzToolsCore"
+    SCHEMA_DIR_PATH="./json-schema"
+    JSONLD_DIR_PATH="./jsonld-examples"
+    DOCS_DIR_PATH="./docs"
+    SCHEMA_SRC_PATHS="./src-urls.json"
+    CODE_DIR_PATH="./vizzToolsCore"
 
 before_script:
   - export SCRIPTS_DIR=$(mktemp -d)
@@ -30,18 +32,16 @@ after_success:
   - pip3 install .
 
 deploy:
-  provider: pypi
-  user: __token__
-  password: $PYPI_TRAVIS_TOKEN # Set in the settings page of your repository, as a secure variable
-  distributions: "sdist bdist_wheel"
-  skip_existing: true
-  on:
-    branch: staging
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
-  on:
-    branch: master
+  - provider: pypi
+    user: __token__
+    password: $PYPI_TRAVIS_TOKEN # Set in the settings page of your repository, as a secure variable
+    distributions: "sdist bdist_wheel"
+    skip_existing: true
+    on:
+      branch: staging
+  - provider: pages
+    cleanup: false
+    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+    keep_history: true
+    on:
+      branch: master
