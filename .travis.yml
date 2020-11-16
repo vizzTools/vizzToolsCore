@@ -10,7 +10,7 @@ install:
   - pip3 install -r requirements.txt
   
 # Set some variables
-variables:
+env:
   SCRIPTS_REPO: "https://github.com/vizzTools/ci-scripts"
   DOCS_URL_PATH: "https://vizztools.github.io/vizzToolsCore"
   SCHEMA_DIR_PATH: "./json-schema"
