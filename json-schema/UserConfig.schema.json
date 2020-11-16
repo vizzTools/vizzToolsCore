@@ -5,6 +5,6 @@
     "description": "A VTC User configuration object. Used to store common user configuration options.",
     "type": "object",
     "properties":{
-        "sdPublisher": {"$ref": "sdPublisher.schema.org"}
+        "sdPublisher": {"$ref": "sdPublisher.schema.json"}
     }
 }
