@@ -9,7 +9,6 @@ install:
   - pip3 install -r docs/requirements.txt
   - pip3 install -r requirements.txt
   
-# Set some variables
 env:
   - SCRIPTS_REPO: "https://github.com/vizzTools/ci-scripts"
   - DOCS_URL_PATH: "https://vizztools.github.io/vizzToolsCore"
@@ -19,7 +18,6 @@ env:
   - SCHEMA_SRC_PATHS: "./src-urls.json"
   - CODE_DIR_PATH: ""./vizzToolsCore"
 
-# Load common CI scripts repository
 before_script:
   - export SCRIPTS_DIR=$(mktemp -d)
   - git clone -q --depth 1 "$SCRIPTS_REPO" "$SCRIPTS_DIR"
