@@ -1,0 +1,8 @@
+{
+    "$schema": "../json-schema/Organization.schema.json",
+    "@context": "",
+    "@id": "https://ror.org/02a809t02",
+    "@type": "Organization",
+    "name": "Vizzuality",
+    "sameAs": "https://ror.org/02a809t02"
+}

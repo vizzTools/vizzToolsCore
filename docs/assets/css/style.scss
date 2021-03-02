@@ -1,0 +1,172 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.btn,
+#goog-wm-sb {
+ display:inline-block;
+ margin-bottom:1em;
+ padding:2em 2em;
+ font-family:-apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+ font-size:.75em;
+ font-weight:bold;
+ text-align:center;
+ text-decoration:none;
+ border-width:1px;
+ border-radius:6px;
+ cursor:pointer
+}
+.btn .icon,
+#goog-wm-sb .icon {
+ margin-right:0.5em
+}
+.btn .icon+.hidden,
+#goog-wm-sb .icon+.hidden {
+ margin-left:-0.5em
+}
+.btn--primary {
+ background-color:#6f777d;
+ color:#fff
+}
+.btn--primary:visited {
+ background-color:#6f777d;
+ color:#fff
+}
+.btn--primary:hover {
+ background-color:#595f64;
+ color:#fff
+}
+.btn--inverse {
+ background-color:#fff;
+ color:#3d4144;
+ border:1px solid #f2f3f3
+}
+.btn--inverse:visited {
+ background-color:#fff;
+ color:#3d4144
+}
+.btn--inverse:hover {
+ background-color:#ccc;
+ color:#3d4144
+}
+.btn--light-outline {
+ background-color:transparent;
+ color:#fff;
+ border:1px solid #fff
+}
+.btn--light-outline:visited {
+ background-color:transparent;
+ color:#fff
+}
+.btn--light-outline:hover {
+ background-color:rgba(0,0,0,0.2);
+ color:#fff
+}
+.btn--success {
+ background-color:#3fa63f;
+ color:#fff
+}
+.btn--success:visited {
+ background-color:#3fa63f;
+ color:#fff
+}
+.btn--success:hover {
+ background-color:#328532;
+ color:#fff
+}
+.btn--warning {
+ background-color:#d67f05;
+ color:#fff
+}
+.btn--warning:visited {
+ background-color:#d67f05;
+ color:#fff
+}
+.btn--warning:hover {
+ background-color:#ab6604;
+ color:#fff
+}
+.btn--danger {
+ background-color:#ee5f5b;
+ color:#fff
+}
+.btn--danger:visited {
+ background-color:#ee5f5b;
+ color:#fff
+}
+.btn--danger:hover {
+ background-color:#be4c49;
+ color:#fff
+}
+.btn--info {
+ background-color:#3b9cba;
+ color:#fff
+}
+.btn--info:visited {
+ background-color:#3b9cba;
+ color:#fff
+}
+.btn--info:hover {
+ background-color:#2f7d95;
+ color:#fff
+}
+.btn--facebook {
+ background-color:#3b5998;
+ color:#fff
+}
+.btn--facebook:visited {
+ background-color:#3b5998;
+ color:#fff
+}
+.btn--facebook:hover {
+ background-color:#2f477a;
+ color:#fff
+}
+.btn--twitter {
+ background-color:#55acee;
+ color:#fff
+}
+.btn--twitter:visited {
+ background-color:#55acee;
+ color:#fff
+}
+.btn--twitter:hover {
+ background-color:#448abe;
+ color:#fff
+}
+.btn--linkedin {
+ background-color:#007bb6;
+ color:#fff
+}
+.btn--linkedin:visited {
+ background-color:#007bb6;
+ color:#fff
+}
+.btn--linkedin:hover {
+ background-color:#006292;
+ color:#fff
+}
+.btn--block {
+ display:block;
+ width:100%
+}
+.btn--block+.btn--block {
+ margin-top:0.25em
+}
+.btn--disabled {
+ pointer-events:none;
+ cursor:not-allowed;
+ filter:alpha(opacity=65);
+ box-shadow:none;
+ opacity:0.65
+}
+.btn--x-large {
+ font-size:1.25em
+}
+.btn--large {
+ font-size:1em
+}
+.btn--small {
+ font-size:.6875em
+}

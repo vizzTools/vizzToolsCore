@@ -1,0 +1,4 @@
+json_schema_for_humans==0.23.0
+PyYAML==5.3.1
+dataclasses==0.6
+python_dateutil==2.8.1

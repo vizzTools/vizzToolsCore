@@ -1,0 +1,10 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "distribution.schema.json",
+    "title": "distribution",
+    "description": "An array of schema.org DataDownload objects that describe URIs to access to the entity.",
+    "type": "array",
+    "items": {
+        "$ref": "DataDownload.schema.json"
+    }
+}

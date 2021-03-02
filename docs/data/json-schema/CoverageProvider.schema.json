@@ -1,0 +1,132 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/CoverageProvider.schema.json",
+    "title": "CoverageProvider",
+    "description": "A vizzToolsCore CoverageProvider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "rasterio": {
+            "title": "rasterio",
+            "description": "rasterio CoverageProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "rasterio"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "coverage"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
+                }
+            }
+        },
+        "xarray": {
+            "title": "xarray",
+            "description": "xarray CoverageProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format",
+                "x_field",
+                "y_field",
+                "time_field"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "xarray"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "coverage"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/CoverageOptions"
+                },
+                "time_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/time_field"
+                },
+                "x_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/x_field"
+                },
+                "y_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/y_field"
+                }
+            }
+        }
+    },
+    "oneOf": [
+        {
+            "$ref": "#/definitions/rasterio"
+        },
+        {
+            "$ref": "#/definitions/xarray"
+        }
+    ],
+    "examples": [
+        {
+            "name": "rasterio",
+            "type": "coverage",
+            "data": "tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            },
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            }
+        },
+        {
+            "name": "xarray",
+            "type": "coverage",
+            "data": "tests/data/coads_sst.nc",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            },
+            "time_field": "time",
+            "x_field": "lon"
+        },
+        {
+            "name": "xarray",
+            "type": "coverage",
+            "data": "tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        }
+    ]
+}

@@ -1,0 +1,175 @@
+{
+    "$schema": "https://vizztools.github.io/vizzToolsCore/Dataset.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore",
+    "@id": "gmw-mangrove-total-carbon-version-1-0-0",
+    "@type": "Dataset",
+    "name": "Example collection",
+    "description": "The summary must be between 50 and 5000 characters long. The summary may include Markdown syntax. Embedded images need to use absolute path URLs (instead of relative paths). When using the JSON-LD format, denote new lines with two characters: backslash and lower case letter 'n'.",
+    "alternateName": "Example version 0.0.1",
+    "citation": "Identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.",
+    "creator": [
+        {
+            "@id": "https://orcid.org/0000-0002-5011-6744",
+            "@type": "Person",
+            "name": "Edward P. Morris",
+            "affiliation": "Vizzuality, Madrid, Spain",
+            "sameAs": "https://orcid.org/0000-0002-5011-6744"
+        },
+        {
+            "@id": "https://ror.org/02a809t02",
+            "@type": "Organization",
+            "name": "Vizzuality",
+            "sameAs": "https://ror.org/02a809t02"
+        }
+    ],
+    "dataProviders": [
+        {
+            "name": "CSV",
+            "type": "feature",
+            "data": "file:///tests/data/obs.csv",
+            "id_field": "id",
+            "x_field": "long",
+            "y_field": "lat"
+        },
+        {
+            "name": "GeoJSON",
+            "type": "feature",
+            "data": "file:///tests/data/obs.json",
+            "id_field": "id"
+        },
+        {
+            "name": "Elasticsearch",
+            "type": "feature",
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "time_field": "datetimefield"
+        },
+        {
+            "name": "PostgreSQL",
+            "type": "feature",
+            "data": {
+                "dbname": "test",
+                "host": "127.0.0.1",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ],
+                "user": "postgres"
+            },
+            "geom_field": "foo_geom",
+            "id_field": "osm_id",
+            "table": "hotosm_bdi_waterways"
+        },
+        {
+            "name": "rasterio",
+            "type": "coverage",
+            "data": "file:///tests/data/CMC_glb_TMP_TGL_2_latlon.15x.15_2020081000_P000.grib2",
+            "format": {
+                "name": "GRIB",
+                "mimetype": "application/x-grib2"
+            },
+            "options": {
+                "DATA_ENCODING": "COMPLEX_PACKING"
+            }
+        },
+        {
+            "name": "xarray",
+            "type": "coverage",
+            "data": "file:///tests/data/coads_sst.nc",
+            "format": {
+                "name": "netcdf",
+                "mimetype": "application/x-netcdf"
+            },
+            "time_field": "time",
+            "x_field": "lon"
+        },
+        {
+            "name": "xarray",
+            "type": "coverage",
+            "data": "file:///tests/data/analysed_sst.zarr",
+            "format": {
+                "name": "zarr",
+                "mimetype": "application/zip"
+            }
+        },
+        {
+            "name": "MVT",
+            "type": "tile",
+            "data": "file:///tests/data/tiles/ne_110m_lakes",
+            "format": {
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
+            },
+            "options": {
+                "metadata_format": "raw",
+                "schemes": [
+                    "WorldCRS84Quad"
+                ],
+                "zoom": {
+                    "max": 5,
+                    "min": 0
+                }
+            }
+        }
+    ],
+    "dateCreated": "2020-10-18T20:48:57Z",
+    "dateModified": "2020-10-18T20:48:57Z",
+    "datePublished": "2018-05-08",
+    "distribution": [
+        {
+            "@type": "DataDownload",
+            "name": "Description",
+            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/data description.docx",
+            "encodingFormat": "docx"
+        },
+        {
+            "@type": "DataDownload",
+            "name": "Data",
+            "contentUrl": "https://zenodo.org/api/files/8399ce4c-250d-4d89-bebb-cdc43afe8ead/input_maps.zip",
+            "encodingFormat": "zip"
+        }
+    ],
+    "funder": [
+        {
+            "@id": "https://ror.org/02a809t02",
+            "@type": "Organization",
+            "name": "Vizzuality",
+            "sameAs": "https://ror.org/02a809t02"
+        }
+    ],
+    "identifier": "https://doi.org/XXXXXX",
+    "inLanguage": "en",
+    "isBasedOn": "https://doi.org/XXXXXX",
+    "keywords": [
+        "keyword1",
+        "keyword2",
+        "keyword3"
+    ],
+    "license": "https://creativecommons.org/licenses/by/4.0",
+    "measurementTechnique": "The technique, technology, or methodology used in a dataset, which can correspond to the variable(s) described in variableMeasured.",
+    "provider": [
+        {
+            "@id": "https://ror.org/02a809t02",
+            "@type": "Organization",
+            "name": "Vizzuality",
+            "sameAs": "https://ror.org/02a809t02"
+        }
+    ],
+    "sameAs": "https://doi.org/XXXXXX",
+    "sdPublisher": [
+        {
+            "@id": "https://ror.org/02a809t02",
+            "@type": "Organization",
+            "name": "Vizzuality",
+            "sameAs": "https://ror.org/02a809t02"
+        }
+    ],
+    "spatialCoverage": "Global tropics",
+    "temporalCoverage": "1950-01-01/2013-12-18",
+    "thumbnailUrl": "https://dataset-thumbnail.jpeg",
+    "unitText": "t OC / ha",
+    "url": "https://zenodo.org/XXXXXX",
+    "variableMeasured": "The variable that this dataset measures. For example, temperature or pressure.",
+    "version": "0.0.1"
+}

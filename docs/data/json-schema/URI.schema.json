@@ -1,0 +1,8 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/URI.schema.json",
+    "title": "URI",
+    "description": "String representing a URI.",
+    "type": "string",
+    "format": "uri"
+}

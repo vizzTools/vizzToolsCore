@@ -1,0 +1,69 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/TileProvider.schema.json",
+    "title": "TileProvider",
+    "description": "A vizzToolsCore TileProvider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "MVT": {
+            "title": "MVT",
+            "description": "MVT TileProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "options",
+                "format"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "MVT"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "tile"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "format": {
+                    "$ref": "DataProvider.schema.json#/definitions/format"
+                },
+                "options": {
+                    "$ref": "DataProvider.schema.json#/definitions/TileOptions"
+                }
+            }
+        }
+    },
+    "oneOf": [
+        {
+            "$ref": "#/definitions/MVT"
+        }
+    ],
+    "examples": [
+        {
+            "name": "MVT",
+            "type": "tile",
+            "data": "tests/data/tiles/ne_110m_lakes",
+            "format": {
+                "name": "pbf",
+                "mimetype": "application/vnd.mapbox-vector-tile"
+            },
+            "options": {
+                "metadata_format": "raw",
+                "schemes": [
+                    "WorldCRS84Quad"
+                ],
+                "zoom": {
+                    "max": 5,
+                    "min": 0
+                }
+            }
+        }
+    ]
+}

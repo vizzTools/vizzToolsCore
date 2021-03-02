@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/PersonOrganization.schema.json",
+    "title": "PersonOrganization",
+    "description": "A schema.org Person or Organization objects. To uniquely identify individuals, use ORCID ID as the value of the sameAs property of the Person type. To uniquely identify institutions and organizations, use ROR ID.",
+    "oneOf": [
+        {
+            "$ref": "Person.schema.json"
+        },
+        {
+            "$ref": "Organization.schema.json"
+        }
+    ]
+}

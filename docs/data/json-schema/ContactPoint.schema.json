@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/ContactPoint.schema.json",
+    "title": "ContactPoint",
+    "description": "A contact point\u2014for example, a Customer Complaints department.",
+    "type": "object",
+    "required": [
+        "@type",
+        "email"
+    ],
+    "properties": {
+        "@type": {
+            "$ref": "@type.schema.json",
+            "enum": [
+                "ContactPoint"
+            ]
+        },
+        "contactType": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string",
+            "format": "email"
+        },
+        "telephone": {
+            "type": "string"
+        }
+    }
+}

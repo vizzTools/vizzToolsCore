@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/citation.schema.json",
+    "title": "citation",
+    "description": "String or array of strings that identify academic articles that are recommended by the data provider be cited in addition to the entity itself.",
+    "oneOf": [
+        {
+            "type": "string"
+        },
+        {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    ]
+}

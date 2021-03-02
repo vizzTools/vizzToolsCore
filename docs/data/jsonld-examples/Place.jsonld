@@ -1,0 +1,11 @@
+{
+    "$schema": "https://vizztools.github.io/vizzToolsCore/Place.schema.json",
+    "@context": "https://vizztools.github.io/vizzToolsCore",
+    "@type": "Place",
+    "name": "A point",
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.328,
+        "longitude": 120.1633
+    }
+}

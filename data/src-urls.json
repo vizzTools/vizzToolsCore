@@ -1,0 +1,20 @@
+{
+    "CoverageProvider": [
+        "data/json-schema/CoverageProvider.schema.json"
+    ],
+    "FeatureProvider": [
+        "data/json-schema/FeatureProvider.schema.json"
+    ],
+    "TileProvider": [
+        "data/json-schema/TileProvider.schema.json"
+    ],
+    "Dataset": [
+        "data/json-schema/Dataset.schema.json"
+    ],
+    "Organization": [
+        "data/json-schema/Organization.schema.json"
+    ],
+    "Person": [
+        "data/json-schema/Person.schema.json"
+    ]
+}

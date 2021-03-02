@@ -1,0 +1,236 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/FeatureProvider.schema.json",
+    "title": "FeatureProvider",
+    "description": "A vizzToolsCore FeatureProvider definition object that describes the connection of the dataset data.",
+    "definitions": {
+        "CSV": {
+            "title": "CSV",
+            "description": "CSV featureProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "CSV"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                }
+            }
+        },
+        "Elasticsearch": {
+            "title": "Elasticsearch",
+            "description": "Elasticsearch FeatureProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "time_field"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "Elasticsearch"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                },
+                "time_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/time_field"
+                }
+            }
+        },
+        "GeoJSON": {
+            "title": "GeoJSON",
+            "description": "GeoJSON FeatureProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "GeoJSON"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                }
+            }
+        },
+        "PostgreSQL": {
+            "title": "PostgreSQL",
+            "description": "PostgreSQL featureProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "table",
+                "geom_field"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "PostgreSQL"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/DatabaseData"
+                },
+                "geom_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/geom_field"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                },
+                "table": {
+                    "$ref": "DataProvider.schema.json#/definitions/table"
+                }
+            }
+        },
+        "SQLiteGPKG": {
+            "title": "SQLiteGPKG",
+            "description": "SQLiteGPKG featureProvider",
+            "type": "object",
+            "required": [
+                "type",
+                "name",
+                "data",
+                "id_field",
+                "table"
+            ],
+            "properties": {
+                "name": {
+                    "$ref": "DataProvider.schema.json#/definitions/name",
+                    "enum": [
+                        "SQLiteGPKG"
+                    ]
+                },
+                "type": {
+                    "$ref": "DataProvider.schema.json#/definitions/type",
+                    "enum": [
+                        "feature"
+                    ]
+                },
+                "data": {
+                    "$ref": "DataProvider.schema.json#/definitions/data"
+                },
+                "id_field": {
+                    "$ref": "DataProvider.schema.json#/definitions/id_field"
+                },
+                "table": {
+                    "$ref": "DataProvider.schema.json#/definitions/table"
+                }
+            }
+        }
+    },
+    "oneOf": [
+        {
+            "$ref": "#/definitions/CSV"
+        },
+        {
+            "$ref": "#/definitions/GeoJSON"
+        },
+        {
+            "$ref": "#/definitions/Elasticsearch"
+        },
+        {
+            "$ref": "#/definitions/SQLiteGPKG"
+        },
+        {
+            "$ref": "#/definitions/PostgreSQL"
+        }
+    ],
+    "examples": [
+        {
+            "name": "CSV",
+            "type": "feature",
+            "data": "tests/data/obs.csv",
+            "id_field": "id",
+            "x_field": "long",
+            "y_field": "lat"
+        },
+        {
+            "name": "GeoJSON",
+            "type": "feature",
+            "data": "tests/data/obs.json",
+            "id_field": "id"
+        },
+        {
+            "name": "Elasticsearch",
+            "type": "feature",
+            "data": "http://localhost:9200/ne_110m_populated_places_simple",
+            "id_field": "id",
+            "time_field": "datetimefield"
+        },
+        {
+            "name": "PostgreSQL",
+            "type": "feature",
+            "data": {
+                "dbname": "test",
+                "host": "127.0.0.1",
+                "password": "postgres",
+                "search_path": [
+                    "osm",
+                    "public"
+                ],
+                "user": "postgres"
+            },
+            "geom_field": "foo_geom",
+            "id_field": "osm_id",
+            "table": "hotosm_bdi_waterways"
+        }
+    ]
+}

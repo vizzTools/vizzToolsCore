@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://vizztools.github.io/vizzToolsCore/data/json-schema/inLanguage.schema.json",
+    "title": "inLanguage",
+    "description": "The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.",
+    "oneOf": [
+        {
+            "$ref": "Iso6391LanguageCodes.schema.json"
+        }
+    ]
+}
