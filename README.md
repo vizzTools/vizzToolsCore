@@ -1,6 +1,6 @@
 # vizzToolsCore
 
-`vizzToolsCore` is set of standardized Data Structure definitions with a Python library interface. Currently this project is a under early development. See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
+`vizzToolsCore` is a set of standardized Data Structure definitions as JSON Schema each with an HTML page for easy linking, for example using JSON-LD, and a Python client library for interacting with the data structures. Currently, this project is under early development. See the [Data model documentation](https://vizztools.github.io/vizzToolsCore/)
 
 ## Roadmap
 
